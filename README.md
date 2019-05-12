@@ -1,1 +1,1 @@
-# matayze_gui
+# GUI Application for MATAYZE Project
