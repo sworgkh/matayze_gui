@@ -83,6 +83,15 @@ export default class managementIndex extends React.Component{
 
     }
 
+    deleteEvent(id) {
+        //implement delete
+    }
+
+    updateEvent(newValues,id){
+        //implement update
+
+    }
+
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
     };
@@ -92,8 +101,6 @@ export default class managementIndex extends React.Component{
 
 
         //connect to dynamoDB and fetch data
-
-
 
         this.setState({lectures: static_data})
 
