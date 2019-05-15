@@ -7,6 +7,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Popup from 'reactjs-popup'
+import Tooltip from "./management_index";
+import CloseIcon from '@material-ui/icons/Close';
+import TextField from "@material-ui/core/TextField";
 
 
 const styles = {
@@ -40,6 +44,10 @@ class Lecture extends React.Component {
 
     }
 
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
+
     edit(){
         alert("edit " + this.state.lecture)
     }
@@ -63,6 +71,125 @@ class Lecture extends React.Component {
                     </CardContent>
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>
+
+                <Popup trigger={  <Button size="small" color="primary">
+                    Edit
+                </Button>
+                } modal>
+                    {close => (
+                        <div className="modal">
+                            <a className="close" onClick={close}>
+                                <CloseIcon/>
+                            </a>
+                            <div className="header"> New event creation </div>
+                            <div className="content">
+                                <TextField
+                                    id="standard-name"
+                                    label="Title of the lecture"
+                                    value={this.state.lecture}
+                                    onChange={this.handleChange('lecture')}
+                                    margin="normal"
+                                />
+                                <br/>
+                                <TextField
+                                    id="standard-lecturer"
+                                    label="Name for the lecturer"
+                                    value={this.state.lecturer}
+                                    onChange={this.handleChange('lecturer')}
+                                    margin="normal"
+                                />
+                                <br/>
+                                <TextField
+                                    id="standard-start_time"
+                                    label="Start time"
+                                    value={this.state.start_time}
+                                    onChange={this.handleChange('start_time')}
+                                    // type="number"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="normal"
+                                />
+                                <br/>
+                                <TextField
+                                    id="standard-number"
+                                    label="Room"
+                                    value={this.state.room}
+                                    onChange={this.handleChange('room')}
+                                    // type="number"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="normal"
+                                />
+                                <br/>
+                                <TextField
+                                    id="standard-number"
+                                    label="End time"
+                                    value={this.state.end_time}
+                                    onChange={this.handleChange('end_time')}
+                                    // type="number"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    margin="normal"
+                                />
+                                <br/>
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Multiline"
+                                    multiline
+                                    rowsMax="5"
+                                    value={this.state.message}
+                                    onChange={this.handleChange('message')}
+                                    // className={classes.textField}
+                                    margin="normal"
+                                />
+                                <br/>
+                            </div>
+                            <div className="actions">
+                                <Button
+                                    size="small"
+                                    color="primary"
+                                    onClick={() => {
+                                        this.createLecture();
+                                        close()
+                                    }}
+                                >
+                                    Submit Edit
+                                </Button>
+
+                                <Button
+                                    size="small"
+                                    // className="button"
+                                    color="primary"
+                                    onClick={() => {
+                                        console.log('closed ')
+                                        close()
+                                    }}
+                                >
+                                    Cancel Edit
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+                </Popup>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                {/*<CardActions style={{justifyContent: 'space-between'}}>*/}
                     <Button size="small" color="primary" onClick={this.edit}>
                         Edit
                     </Button>

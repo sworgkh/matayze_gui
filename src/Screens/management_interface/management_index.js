@@ -3,6 +3,33 @@ import AppBar from './AppBar'
 import Card from './Card_with_lecture'
 import Button from '@material-ui/core/Button';
 import Popup from 'reactjs-popup'
+import FormLabel from '@material-ui/core/FormLabel';
+import Tooltip from '@material-ui/core/Tooltip';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import CloseIcon from '@material-ui/icons/Close';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+
+// const currencies = [
+//     {
+//         value: 'USD',
+//         label: '$',
+//     },
+//     {
+//         value: 'EUR',
+//         label: '€',
+//     },
+//     {
+//         value: 'BTC',
+//         label: '฿',
+//     },
+//     {
+//         value: 'JPY',
+//         label: '¥',
+//     },
+// ];
+
 
 
 const static_data =
@@ -31,7 +58,6 @@ const static_data =
             room: "2645",
             message: "Welcome all people go do stuff"
         }
-
         ]
 
 
@@ -44,12 +70,22 @@ export default class managementIndex extends React.Component{
         this.state = {
             lectures: [],
             logged_in: true,                                                    //toggle to change views
-            showPopup: true
+            showPopup: true,
+            lecture: "",
+            lecturer: "",
+            start_time: "",                                                     //Time
+            end_time: "",                                                       //Time
+            room: 0,
+            message: ""
     }
         this.renderCard = this.renderCard.bind(this);
         this.createLecture = this.createLecture.bind(this);
+
     }
 
+    handleChange = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
 
     componentDidMount() {
         //check if user is logged in
@@ -66,14 +102,6 @@ export default class managementIndex extends React.Component{
 
     }
 
-    togglePopup() {
-        this.setState({
-            showPopup: !this.state.showPopup
-        });
-    }
-
-
-
 
 
     renderCard(oneLecture) {
@@ -82,7 +110,15 @@ export default class managementIndex extends React.Component{
     }
 
     createLecture(){
-
+        let newLecure = {
+            lecture: this.state.lecture,
+            lecturer:this.state.lecturer,
+            start_time: this.state.start_time,   //Time
+            end_time:this.state.end_time,
+            room: this.state.room.toString(),
+            message: this.state.message
+        }
+        this.setState({lectures :[... this.state.lectures, newLecure] })
     }
 
 
@@ -94,47 +130,122 @@ export default class managementIndex extends React.Component{
                     <AppBar logged_in={this.state.logged_in}/>
                     {this.state.lectures.map(lecture => <Card key={lecture.lecture} allData={lecture}/>)}
 
-                    <Popup trigger={<Button style={{margin:10}} size="small" color="primary"  onClick={this.bla}>
-                        Create new lecture
-                    </Button>} modal>
+                    <Popup trigger={<Tooltip title="Add" aria-label="Add">
+                        <Fab color="secondary" style={{margin: 10}}>
+                            <AddIcon />
+                        </Fab>
+                    </Tooltip>} modal>
                         {close => (
                             <div className="modal">
                                 <a className="close" onClick={close}>
-                                    &times;
+                                    <CloseIcon/>
                                 </a>
-                                <div className="header"> Modal Title </div>
+                                <div className="header"> New event creation </div>
                                 <div className="content">
-                                    {' '}
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque, a nostrum.
-                                    Dolorem, repellat quidem ut, minima sint vel eveniet quibusdam voluptates
-                                    delectus doloremque, explicabo tempore dicta adipisci fugit amet dignissimos?
-                                    <br />
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur sit
-                                    commodi beatae optio voluptatum sed eius cumque, delectus saepe repudiandae
-                                    explicabo nemo nam libero ad, doloribus, voluptas rem alias. Vitae?
+                                    <TextField
+                                        id="standard-name"
+                                        label="Title of the lecture"
+                                        value={this.state.lecture}
+                                        onChange={this.handleChange('lecture')}
+                                        margin="normal"
+                                    />
+                                    <br/>
+                                    <TextField
+                                        id="standard-lecturer"
+                                        label="Name for the lecturer"
+                                        value={this.state.lecturer}
+                                        onChange={this.handleChange('lecturer')}
+                                        margin="normal"
+                                    />
+                                    <br/>
+                                    <TextField
+                                        id="standard-start_time"
+                                        label="Start time"
+                                        value={this.state.start_time}
+                                        onChange={this.handleChange('start_time')}
+                                        // type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="normal"
+                                    />
+                                    <br/>
+                                    <TextField
+                                        id="standard-number"
+                                        label="Room"
+                                        value={this.state.room}
+                                        onChange={this.handleChange('room')}
+                                        // type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="normal"
+                                    />
+                                    <br/>
+                                    <TextField
+                                        id="standard-number"
+                                        label="End time"
+                                        value={this.state.end_time}
+                                        onChange={this.handleChange('end_time')}
+                                        // type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        margin="normal"
+                                    />
+                                    <br/>
+                                    <TextField
+                                        id="standard-multiline-flexible"
+                                        label="Multiline"
+                                        multiline
+                                        rowsMax="5"
+                                        value={this.state.message}
+                                        onChange={this.handleChange('message')}
+                                        // className={classes.textField}
+                                        margin="normal"
+                                    />
+                                    <br/>
+                                    {/*<TextField*/}
+                                        {/*id="standard-select-currency"*/}
+                                        {/*select*/}
+                                        {/*label="Select"*/}
+                                        {/*value={this.state.currency}*/}
+                                        {/*onChange={this.handleChange('currency')}*/}
+                                        {/*helperText="Please select your currency"*/}
+                                        {/*margin="normal"*/}
+                                    {/*>*/}
+                                        {/*{currencies.map(option => (*/}
+                                            {/*<MenuItem key={option.value} value={option.value}>*/}
+                                                {/*{option.label}*/}
+                                            {/*</MenuItem>*/}
+                                        {/*))}*/}
+                                    {/*</TextField>*/}
+
+
                                 </div>
                                 <div className="actions">
-                                    <Popup
-                                        trigger={<button className="button"> Trigger </button>}
-                                        position="top center"
-                                        closeOnDocumentClick
-                                    >
-            <span>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-              magni omnis delectus nemo, maxime molestiae dolorem numquam
-              mollitia, voluptate ea, accusamus excepturi deleniti ratione
-              sapiente! Laudantium, aperiam doloribus. Odit, aut.
-            </span>
-                                    </Popup>
-                                    <button
-                                        className="button"
+                                    <Button
+                                        size="small"
+                                        color="primary"
                                         onClick={() => {
-                                            console.log('modal closed ')
+                                            this.createLecture();
                                             close()
                                         }}
                                     >
-                                        close modal
-                                    </button>
+                                        Submit
+                                    </Button>
+
+                                    <Button
+                                        size="small"
+                                        // className="button"
+                                        color="primary"
+                                        onClick={() => {
+                                            console.log('closed ')
+                                            close()
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
                                 </div>
                             </div>
                         )}
