@@ -88,14 +88,26 @@ const styles = theme => ({
 });
 
 class PrimarySearchAppBar extends React.Component {
-    state = {
-        anchorEl: null,
-        mobileMoreAnchorEl: null,
+    constructor(props) {
+        super(props)
+        this.state = {
+            anchorEl: null,
+            mobileMoreAnchorEl: null,
+        };
+
+        this.handleAWSLogin = this.handleAWSLogin.bind(this);
+    }
+
+
+
+    handleProfileMenuOpenLoggedOf = event => {
+        this.setState({ anchorEl: event.currentTarget });
     };
 
     handleProfileMenuOpen = event => {
         this.setState({ anchorEl: event.currentTarget });
     };
+
 
     handleMenuClose = () => {
         this.setState({ anchorEl: null });
@@ -109,6 +121,15 @@ class PrimarySearchAppBar extends React.Component {
     handleMobileMenuClose = () => {
         this.setState({ mobileMoreAnchorEl: null });
     };
+
+
+    handleAWSLogin(){
+        alert("AWS login")
+        console.log("AWS login")
+    }
+
+
+
 
     render() {
         const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -128,6 +149,19 @@ class PrimarySearchAppBar extends React.Component {
                 <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
             </Menu>
         );
+
+        const renderMenuLoggedOff = (
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isMenuOpen}
+                onClose={this.handleMenuClose}
+            >
+                <MenuItem onClick={this.handleAWSLogin}>Login with AWS</MenuItem>
+            </Menu>
+        );
+
 
         const renderMobileMenu = (
             <Menu
@@ -162,60 +196,127 @@ class PrimarySearchAppBar extends React.Component {
             </Menu>
         );
 
-        return (
-            <div className={classes.root}>
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                            Material-UI
-                        </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                            />
-                        </div>
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={4} color="secondary">
-                                    <MailIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={17} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
-                            <IconButton
-                                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                                aria-haspopup="true"
-                                onClick={this.handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                        </div>
-                        <div className={classes.sectionMobile}>
-                            <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                                <MoreIcon />
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-                {renderMenu}
-                {renderMobileMenu}
-            </div>
+
+        const renderMobileMenuLoggedOff = (
+            <Menu
+                anchorEl={mobileMoreAnchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isMobileMenuOpen}
+                onClose={this.handleMenuClose}
+            >
+                <MenuItem onClick={this.handleAWSLogin}>
+                    <IconButton color="inherit">
+                        <AccountCircle />
+                    </IconButton>
+                    <p>Login with AWS</p>
+                </MenuItem>
+            </Menu>
         );
+
+        if(this.props.logged_in) {
+            return (
+                <div className={classes.root}>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                                Material-UI
+                            </Typography>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon/>
+                                </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                />
+                            </div>
+                            <div className={classes.grow}/>
+                            <div className={classes.sectionDesktop}>
+                                <IconButton color="inherit">
+                                    <Badge badgeContent={4} color="secondary">
+                                        <MailIcon/>
+                                    </Badge>
+                                </IconButton>
+                                <IconButton color="inherit">
+                                    <Badge badgeContent={17} color="secondary">
+                                        <NotificationsIcon/>
+                                    </Badge>
+                                </IconButton>
+                                <IconButton
+                                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <AccountCircle/>
+                                </IconButton>
+                            </div>
+                            <div className={classes.sectionMobile}>
+                                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+                                    <MoreIcon/>
+                                </IconButton>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                    {renderMenu}
+                    {renderMobileMenu}
+                </div>
+            );
+        }
+        else                                                //if user is not logged in
+        {
+            return (
+                <div className={classes.root}>
+                    <AppBar position="static">
+                        <Toolbar>
+                            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                                Admin Panel
+                            </Typography>
+                            <div className={classes.search}>
+                                <div className={classes.searchIcon}>
+                                    <SearchIcon/>
+                                </div>
+                                <InputBase
+                                    placeholder="Search…"
+                                    classes={{
+                                        root: classes.inputRoot,
+                                        input: classes.inputInput,
+                                    }}
+                                />
+                            </div>
+                            <div className={classes.grow}/>
+                            <div className={classes.sectionDesktop}>
+                                <IconButton
+                                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.handleProfileMenuOpenLoggedOf}
+                                    color="inherit"
+                                >
+                                    <AccountCircle/>
+                                </IconButton>
+                            </div>
+                            <div className={classes.sectionMobile}>
+                                <IconButton aria-haspopup="true" onClick={this.handleProfileMenuOpenLoggedOf} color="inherit">
+                                    <MoreIcon/>
+                                </IconButton>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                    {renderMenuLoggedOff}
+                    {renderMobileMenuLoggedOff}
+                </div>
+            );
+        }
     }
 }
 
