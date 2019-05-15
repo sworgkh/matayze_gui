@@ -5,7 +5,8 @@ import Schedule from './components/events'
 
 const styles = {
     containerStyle: {
-        position: 'relative'
+        position: 'relative',
+        backgroundImage: 'linear-gradient(to bottom right, black, purple)'
     },
     logoStyle: {
         position: 'absolute',
