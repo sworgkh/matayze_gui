@@ -57,14 +57,14 @@ class Lecture extends React.Component {
             lecturer:this.state.lecturer ,
             room:this.state.room ,
         }
-        this.props.updateEvent(newEventVals,this.lecture);
-        alert("edit " + this.state.lecture)
+        this.props.update(newEventVals,this.state.lecture);
+        // alert("edit " + this.state.lecture)
     }
 
     delete() {
         //need to implemet delete
-        this.props.deleteEvent(this.lecture);
-        alert("delete " + this.state.lecture)
+        this.props.delete(this.state.lecture);
+        // alert("delete " + this.state.lecture)
     }
 
     render() {

@@ -30,7 +30,14 @@ import TextField from '@material-ui/core/TextField';
 //     },
 // ];
 
+const styles = {
+    containerStyle: {
+        position: 'relative',
+        backgroundImage: 'linear-gradient(to bottom right, black, purple)',
+        height: "1000px"
 
+    }
+}
 
 const static_data =
     [
@@ -69,26 +76,63 @@ export default class managementIndex extends React.Component{
         super(props);
         this.state = {
             lectures: [],
-            logged_in: true,                                                    //toggle to change views
+            logged_in: false,                                                    //toggle to change views
             showPopup: true,
             lecture: "",
             lecturer: "",
             start_time: "",                                                     //Time
             end_time: "",                                                       //Time
             room: 0,
-            message: ""
+            message: "",
+            searchValue:''
     }
-        this.renderCard = this.renderCard.bind(this);
         this.createLecture = this.createLecture.bind(this);
+        this.updateEvent = this.updateEvent.bind(this);
+        this.deleteEvent = this.deleteEvent.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
 
     }
+
 
     deleteEvent(id) {
-        //implement delete
+        //database delete
+
+
+
+
+        const newState = this.state;
+        const index = newState.lectures.findIndex(a => a.lecture === id);
+
+        if (index === -1) return;
+        newState.lectures.splice(index, 1);
+
+        this.setState(newState);
     }
 
+
+
+
     updateEvent(newValues,id){
-        //implement update
+        //database edit
+
+
+
+
+
+        const newState = this.state;
+        const index = newState.lectures.findIndex(a => a.lecture === id);
+
+        if (index === -1) return;
+        else {
+            newState.lectures[index].lecture = newValues.lecture;
+            newState.lectures[index].lecturer = newValues.lecturer
+            newState.lectures[index].start_time = newValues.start_time
+            newState.lectures[index].end_time = newValues.end_time
+            newState.lectures[index].room = newValues.room
+            newState.lectures[index].message = newValues.message
+        }
+        this.setState(newState);
+
 
     }
 
@@ -105,16 +149,10 @@ export default class managementIndex extends React.Component{
         this.setState({lectures: static_data})
 
         //static data for now
-        static_data.map(value => {  this.renderCard(value)})
 
     }
 
 
-
-    renderCard(oneLecture) {
-        // this.setState({lectures :[... this.state.lectures, oneLecture ]})
-        console.log(oneLecture.lecture)
-    }
 
     createLecture(){
         let newLecure = {
@@ -130,12 +168,24 @@ export default class managementIndex extends React.Component{
 
 
 
+
+    handleSearch(val){
+        alert("SEARCH" + val)
+
+    }
+
+
+
+
+
+
+
     render() {
         if(this.state.logged_in) {
             return (
-                <div>
-                    <AppBar logged_in={this.state.logged_in}/>
-                    {this.state.lectures.map(lecture => <Card key={lecture.lecture} allData={lecture}/>)}
+                <div style={styles.containerStyle}>
+                    <AppBar search={this.handleSearch} logged_in={this.state.logged_in}/>
+                    {this.state.lectures.map(lecture => <Card delete={this.deleteEvent} update={this.updateEvent} key={lecture.lecture} allData={lecture}/>)}
 
                     <Popup trigger={<Tooltip title="Add" aria-label="Add">
                         <Fab color="secondary" style={{margin: 10}}>
@@ -182,7 +232,6 @@ export default class managementIndex extends React.Component{
                                         label="Room"
                                         value={this.state.room}
                                         onChange={this.handleChange('room')}
-                                        // type="number"
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -194,7 +243,6 @@ export default class managementIndex extends React.Component{
                                         label="End time"
                                         value={this.state.end_time}
                                         onChange={this.handleChange('end_time')}
-                                        // type="number"
                                         InputLabelProps={{
                                             shrink: true,
                                         }}
@@ -212,23 +260,6 @@ export default class managementIndex extends React.Component{
                                         margin="normal"
                                     />
                                     <br/>
-                                    {/*<TextField*/}
-                                        {/*id="standard-select-currency"*/}
-                                        {/*select*/}
-                                        {/*label="Select"*/}
-                                        {/*value={this.state.currency}*/}
-                                        {/*onChange={this.handleChange('currency')}*/}
-                                        {/*helperText="Please select your currency"*/}
-                                        {/*margin="normal"*/}
-                                    {/*>*/}
-                                        {/*{currencies.map(option => (*/}
-                                            {/*<MenuItem key={option.value} value={option.value}>*/}
-                                                {/*{option.label}*/}
-                                            {/*</MenuItem>*/}
-                                        {/*))}*/}
-                                    {/*</TextField>*/}
-
-
                                 </div>
                                 <div className="actions">
                                     <Button
@@ -262,9 +293,9 @@ export default class managementIndex extends React.Component{
         }
         else {
             return (
-                <div>
+                <div style={styles.containerStyle}>
                     <AppBar logged_in={this.state.logged_in}/>
-                    <h3 style={{margin:20}}>Welcome to you management console, Please login to make changes</h3>
+                    <h3 style={{margin:20,color:'white'}}>Welcome to you management console, Please login to make changes</h3>
 
                 </div>
             );

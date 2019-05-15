@@ -7,25 +7,12 @@ import Management from './Screens/management_interface/management_index'
 import Hall from './Screens/hall_interface/hall_index'
 import SiteInterface from './Screens/site_interface/interface_index'
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
-
+import Login from './Containers/Login'
 
 const routing = (
     <Router>
         <div>
-            {/*<ul>*/}
-                {/*<li>*/}
-                    {/*<Link to="/">Home</Link>*/}
-                {/*</li>*/}
-                {/*<li>*/}
-                    {/*<Link to="/management_index">Management</Link>*/}
-                {/*</li>*/}
-                {/*<li>*/}
-                    {/*<Link to="/interface_index">SiteInterface</Link>*/}
-                {/*</li>*/}
-                {/*<li>*/}
-                    {/*<Link to="/hall_index">Hall</Link>*/}
-                {/*</li>*/}
-            {/*</ul>*/}
+            <Route path="/login" exact component={Login} />
             <Route exact path="/" component={App} />
             <Route path="/management_index" component={Management} />
             <Route path="/interface_index" component={SiteInterface} />

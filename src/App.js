@@ -12,6 +12,7 @@ function App() {
           <p>To access your folder use your rout: http://localhost:3000/interface_index</p>
           <p>To access your folder use your rout: http://localhost:3000/hall_index</p>
           <p>To access your folder use your rout: http://localhost:3000/management_index</p>
+          <p>To access login use rout: http://localhost:3000/login</p>
       </header>
     </div>
   );

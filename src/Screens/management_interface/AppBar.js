@@ -16,6 +16,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Redirect } from "react-router-dom";
 
 const styles = theme => ({
     root: {
@@ -93,9 +94,24 @@ class PrimarySearchAppBar extends React.Component {
         this.state = {
             anchorEl: null,
             mobileMoreAnchorEl: null,
+            search:'',
+            AWS_LOGIN: false
         };
-
+        this.keyPress = this.keyPress.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleAWSLogin = this.handleAWSLogin.bind(this);
+    }
+
+    handleChange(e) {
+        this.setState({ search: e.target.value });
+    }
+
+    keyPress(e){
+        if(e.keyCode === 13){
+            // alert(e.target.value)
+            this.props.search(this.state.search)
+        }
+
     }
 
 
@@ -123,9 +139,15 @@ class PrimarySearchAppBar extends React.Component {
     };
 
 
-    handleAWSLogin(){
+    handleAWSLogin(e){
         alert("AWS login")
         console.log("AWS login")
+        this.handleMenuClose()
+        this.setState({AWS_LOGIN:true})
+
+        // alert("AWS login")
+        // console.log("AWS login")
+
     }
 
 
@@ -173,7 +195,7 @@ class PrimarySearchAppBar extends React.Component {
             >
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
+                        <Badge badgeContent={1} color="secondary">
                             <MailIcon />
                         </Badge>
                     </IconButton>
@@ -181,7 +203,7 @@ class PrimarySearchAppBar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={11} color="secondary">
+                        <Badge badgeContent={1} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -223,18 +245,21 @@ class PrimarySearchAppBar extends React.Component {
                                 <MenuIcon/>
                             </IconButton>
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                                Material-UI
+                                Management Panel
                             </Typography>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon/>
                                 </div>
                                 <InputBase
+                                    // onClick={this.props.search()}
+                                    onChange={this.handleChange}
                                     placeholder="Search…"
                                     classes={{
                                         root: classes.inputRoot,
                                         input: classes.inputInput,
                                     }}
+                                    onKeyDown={this.keyPress}
                                 />
                             </div>
                             <div className={classes.grow}/>
@@ -269,6 +294,10 @@ class PrimarySearchAppBar extends React.Component {
                     {renderMobileMenu}
                 </div>
             );
+        }
+        if(!this.state.logged_in && this.state.AWS_LOGIN){
+            this.setState({AWS_LOGIN:false})
+            return <Redirect to="/login" />
         }
         else                                                //if user is not logged in
         {
