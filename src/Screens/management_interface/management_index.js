@@ -143,8 +143,6 @@ export default class managementIndex extends React.Component{
 
     }
 
-
-
     createLecture(){
         let newLecure = {
             lecture: this.state.lecture,
@@ -156,9 +154,6 @@ export default class managementIndex extends React.Component{
         }
         this.setState({lectures :[... this.state.lectures, newLecure] })
     }
-
-
-
 
     handleSearch(val){
         // alert("SEARCH " + val)

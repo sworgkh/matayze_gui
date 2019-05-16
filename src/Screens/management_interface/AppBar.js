@@ -14,9 +14,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
+import MessageIcon from '@material-ui/icons/Message';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Redirect } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Popup from "reactjs-popup";
+import TextField from "@material-ui/core/TextField";
+
+
 
 const styles = theme => ({
     root: {
@@ -93,9 +100,11 @@ class PrimarySearchAppBar extends React.Component {
         super(props)
         this.state = {
             anchorEl: null,
+            anchorElMessage: null,
             mobileMoreAnchorEl: null,
             search:'',
-            AWS_LOGIN: false
+            AWS_LOGIN: false,
+            message:''
         };
         this.keyPress = this.keyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -106,6 +115,11 @@ class PrimarySearchAppBar extends React.Component {
     handleChange(e) {
         this.setState({ search: e.target.value });
     }
+
+
+    handleChangeVal = name => event => {
+        this.setState({ [name]: event.target.value });
+    };
 
     keyPress(e){
         if(e.keyCode === 13){
@@ -154,6 +168,14 @@ class PrimarySearchAppBar extends React.Component {
     }
 
 
+    broadCastMessage(){
+        //send to API
+
+        alert("Sent " + this.state.message)
+        this.setState({message:''})
+    }
+
+
     render() {
         const { anchorEl, mobileMoreAnchorEl } = this.state;
         const { classes } = this.props;
@@ -172,6 +194,9 @@ class PrimarySearchAppBar extends React.Component {
                 <MenuItem onClick={this.logOff}>Log Off</MenuItem>
             </Menu>
         );
+
+
+
 
         const renderMenuLoggedOff = (
             <Menu
@@ -265,6 +290,57 @@ class PrimarySearchAppBar extends React.Component {
                             </div>
                             <div className={classes.grow}/>
                             <div className={classes.sectionDesktop}>
+
+                                <Popup modal trigger={
+                                    <IconButton color="inherit"
+                                                                   // aria-owns={renderMessageBroadcast ? 'material-appbar' : undefined}
+                                                                   aria-haspopup="true"
+                                    // onClick={this.handleBroadcastOpen}
+                                >
+                                    <MessageIcon/>
+                                </IconButton>}>
+                                    {close => (
+                                        <div className="modal">
+                                            <a className="close" onClick={close}>
+                                                <CloseIcon/>
+                                            </a>
+                                            <div className="header" style={{color:'black'}}> Please enter the message you want to send</div>
+                                            <div className="content">
+                                            <TextField
+                                                id="standard-multiline-flexible"
+                                                label="Message"
+                                                multiline
+                                                rowsMax="5"
+                                                value={this.state.message}
+                                                onChange={this.handleChangeVal('message')}
+                                                margin="normal"
+                                            />
+
+                                            </div>
+                                            <Button
+                                                size="small"
+                                                color="primary"
+                                                onClick={() => {
+                                                    close()
+                                                }}
+                                            >
+                                                Cancel
+                                            </Button>
+                                            <Button
+                                                size="small"
+                                                color="primary"
+                                                onClick={() => {
+                                                    this.broadCastMessage()
+                                                    console.log('closed')
+                                                    close()
+                                                }}
+                                            >
+                                                Send Broadcast message
+                                            </Button>
+                                        </div>
+                                    )}
+                                </Popup>
+
                                 <IconButton color="inherit">
                                     <Badge badgeContent={1} color="secondary">
                                         <MailIcon/>
