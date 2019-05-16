@@ -4,7 +4,7 @@ import { Auth } from "aws-amplify";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Redirect from "react-router-dom/es/Redirect";
+import { Redirect } from "react-router-dom"
 const styles = {
     containerStyle: {
         // position: 'relative',
@@ -27,7 +27,7 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            login:false,
+            // login:false,
             isAuthenticated: false
         };
     }
@@ -46,12 +46,16 @@ export default class Login extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        try {
-            await Auth.signIn(this.state.email, this.state.password);
-            alert("Logged in");
-        } catch (e) {
-            alert(e.message);
-        }
+
+        this.userHasAuthenticated(true);
+        this.setState({isAuthenticated:true})
+
+        // try {
+        //     await Auth.signIn(this.state.email, this.state.password);
+        //     this.userHasAuthenticated(true)
+        // } catch (e) {
+        //     alert(e.message);
+        // }
     }
 
 
@@ -66,13 +70,13 @@ export default class Login extends Component {
         };
 
 
-        if(!this.state.login){
+        if(!this.state.isAuthenticated){
         return (
             <div style={{justifyContent:'center', margin: 10}} className="Login">
                 <h1> AWS Cognito Login</h1>
 
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId="email" bsSize="large">
+                    <FormGroup controlId="email">
                         <TextField
                             id="outlined-name"
                             label="Email"
@@ -82,7 +86,7 @@ export default class Login extends Component {
                             variant="outlined"
                         />
                     </FormGroup>
-                    <FormGroup controlId="password" bsSize="large">
+                    <FormGroup controlId="password">
                         <TextField
                             id="outlined-password-input"
                             label="Password"
@@ -107,7 +111,10 @@ export default class Login extends Component {
         );
             }
         else {
-            return <Redirect childProps={childProps} to="/management_index" />
+            return <Redirect  to={{
+                pathname: '/management_index',
+                state: { logged_in: true }
+            }}/>
         }
     }
 }

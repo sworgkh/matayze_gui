@@ -22,17 +22,6 @@ const routing = (
 )
 
 
-// const routing = (
-// //     <Router>
-// //         <div>
-// //             <Route path="/index" component={App} />
-// //             <Route path="/management_index" component={Management} />
-// //             <Route path="/interface_index" component={SiteInterface} />
-// //             <Route path="/hall_index" component={Hall} />
-// //         </div>
-// //     </Router>
-// // )
-
 
 ReactDOM.render(routing, document.getElementById('root'))
 

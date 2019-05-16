@@ -8,27 +8,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
-import MenuItem from '@material-ui/core/MenuItem';
+
 import TextField from '@material-ui/core/TextField';
 
-// const currencies = [
-//     {
-//         value: 'USD',
-//         label: '$',
-//     },
-//     {
-//         value: 'EUR',
-//         label: '€',
-//     },
-//     {
-//         value: 'BTC',
-//         label: '฿',
-//     },
-//     {
-//         value: 'JPY',
-//         label: '¥',
-//     },
-// ];
 
 const styles = {
     containerStyle: {
@@ -76,7 +58,7 @@ export default class managementIndex extends React.Component{
         super(props);
         this.state = {
             lectures: [],
-            logged_in: false,                                                    //toggle to change views
+            logged_in: false,                                                //toggle to change views
             showPopup: true,
             lecture: "",
             lecturer: "",
@@ -88,18 +70,21 @@ export default class managementIndex extends React.Component{
     }
         this.createLecture = this.createLecture.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
-        this.deleteEvent = this.deleteEvent.bind(this);
+        this.logOff = this.logOff.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-
+        this.changeLoginState = this.changeLoginState.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
 
+
+
+    changeLoginState(newState){
+        this.setState({logged_in: newState})
+    }
+
     deleteEvent(id) {
         //database delete
-
-
-
-
         const newState = this.state;
         const index = newState.lectures.findIndex(a => a.lecture === id);
 
@@ -109,14 +94,15 @@ export default class managementIndex extends React.Component{
         this.setState(newState);
     }
 
+    logOff(){
+        //manage database logged_in
 
+        this.setState({logged_in:false})
+    }
 
 
     updateEvent(newValues,id){
         //database edit
-
-
-
 
 
         const newState = this.state;
@@ -141,6 +127,11 @@ export default class managementIndex extends React.Component{
     };
 
     componentDidMount() {
+        if(this.props.location.state)
+            this.setState({ logged_in: this.props.location.state.logged_in })
+        else
+            this.setState({ logged_in:false})
+
         //check if user is logged in
 
 
@@ -170,7 +161,44 @@ export default class managementIndex extends React.Component{
 
 
     handleSearch(val){
-        alert("SEARCH" + val)
+        // alert("SEARCH " + val)
+
+
+
+        let oldState = this.state.lectures
+        let newState = []
+
+        if(val === ''){
+            this.componentDidMount()
+            // newState = oldState
+            // this.setState({lectures: newState})
+            return
+        }
+
+        oldState.map(lecture => {
+            let contains = false
+            if(lecture.lecture.includes(val)) {
+                contains = true
+            }
+            if(lecture.lecturer.includes(val)) {
+                contains = true
+            }
+            if(lecture.start_time.includes(val)) {
+                contains = true
+            }
+            if(lecture.end_time.includes(val)) {
+                contains = true
+            }
+            if(lecture.message.includes(val)) {
+                contains = true
+            }
+            if(lecture.room.includes(val)) {
+                contains = true
+            }
+            if(contains)
+                newState.push(lecture)
+        })
+        this.setState({lectures: newState})
 
     }
 
@@ -181,11 +209,13 @@ export default class managementIndex extends React.Component{
 
 
     render() {
+
+
         if(this.state.logged_in) {
             return (
                 <div style={styles.containerStyle}>
-                    <AppBar search={this.handleSearch} logged_in={this.state.logged_in}/>
-                    {this.state.lectures.map(lecture => <Card delete={this.deleteEvent} update={this.updateEvent} key={lecture.lecture} allData={lecture}/>)}
+                    <AppBar search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
+                    {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lecture} allData={lecture}/>)}
 
                     <Popup trigger={<Tooltip title="Add" aria-label="Add">
                         <Fab color="secondary" style={{margin: 10}}>
@@ -292,6 +322,8 @@ export default class managementIndex extends React.Component{
             );
         }
         else {
+
+
             return (
                 <div style={styles.containerStyle}>
                     <AppBar logged_in={this.state.logged_in}/>

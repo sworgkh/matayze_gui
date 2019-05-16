@@ -64,7 +64,6 @@ class Lecture extends React.Component {
     delete() {
         //need to implemet delete
         this.props.delete(this.state.lecture);
-        // alert("delete " + this.state.lecture)
     }
 
     render() {

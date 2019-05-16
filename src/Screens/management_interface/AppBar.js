@@ -100,6 +100,7 @@ class PrimarySearchAppBar extends React.Component {
         this.keyPress = this.keyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleAWSLogin = this.handleAWSLogin.bind(this);
+        this.logOff = this.logOff.bind(this);
     }
 
     handleChange(e) {
@@ -114,7 +115,8 @@ class PrimarySearchAppBar extends React.Component {
 
     }
 
-
+    componentDidMount() {
+    }
 
     handleProfileMenuOpenLoggedOf = event => {
         this.setState({ anchorEl: event.currentTarget });
@@ -140,17 +142,16 @@ class PrimarySearchAppBar extends React.Component {
 
 
     handleAWSLogin(e){
-        alert("AWS login")
-        console.log("AWS login")
         this.handleMenuClose()
         this.setState({AWS_LOGIN:true})
 
-        // alert("AWS login")
-        // console.log("AWS login")
-
     }
 
-
+    logOff(){
+        this.handleMenuClose()
+        // console.log("log off")
+        this.props.logOff()
+    }
 
 
     render() {
@@ -168,7 +169,7 @@ class PrimarySearchAppBar extends React.Component {
                 onClose={this.handleMenuClose}
             >
                 <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={this.logOff}>Log Off</MenuItem>
             </Menu>
         );
 
@@ -195,7 +196,7 @@ class PrimarySearchAppBar extends React.Component {
             >
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={1} color="secondary">
+                        <Badge badgeContent={0} color="secondary">
                             <MailIcon />
                         </Badge>
                     </IconButton>
@@ -203,7 +204,7 @@ class PrimarySearchAppBar extends React.Component {
                 </MenuItem>
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={1} color="secondary">
+                        <Badge badgeContent={0} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
@@ -265,12 +266,12 @@ class PrimarySearchAppBar extends React.Component {
                             <div className={classes.grow}/>
                             <div className={classes.sectionDesktop}>
                                 <IconButton color="inherit">
-                                    <Badge badgeContent={4} color="secondary">
+                                    <Badge badgeContent={1} color="secondary">
                                         <MailIcon/>
                                     </Badge>
                                 </IconButton>
                                 <IconButton color="inherit">
-                                    <Badge badgeContent={17} color="secondary">
+                                    <Badge badgeContent={1} color="secondary">
                                         <NotificationsIcon/>
                                     </Badge>
                                 </IconButton>
@@ -297,7 +298,11 @@ class PrimarySearchAppBar extends React.Component {
         }
         if(!this.state.logged_in && this.state.AWS_LOGIN){
             this.setState({AWS_LOGIN:false})
-            return <Redirect to="/login" />
+            return <Redirect
+                to={{
+                    pathname: '/login',
+                    state: { logged_in: false }
+                }}/>
         }
         else                                                //if user is not logged in
         {
