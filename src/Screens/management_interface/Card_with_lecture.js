@@ -72,12 +72,11 @@ class Lecture extends React.Component {
                 <CardActionArea>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2"> {this.state.lecture}</Typography>
-                        <Typography component="p">{this.state.message} </Typography>
-                        <Typography component="p">{this.state.start_time} </Typography>
-                        <Typography component="p">{this.state.end_time} </Typography>
-                        <Typography component="p">{this.state.lecturer} </Typography>
-                        <Typography component="p">{this.state.room} </Typography>
-
+                        <Typography component="p">Lecturer: {this.state.lecturer} </Typography>
+                        <Typography component="p">Start time: {this.state.start_time} </Typography>
+                        <Typography component="p">End time: {this.state.end_time} </Typography>
+                        <Typography component="p">Room: {this.state.room} </Typography>
+                        <Typography component="p">Message: {this.state.message} </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>
@@ -147,7 +146,7 @@ class Lecture extends React.Component {
                                     <br/>
                                     <TextField
                                         id="standard-multiline-flexible"
-                                        label="Multiline"
+                                        label="Message"
                                         multiline
                                         rowsMax="5"
                                         value={this.state.message}
