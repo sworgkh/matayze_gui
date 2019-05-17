@@ -51,9 +51,9 @@ class PaperSheet extends React.Component{
                         </Typography>
                     </div>
                     <div>
-                        <Fab style={{margin:10}} aria-label="Delete"
+                        <Fab onClick={this.delete}  style={{margin:10}} aria-label="Delete"
                              className={styles.fab}>
-                            <DeleteIcon onClick={this.delete} />
+                            <DeleteIcon />
                         </Fab>
                     </div>
                 </Paper>
