@@ -5,13 +5,17 @@ import { Auth } from "aws-amplify";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom"
+import Paper from "@material-ui/core/Paper";
+
+
 const styles = {
     containerStyle: {
-        // position: 'relative',
+        position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
-        height: "1000px",
+        // height: "1000px",
         justifyContent:'center',
-        margin: 10
+        textColor:'white',
+        zIndex: 9999
 
     }
 }
@@ -27,17 +31,10 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            // login:false,
-            isAuthenticated: false
+            isAuthenticated: false,
         };
     }
 
-
-
-
-    userHasAuthenticated = authenticated => {
-        this.setState({ isAuthenticated: authenticated });
-    }
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
@@ -47,7 +44,7 @@ export default class Login extends Component {
         event.preventDefault();
 
 
-        this.userHasAuthenticated(true);
+        // this.userHasAuthenticated(true);
         this.setState({isAuthenticated:true})
 
         // try {
@@ -58,26 +55,23 @@ export default class Login extends Component {
         // }
     }
 
-
-
+    // componentWillUnmount() {
+    //     this.setState({isAuthenticated:false})
+    // }
 
 
     render() {
 
-        const childProps = {
-            isAuthenticated: this.state.isAuthenticated,
-            userHasAuthenticated: this.userHasAuthenticated
-        };
-
 
         if(!this.state.isAuthenticated){
         return (
-            <div style={{justifyContent:'center', margin: 10}} className="Login">
-                <h1> AWS Cognito Login</h1>
-
-                <form onSubmit={this.handleSubmit}>
+            <div style={styles.containerStyle} className="Login">
+            {/*    <h1 style={{marginLeft:10,color:'black'}}> AWS Cognito Login</h1>*/}
+                    <Paper  >
+                        <h1 style={{marginLeft:10,color:'black'}}> AWS Cognito Login</h1>
                     <FormGroup controlId="email">
                         <TextField
+                            style={{marginLeft:10,color:'black'}}
                             id="outlined-name"
                             label="Email"
                             value={this.state.email}
@@ -88,6 +82,7 @@ export default class Login extends Component {
                     </FormGroup>
                     <FormGroup controlId="password">
                         <TextField
+                            style={{marginLeft:10,color:'black'}}
                             id="outlined-password-input"
                             label="Password"
                             type="password"
@@ -99,15 +94,15 @@ export default class Login extends Component {
                         />
                     </FormGroup>
                     <Button
+                        style={{margin:10}}
                         size="small"
                         color="primary"
                         onClick={this.handleSubmit}
-
                     >
                         Login
                     </Button>
-                </form>
-            </div>
+                    </Paper>
+           </div>
         );
             }
         else {

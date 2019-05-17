@@ -9,6 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import Popup from 'reactjs-popup'
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from "@material-ui/core/TextField";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
+import Dialog from "@material-ui/core/Dialog";
 
 
 const styles = {
@@ -35,9 +39,16 @@ class Lecture extends React.Component {
             description: props.allData.description,
             lecturer: props.allData.lecturer,
             room: props.allData.room,
+            EditPopup:false,
+            DeletePopup:false
         };
         this.edit = this.edit.bind(this);
         this.delete = this.delete.bind(this);
+
+        this.handleOpenEdit = this.handleOpenEdit.bind(this);
+        this.handleOpenDelete = this.handleOpenDelete.bind(this);
+        // this.delete = this.delete.bind(this);
+        this.handleClose = this.handleClose.bind(this);
 
 
     }
@@ -47,6 +58,7 @@ class Lecture extends React.Component {
     };
 
     edit() {
+        this.handleClose()
         //need to implemet edit
         let newEventVals = {
             start_time: this.state.start_time,
@@ -61,8 +73,24 @@ class Lecture extends React.Component {
     }
 
     delete() {
+        this.handleClose()
         //need to implemet delete
         this.props.delete(this.state.lecture);
+    }
+
+
+    handleOpenEdit(){
+        this.setState({EditPopup: true})
+    }
+    handleOpenDelete(){
+        this.setState({DeletePopup: true})
+    }
+
+
+
+    handleClose(){
+        this.setState({EditPopup: false,DeletePopup:false})
+
     }
 
     render() {
@@ -80,143 +108,116 @@ class Lecture extends React.Component {
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>
 
-                    <Popup trigger={<Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={this.handleOpenEdit}>
                         Edit
                     </Button>
-                    } modal>
-                        {close => (
-                            <div className="modal">
-                                <a className="close" onClick={close}>
-                                    <CloseIcon/>
-                                </a>
-                                <div className="header"> Edit event</div>
-                                <div className="content">
-                                    <TextField
-                                        id="standard-name"
-                                        label="Title of the lecture"
-                                        value={this.state.lecture}
-                                        onChange={this.handleChange('lecture')}
-                                        margin="normal"
-                                    />
-                                    <br/>
-                                    <TextField
-                                        id="standard-lecturer"
-                                        label="Name for the lecturer"
-                                        value={this.state.lecturer}
-                                        onChange={this.handleChange('lecturer')}
-                                        margin="normal"
-                                    />
-                                    <br/>
-                                    <TextField
-                                        id="standard-start_time"
-                                        label="Start time"
-                                        style={{width:'11%'}}
-                                        value={this.state.start_time}
-                                        onChange={this.handleChange('start_time')}
-                                        // type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="normal"
-                                    />
-                                    <br/>
-                                    <TextField
-                                        id="standard-number"
-                                        label="Room"
-                                        style={{width:'9%'}}
-                                        value={this.state.room}
-                                        onChange={this.handleChange('room')}
-                                        // type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="normal"
-                                    />
-                                    <br/>
-                                    <TextField
-                                        id="standard-number"
-                                        label="End time"
-                                        style={{width:'11%'}}
-                                        value={this.state.end_time}
-                                        onChange={this.handleChange('end_time')}
-                                        // type="number"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        margin="normal"
-                                    />
-                                    <br/>
-                                    <TextField
-                                        style={{width:'90%'}}
-                                        id="standard-multiline-flexible"
-                                        label="Description"
-                                        multiline
-                                        rowsMax="5"
-                                        value={this.state.description}
-                                        onChange={this.handleChange('description')}
-                                        margin="normal"
-                                    />
-                                    <br/>
-                                </div>
-                                <div className="actions">
-                                    <Button
-                                        size="small"
-                                        color="primary"
-                                        onClick={() => {
-                                            this.edit();
-                                            close()
-                                        }}
-                                    >
-                                        Submit Edit
-                                    </Button>
-                                    <Button
-                                        size="small"
-                                        color="primary"
-                                        onClick={() => {
-                                            console.log('closed')
-                                            close()
-                                        }}
-                                    >
-                                        Cancel Edit
-                                    </Button>
-                                </div>
-                            </div>
-                        )}
-                    </Popup>
 
-                    <Popup trigger={<Button size="small" color="primary">
+                    <Dialog
+                        fullWidth={true}
+                        fullHeight={true}
+                        open={this.state.EditPopup}
+                        onClose={this.handleClose}
+                        aria-labelledby="form-dialog-title"
+                    >
+                        <DialogTitle style={{justifyContent:'center',alignContent:'center'}} id="form-dialog-title">Create new Event</DialogTitle>
+                        <DialogContent style={{justifyContent:'center',alignContent:'center'}}>
+                            <TextField
+                                id="standard-name"
+                                label="Title of the lecture"
+                                value={this.state.lecture}
+                                onChange={this.handleChange('lecture')}
+                                margin="normal"
+                            />
+                            <br/>
+                            <TextField
+                                id="standard-lecturer"
+                                label="Name for the lecturer"
+                                value={this.state.lecturer}
+                                onChange={this.handleChange('lecturer')}
+                                margin="normal"
+                            />
+                            <br/>
+                            <TextField
+                                id="standard-start_time"
+                                label="Start time"
+                                style={{width:'11%'}}
+                                value={this.state.start_time}
+                                onChange={this.handleChange('start_time')}
+                                // type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                margin="normal"
+                            />
+                            <br/>
+                            <TextField
+                                id="standard-number"
+                                label="Room"
+                                style={{width:'9%'}}
+                                value={this.state.room}
+                                onChange={this.handleChange('room')}
+                                // type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                margin="normal"
+                            />
+                            <br/>
+                            <TextField
+                                id="standard-number"
+                                label="End time"
+                                style={{width:'11%'}}
+                                value={this.state.end_time}
+                                onChange={this.handleChange('end_time')}
+                                // type="number"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                margin="normal"
+                            />
+                            <br/>
+                            <TextField
+                                style={{width:'90%'}}
+                                id="standard-multiline-flexible"
+                                label="Description"
+                                multiline
+                                rowsMax="5"
+                                value={this.state.description}
+                                onChange={this.handleChange('description')}
+                                margin="normal"
+                            />
+                            <br/>
+                        </DialogContent>
+                        <DialogActions style={{justifyContent:'center',alignContent:'center'}}>
+                            <Button onClick={this.handleClose} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={this.edit} color="primary">
+                                Edit
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    <Button size="small" color="primary" onClick={this.handleOpenDelete}>
                         Delete
                     </Button>
-                    } modal>
-                        {close => (
-                            <div className="modal">
-                                <a className="close" onClick={close}>
-                                    <CloseIcon/>
-                                </a>
-                                <div className="header"> Are you sure that you want to remove this event?</div>
-                                <Button
-                                    size="small"
-                                    color="primary"
-                                    onClick={() => {
-                                        close()
-                                    }}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    size="small"
-                                    color="primary"
-                                    onClick={() => {
-                                        this.delete()
-                                        console.log('closed')
-                                        close()
-                                    }}
-                                >
-                                    Delete Event
-                                </Button>
-                            </div>
-                        )}
-                    </Popup>
+
+                    <Dialog
+                        fullWidth={true}
+                        fullHeight={true}
+                        open={this.state.DeletePopup}
+                        onClose={this.handleClose}
+                        aria-labelledby="form-dialog-title"
+                    >
+                        <DialogTitle style={{justifyContent:'center',alignContent:'center'}} id="form-dialog-title">Are you sure that you want to remove this event?</DialogTitle>
+                        <DialogActions style={{justifyContent:'center',alignContent:'center'}}>
+                            <Button onClick={this.handleClose} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={this.delete} color="primary">
+                                Yes
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </CardActions>
             </Card>
         );
