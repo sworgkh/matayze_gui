@@ -75,14 +75,6 @@ const messages = [
     {
         title:'Hello1',
         message:'Hello all people 1'
-    },
-    {
-        title:'Hello2',
-        message:'Hello all people 2'
-    },
-    {
-        title:'Hello3',
-        message:'Hello all people 3'
     }
 ]
 
@@ -110,7 +102,7 @@ class managementIndex extends React.Component{
         this.logOff = this.logOff.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.changeLoginState = this.changeLoginState.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
+        // this.handleSearch = this.handleSearch.bind(this);
         this.addMessage = this.addMessage.bind(this);
         this.openCreateLecture = this.openCreateLecture.bind(this);
     }
@@ -246,6 +238,22 @@ class managementIndex extends React.Component{
                 newState.push(lecture)
         })
         this.setState({lectures: newState})
+
+        oldState = this.state.messages
+        newState = []
+
+        oldState.map(message => {
+            let contains = false
+            if(message.title.includes(val)) {
+                contains = true
+            }
+            if(message.message.includes(val)) {
+                contains = true
+            }
+            if(contains)
+                newState.push(message)
+        })
+        this.setState({messages: newState})
 
     }
 
