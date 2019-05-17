@@ -13,11 +13,12 @@ const styles = {
   card: {
     position: 'relative',
     width: '100%',
-    minHeight: 150,
+    minHeight: 120,
     marginTop: 10
   },
   content: {
-    position: 'absolute'
+    position: 'relative',
+    width: '60%'
   },
   time: {
     position: 'absolute',
@@ -64,12 +65,12 @@ class Events extends Component {
           description: 'Meet to discuss the project.'
         },
         {
-          lecture: 'Test lecture',
+          lecture: 'Test2 lecture',
           lecturer: 'Development Team',
           startTime: new Date('Sun Jun 2 2019 8:00:00 GMT+0300'),
           endTime: new Date('Sun Jun 2 42019 10:00:00 GMT+0300'),
           room: 'Room 1',
-          description: 'This lecture is a test.'
+          description: 'This lecture is a test. Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description...'
         },
         {
           lecture: 'Event\'s End',
@@ -78,6 +79,14 @@ class Events extends Component {
           endTime: new Date('Sun Jun 2 42019 12:00:00 GMT+0300'),
           room: 'Conference Hall',
           description: 'The last day of the event.'
+        },
+        {
+          lecture: 'Test lecture',
+          lecturer: 'Development Team',
+          startTime: new Date('Sun Jun 1 2019 8:00:00 GMT+0300'),
+          endTime: new Date('Sun Jun 1 42019 10:00:00 GMT+0300'),
+          room: 'Room 1',
+          description: 'This lecture is a test. Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description...'
         }
       ]
     }
