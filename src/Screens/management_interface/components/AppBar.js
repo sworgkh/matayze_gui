@@ -19,18 +19,13 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import CloseIcon from '@material-ui/icons/Close';
-import Popup from "reactjs-popup";
 import TextField from "@material-ui/core/TextField";
 import Logo from '../assets/logo.png'
 import Avatar from "@material-ui/core/Avatar";
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
-import CardActions from "@material-ui/core/CardActions";
-
 
 
 const styles = theme => ({
@@ -108,12 +103,6 @@ const styles = theme => ({
     },
 });
 
-
-const message = [{
-    title:'Hello',
-    message:'Hello all people'
-}]
-
 class PrimarySearchAppBar extends React.Component {
     constructor(props) {
         super(props)
@@ -157,7 +146,6 @@ class PrimarySearchAppBar extends React.Component {
 
     keyPress(e){
         if(e.keyCode === 13){
-            // alert(e.target.value)
             this.props.search(this.state.search)
         }
     }
@@ -204,8 +192,6 @@ class PrimarySearchAppBar extends React.Component {
     broadCastMessage(){
         //send to API
         this.handleClose()
-        // alert("Sent: " + "\nTitle: " + this.state.title + '\nMessage: ' + this.state.message)
-
         let message = {
             title: this.state.title,
             message: this.state.message

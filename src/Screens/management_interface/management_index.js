@@ -2,24 +2,18 @@ import React from 'react';
 import AppBar from './components/AppBar'
 import Card from './components/Card_with_lecture'
 import Button from '@material-ui/core/Button';
-import Popup from 'reactjs-popup'
-import FormLabel from '@material-ui/core/FormLabel';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
-
 import TextField from '@material-ui/core/TextField';
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
-import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Message from './components/Card_with_message'
 import Profile from './components/Profile'
 import windowSize from 'react-window-size';
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 
 
@@ -28,6 +22,7 @@ const styles = {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         width: '100%',
+        minHeight:'1000px',
         height: 'auto'
 
 
@@ -382,7 +377,7 @@ class managementIndex extends React.Component{
                             <br/>
                             <TextField
                                 id="standard-multiline-flexible"
-                                label="Multiline"
+                                label="Description"
                                 multiline
                                 style={{width:'90%'}}
                                 rowsMax="5"
