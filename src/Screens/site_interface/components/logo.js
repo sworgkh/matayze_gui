@@ -2,8 +2,8 @@ import React from 'react'
 import Image from '../assets/logo.png'
 
 const logoStyle = {
-  width: 225,
-  height: 75,
+  width: 85,
+  height: 135,
   display: 'block',
   background: `url(${Image})`,
   backgroundSize: 'contain',
