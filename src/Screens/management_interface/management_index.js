@@ -14,14 +14,24 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
 import Message from './components/Card_with_message'
+import Profile from './components/Profile'
+import windowSize from 'react-window-size';
+
+
 
 const styles = {
     containerStyle: {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
-        height: "1000px",
+        width: '100%',
+        height: 'auto'
+
+
     }
 }
+
+
+
 
 const static_data =
     [
@@ -73,7 +83,7 @@ const messages = [
 ]
 
 
-export default class managementIndex extends React.Component{
+class managementIndex extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -81,6 +91,7 @@ export default class managementIndex extends React.Component{
             messages:[],
             logged_in: false,                                                //toggle to change views
             showPopup: true,
+            profile: false,                                                   //toggle to see profile
             lecture: "",
             lecturer: "",
             start_time: "",                                                     //Time
@@ -98,6 +109,26 @@ export default class managementIndex extends React.Component{
         this.addMessage = this.addMessage.bind(this);
     }
 
+
+    componentDidMount() {
+        //check if user is logged in
+
+        if(this.props.location.state)
+            this.setState({ logged_in: this.props.location.state.logged_in })
+        else
+            this.setState({ logged_in:false})
+
+
+
+        //connect to API and fetch data
+
+        this.setState({
+            lectures: static_data,
+            messages:messages})
+
+        //static data for now
+
+    }
 
 
 
@@ -123,6 +154,13 @@ export default class managementIndex extends React.Component{
     }
 
 
+    userProfile(){
+
+        this.setState({
+            profile: !this.state.profile
+        });
+    }
+
     updateEvent(newValues,id){
         //database edit
 
@@ -146,25 +184,7 @@ export default class managementIndex extends React.Component{
         this.setState({ [name]: event.target.value });
     };
 
-    componentDidMount() {
-        //check if user is logged in
 
-        if(this.props.location.state)
-            this.setState({ logged_in: this.props.location.state.logged_in })
-        else
-            this.setState({ logged_in:false})
-
-
-
-        //connect to API and fetch data
-
-        this.setState({
-            lectures: static_data,
-            messages:messages})
-
-        //static data for now
-
-    }
 
     createLecture(){
         //need to implement add to database
@@ -239,12 +259,19 @@ export default class managementIndex extends React.Component{
 
 
     render() {
+        if(this.state.logged_in && this.state.profile) {
+
+            return (
+                <div style={styles.containerStyle}>
+                    <AppBar  userProfile={this.userProfile.bind(this)} addMessage={this.addMessage.bind(this)} search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
+                    <Profile userProfile={this.userProfile.bind(this)}/>
+                </div>
+                );
+        }
         if(this.state.logged_in) {
             return (
                 <div style={styles.containerStyle}>
-                    <AppBar addMessage={this.addMessage} search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
-
-
+                    <AppBar userProfile={this.userProfile.bind(this)} addMessage={this.addMessage.bind(this)} search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
                     <Paper style={{width:'96%',marginTop:10, margin:'2%'}} elevation={1}>
                         <Typography variant="h5" component="h3">
                             Broadcast Messages
@@ -266,7 +293,6 @@ export default class managementIndex extends React.Component{
                     <div style={{width:'96%',marginTop:10, margin:'2%'}} >
                     {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lecture} allData={lecture}/>)}
                     </div>
-
                     <Popup trigger={<Tooltip title="Add" aria-label="Add">
                         <Fab color="secondary" style={{margin: 10}}>
                             <AddIcon />
@@ -377,7 +403,7 @@ export default class managementIndex extends React.Component{
             return (
                 <div style={styles.containerStyle}>
                     <AppBar logged_in={this.state.logged_in}/>
-                    <h3 style={{margin:20,color:'white'}}>Welcome to you management console, Please login to make changes</h3>
+                    <h3 style={{margin:20,color:'white'}}>Welcome to your management console, Please login to make changes</h3>
 
                 </div>
             );
@@ -388,3 +414,5 @@ export default class managementIndex extends React.Component{
 
 
 }
+//
+export default windowSize(managementIndex);

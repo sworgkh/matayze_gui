@@ -22,10 +22,16 @@ import Button from "@material-ui/core/Button";
 import CloseIcon from '@material-ui/icons/Close';
 import Popup from "reactjs-popup";
 import TextField from "@material-ui/core/TextField";
-
+import Logo from '../assets/logo.png'
+import Avatar from "@material-ui/core/Avatar";
 
 
 const styles = theme => ({
+    bigAvatar: {
+        margin: 10,
+        width: 60,
+        height: 60,
+    },
     root: {
         width: '100%',
     },
@@ -117,6 +123,7 @@ class PrimarySearchAppBar extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleAWSLogin = this.handleAWSLogin.bind(this);
         this.logOff = this.logOff.bind(this);
+        this.userProfile = this.userProfile.bind(this);
     }
 
     handleChange(e) {
@@ -187,6 +194,12 @@ class PrimarySearchAppBar extends React.Component {
         this.props.addMessage(message)
     }
 
+    userProfile(){
+        this.handleMenuClose()
+        this.props.userProfile()
+
+    }
+
 
     render() {
         const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -202,12 +215,11 @@ class PrimarySearchAppBar extends React.Component {
                 open={isMenuOpen}
                 onClose={this.handleMenuClose}
             >
-                <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+
+                <MenuItem onClick={this.userProfile}>Profile</MenuItem>
                 <MenuItem onClick={this.logOff}>Log Off</MenuItem>
             </Menu>
         );
-
-
 
 
         const renderMenuLoggedOff = (
@@ -282,6 +294,7 @@ class PrimarySearchAppBar extends React.Component {
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
                                 <MenuIcon/>
                             </IconButton>
+                            <Avatar style={{marginRight:10}} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
                             </Typography>
@@ -406,9 +419,11 @@ class PrimarySearchAppBar extends React.Component {
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
                                 <MenuIcon/>
                             </IconButton>
+                            <Avatar style={{marginRight:10}} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Admin Panel
                             </Typography>
+
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon/>
