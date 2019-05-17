@@ -95,6 +95,12 @@ const styles = theme => ({
     },
 });
 
+
+const message = [{
+    title:'Hello',
+    message:'Hello all people'
+}]
+
 class PrimarySearchAppBar extends React.Component {
     constructor(props) {
         super(props)
@@ -104,7 +110,8 @@ class PrimarySearchAppBar extends React.Component {
             mobileMoreAnchorEl: null,
             search:'',
             AWS_LOGIN: false,
-            message:''
+            message:'',
+            title:''
         };
         this.keyPress = this.keyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -171,8 +178,8 @@ class PrimarySearchAppBar extends React.Component {
     broadCastMessage(){
         //send to API
 
-        alert("Sent " + this.state.message)
-        this.setState({message:''})
+        alert("Sent: " + "\nTitle: " + this.state.title + '\nMessage: ' + this.state.message)
+        this.setState({message:'',title:''})
     }
 
 
@@ -293,10 +300,8 @@ class PrimarySearchAppBar extends React.Component {
 
                                 <Popup modal trigger={
                                     <IconButton color="inherit"
-                                                                   // aria-owns={renderMessageBroadcast ? 'material-appbar' : undefined}
-                                                                   aria-haspopup="true"
-                                    // onClick={this.handleBroadcastOpen}
-                                >
+                                                aria-haspopup="true"
+                                    >
                                     <MessageIcon/>
                                 </IconButton>}>
                                     {close => (
@@ -308,13 +313,22 @@ class PrimarySearchAppBar extends React.Component {
                                             <div className="content">
                                             <TextField
                                                 id="standard-multiline-flexible"
-                                                label="Message"
-                                                multiline
-                                                rowsMax="5"
-                                                value={this.state.message}
-                                                onChange={this.handleChangeVal('message')}
+                                                label="Title"
+                                                value={this.state.title}
+                                                onChange={this.handleChangeVal('title')}
                                                 margin="normal"
                                             />
+                                            <br/>
+                                                <TextField
+                                                    style={{width:'90%'}}
+                                                    id="standard-multiline-flexible"
+                                                    label="Message"
+                                                    multiline
+                                                    rowsMax="5"
+                                                    value={this.state.message}
+                                                    onChange={this.handleChangeVal('message')}
+                                                    margin="normal"
+                                                />
 
                                             </div>
                                             <Button
