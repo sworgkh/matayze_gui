@@ -1,6 +1,6 @@
 import React from 'react';
-import AppBar from './AppBar'
-import Card from './Card_with_lecture'
+import AppBar from './components/AppBar'
+import Card from './components/Card_with_lecture'
 import Button from '@material-ui/core/Button';
 import Popup from 'reactjs-popup'
 import FormLabel from '@material-ui/core/FormLabel';
@@ -10,14 +10,16 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 
 import TextField from '@material-ui/core/TextField';
-
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import DeleteIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import Message from './components/Card_with_message'
 
 const styles = {
     containerStyle: {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
-        height: "1000px"
-
+        height: "1000px",
     }
 }
 
@@ -51,7 +53,24 @@ const static_data =
 
 
 
-
+const messages = [
+    {
+        title:'Hello',
+        message:'Hello all people'
+    },
+    {
+        title:'Hello1',
+        message:'Hello all people 1'
+    },
+    {
+        title:'Hello2',
+        message:'Hello all people 2'
+    },
+    {
+        title:'Hello3',
+        message:'Hello all people 3'
+    }
+]
 
 
 export default class managementIndex extends React.Component{
@@ -59,6 +78,7 @@ export default class managementIndex extends React.Component{
         super(props);
         this.state = {
             lectures: [],
+            messages:[],
             logged_in: false,                                                //toggle to change views
             showPopup: true,
             lecture: "",
@@ -75,6 +95,7 @@ export default class managementIndex extends React.Component{
         this.handleSearch = this.handleSearch.bind(this);
         this.changeLoginState = this.changeLoginState.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.addMessage = this.addMessage.bind(this);
     }
 
 
@@ -112,15 +133,13 @@ export default class managementIndex extends React.Component{
         if (index === -1) return;
         else {
             newState.lectures[index].lecture = newValues.lecture;
-            newState.lectures[index].lecturer = newValues.lecturer
-            newState.lectures[index].start_time = newValues.start_time
-            newState.lectures[index].end_time = newValues.end_time
-            newState.lectures[index].room = newValues.room
+            newState.lectures[index].lecturer = newValues.lecturer;
+            newState.lectures[index].start_time = newValues.start_time;
+            newState.lectures[index].end_time = newValues.end_time;
+            newState.lectures[index].room = newValues.room;
             newState.lectures[index].description = newValues.description
         }
         this.setState(newState);
-
-
     }
 
     handleChange = name => event => {
@@ -128,23 +147,28 @@ export default class managementIndex extends React.Component{
     };
 
     componentDidMount() {
+        //check if user is logged in
+
         if(this.props.location.state)
             this.setState({ logged_in: this.props.location.state.logged_in })
         else
             this.setState({ logged_in:false})
 
-        //check if user is logged in
 
 
-        //connect to dynamoDB and fetch data
+        //connect to API and fetch data
 
-        this.setState({lectures: static_data})
+        this.setState({
+            lectures: static_data,
+            messages:messages})
 
         //static data for now
 
     }
 
     createLecture(){
+        //need to implement add to database
+
         let newLecure = {
             lecture: this.state.lecture,
             lecturer:this.state.lecturer,
@@ -157,17 +181,11 @@ export default class managementIndex extends React.Component{
     }
 
     handleSearch(val){
-        // alert("SEARCH " + val)
-
-
-
         let oldState = this.state.lectures
         let newState = []
 
         if(val === ''){
             this.componentDidMount()
-            // newState = oldState
-            // this.setState({lectures: newState})
             return
         }
 
@@ -198,20 +216,56 @@ export default class managementIndex extends React.Component{
 
     }
 
+    addMessage(message){
+        //need to implement add to database
+
+        this.setState({messages :[... this.state.messages, message] })
+    }
 
 
+    deleteMessage(id){
+        //need to implement delete from database
+
+        const newState = this.state;
+        const index = newState.messages.findIndex(a => a.title === id);
+
+        if (index === -1) return;
+        newState.messages.splice(index, 1);
+
+        this.setState(newState);
+    }
 
 
 
 
     render() {
-
-
         if(this.state.logged_in) {
             return (
                 <div style={styles.containerStyle}>
-                    <AppBar search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
+                    <AppBar addMessage={this.addMessage} search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
+
+
+                    <Paper style={{width:'96%',marginTop:10, margin:'2%'}} elevation={1}>
+                        <Typography variant="h5" component="h3">
+                            Broadcast Messages
+                        </Typography>
+                    </Paper>
+
+                    <div style={{width:'96%',marginTop:10, margin:'2%'}} >
+                        {this.state.messages.map(message => <Message delete={this.deleteMessage.bind(this)} key={message.title} message={message}/>)}
+                    </div>
+
+                    <div>
+                        <Paper style={{width:'96%',marginTop:10, margin:'2%'}} elevation={1}>
+                            <Typography variant="h5" component="h3">
+                                Meetings
+                            </Typography>
+                        </Paper>
+                    </div>
+
+                    <div style={{width:'96%',marginTop:10, margin:'2%'}} >
                     {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lecture} allData={lecture}/>)}
+                    </div>
 
                     <Popup trigger={<Tooltip title="Add" aria-label="Add">
                         <Fab color="secondary" style={{margin: 10}}>

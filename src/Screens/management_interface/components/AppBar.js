@@ -19,7 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import CloseIcon from '@material-ui/icons/Close';
 import Popup from "reactjs-popup";
 import TextField from "@material-ui/core/TextField";
 
@@ -133,7 +133,6 @@ class PrimarySearchAppBar extends React.Component {
             // alert(e.target.value)
             this.props.search(this.state.search)
         }
-
     }
 
     componentDidMount() {
@@ -178,8 +177,14 @@ class PrimarySearchAppBar extends React.Component {
     broadCastMessage(){
         //send to API
 
-        alert("Sent: " + "\nTitle: " + this.state.title + '\nMessage: ' + this.state.message)
+        // alert("Sent: " + "\nTitle: " + this.state.title + '\nMessage: ' + this.state.message)
         this.setState({message:'',title:''})
+
+        let message = {
+            title: this.state.title,
+            message: this.state.message
+        }
+        this.props.addMessage(message)
     }
 
 
@@ -302,11 +307,11 @@ class PrimarySearchAppBar extends React.Component {
                                     <IconButton color="inherit"
                                                 aria-haspopup="true"
                                     >
-                                    <MessageIcon/>
+                                        <MessageIcon/>
                                 </IconButton>}>
                                     {close => (
                                         <div className="modal">
-                                            <a className="close" onClick={close}>
+                                            <a className="close" onClick={close} >
                                                 <CloseIcon/>
                                             </a>
                                             <div className="header" style={{color:'black'}}> Please enter the message you want to send</div>
@@ -356,9 +361,7 @@ class PrimarySearchAppBar extends React.Component {
                                 </Popup>
 
                                 <IconButton color="inherit">
-                                    <Badge badgeContent={1} color="secondary">
                                         <MailIcon/>
-                                    </Badge>
                                 </IconButton>
                                 <IconButton color="inherit">
                                     <Badge badgeContent={1} color="secondary">

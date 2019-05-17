@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -8,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Popup from 'reactjs-popup'
-import Tooltip from "./management_index";
 import CloseIcon from '@material-ui/icons/Close';
 import TextField from "@material-ui/core/TextField";
 
@@ -112,6 +110,7 @@ class Lecture extends React.Component {
                                     <TextField
                                         id="standard-start_time"
                                         label="Start time"
+                                        style={{width:'11%'}}
                                         value={this.state.start_time}
                                         onChange={this.handleChange('start_time')}
                                         // type="number"
@@ -124,6 +123,7 @@ class Lecture extends React.Component {
                                     <TextField
                                         id="standard-number"
                                         label="Room"
+                                        style={{width:'9%'}}
                                         value={this.state.room}
                                         onChange={this.handleChange('room')}
                                         // type="number"
@@ -136,6 +136,7 @@ class Lecture extends React.Component {
                                     <TextField
                                         id="standard-number"
                                         label="End time"
+                                        style={{width:'11%'}}
                                         value={this.state.end_time}
                                         onChange={this.handleChange('end_time')}
                                         // type="number"
@@ -146,6 +147,7 @@ class Lecture extends React.Component {
                                     />
                                     <br/>
                                     <TextField
+                                        style={{width:'90%'}}
                                         id="standard-multiline-flexible"
                                         label="Description"
                                         multiline
