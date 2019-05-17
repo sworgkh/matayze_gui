@@ -29,7 +29,7 @@ const static_data =
             start_time: "00:00",   //Time
             end_time: "01:00",
             room: "265",
-            message: "Welcome all people go do stuff"
+            description: "Welcome all people go do stuff"
         },
         {
             lecture: "Demo two",
@@ -37,7 +37,7 @@ const static_data =
             start_time: "01:00",   //Time
             end_time: "04:00",
             room: "165",
-            message: "Welcome all people go do stuff"
+            description: "Welcome all people go do stuff"
         },
         {
             lecture: "Demo three",
@@ -45,9 +45,10 @@ const static_data =
             start_time: "01:00",   //Time
             end_time: "02:00",
             room: "2645",
-            message: "Welcome all people go do stuff"
+            description: "Welcome all people go do stuff"
         }
         ]
+
 
 
 
@@ -65,7 +66,7 @@ export default class managementIndex extends React.Component{
             start_time: "",                                                     //Time
             end_time: "",                                                       //Time
             room: 0,
-            message: "",
+            description: "",
             searchValue:''
     }
         this.createLecture = this.createLecture.bind(this);
@@ -115,7 +116,7 @@ export default class managementIndex extends React.Component{
             newState.lectures[index].start_time = newValues.start_time
             newState.lectures[index].end_time = newValues.end_time
             newState.lectures[index].room = newValues.room
-            newState.lectures[index].message = newValues.message
+            newState.lectures[index].description = newValues.description
         }
         this.setState(newState);
 
@@ -150,7 +151,7 @@ export default class managementIndex extends React.Component{
             start_time: this.state.start_time,   //Time
             end_time:this.state.end_time,
             room: this.state.room.toString(),
-            message: this.state.message
+            description: this.state.description
         }
         this.setState({lectures :[... this.state.lectures, newLecure] })
     }
@@ -184,7 +185,7 @@ export default class managementIndex extends React.Component{
             if(lecture.end_time.includes(val)) {
                 contains = true
             }
-            if(lecture.message.includes(val)) {
+            if(lecture.description.includes(val)) {
                 contains = true
             }
             if(lecture.room.includes(val)) {
@@ -279,8 +280,8 @@ export default class managementIndex extends React.Component{
                                         label="Multiline"
                                         multiline
                                         rowsMax="5"
-                                        value={this.state.message}
-                                        onChange={this.handleChange('message')}
+                                        value={this.state.description}
+                                        onChange={this.handleChange('description')}
                                         // className={classes.textField}
                                         margin="normal"
                                     />

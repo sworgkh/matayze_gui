@@ -26,6 +26,7 @@ const styles = {
 };
 
 
+
 class Lecture extends React.Component {
     constructor(props) {
         super(props);
@@ -33,7 +34,7 @@ class Lecture extends React.Component {
             start_time: props.allData.start_time,
             end_time: props.allData.end_time,
             lecture: props.allData.lecture,
-            message: props.allData.message,
+            description: props.allData.description,
             lecturer: props.allData.lecturer,
             room: props.allData.room,
         };
@@ -53,7 +54,7 @@ class Lecture extends React.Component {
             start_time: this.state.start_time,
             end_time:this.state.end_time ,
             lecture: this.state.lecture,
-            message: this.state.message,
+            description: this.state.description,
             lecturer:this.state.lecturer ,
             room:this.state.room ,
         }
@@ -76,7 +77,7 @@ class Lecture extends React.Component {
                         <Typography component="p">Start time: {this.state.start_time} </Typography>
                         <Typography component="p">End time: {this.state.end_time} </Typography>
                         <Typography component="p">Room: {this.state.room} </Typography>
-                        <Typography component="p">Message: {this.state.message} </Typography>
+                        <Typography component="p">Description: {this.state.description} </Typography>
                     </CardContent>
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>
@@ -146,11 +147,11 @@ class Lecture extends React.Component {
                                     <br/>
                                     <TextField
                                         id="standard-multiline-flexible"
-                                        label="Message"
+                                        label="Description"
                                         multiline
                                         rowsMax="5"
-                                        value={this.state.message}
-                                        onChange={this.handleChange('message')}
+                                        value={this.state.description}
+                                        onChange={this.handleChange('description')}
                                         margin="normal"
                                     />
                                     <br/>
