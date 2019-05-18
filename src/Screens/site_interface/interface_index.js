@@ -6,11 +6,14 @@ import Schedule from './components/events'
 const styles = {
     containerStyle: {
         position: 'relative',
-        backgroundImage: 'linear-gradient(to bottom right, black, purple)'
+        backgroundImage: 'linear-gradient(to bottom right, black, purple)',
+        overflow: 'auto',
+        minHeight: 980
     },
     logoStyle: {
         position: 'absolute',
-        right: '5%'
+        top: 15,
+        right: '1%'
     },
     headerStyle: {
         padding: '2%',
@@ -20,9 +23,6 @@ const styles = {
 }
 
 export default class interface_index extends React.Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         return (
             <div style={styles.containerStyle}>

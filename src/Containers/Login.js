@@ -5,13 +5,18 @@ import { Auth } from "aws-amplify";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router-dom"
+import Paper from "@material-ui/core/Paper";
+import Logo from '../Screens/management_interface/assets/logo.png'
+import Image from "react-bootstrap/Image";
+
 const styles = {
     containerStyle: {
-        // position: 'relative',
+        position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
-        height: "1000px",
+        minHeight: "800px",
         justifyContent:'center',
-        margin: 10
+        textColor:'white',
+        zIndex: 9999
 
     }
 }
@@ -27,17 +32,11 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            // login:false,
-            isAuthenticated: false
+            isAuthenticated: false,
+            error:false
         };
     }
 
-
-
-
-    userHasAuthenticated = authenticated => {
-        this.setState({ isAuthenticated: authenticated });
-    }
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
@@ -45,11 +44,13 @@ export default class Login extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
+        if(this.state.email === "michael@gmail.com" &&  this.state.password === '1') {
+            this.setState({isAuthenticated: true})
 
-
-        this.userHasAuthenticated(true);
-        this.setState({isAuthenticated:true})
-
+        }
+        else {
+            this.setState({password: '', error: true})
+        }
         // try {
         //     await Auth.signIn(this.state.email, this.state.password);
         //     this.userHasAuthenticated(true)
@@ -58,26 +59,32 @@ export default class Login extends Component {
         // }
     }
 
-
-
+    // componentWillUnmount() {
+    //     this.setState({isAuthenticated:false})
+    // }
 
 
     render() {
-
-        const childProps = {
-            isAuthenticated: this.state.isAuthenticated,
-            userHasAuthenticated: this.userHasAuthenticated
-        };
-
-
         if(!this.state.isAuthenticated){
         return (
-            <div style={{justifyContent:'center', margin: 10}} className="Login">
-                <h1> AWS Cognito Login</h1>
-
-                <form onSubmit={this.handleSubmit}>
+            <div style={styles.containerStyle} className="Login">
+                    <Paper style={{
+                        alignContent: 'center',
+                        backgroundImage: 'linear-gradient(to bottom right, gold, lightblue)',
+                    }} >
+                        <div style={{ display: 'flex',
+                            flexWrap: 'wrap',
+                            justifyContent:'space-between',
+                            alignContent: 'space-between'
+                        }}
+                             >
+                        <h1 style={{marginLeft:10,color:'black'}}> AWS Cognito Login</h1>
+                        <Image style={{margin:10,height:200}} src={Logo} alt=""/>
+                        </div>
                     <FormGroup controlId="email">
                         <TextField
+                            error={this.state.error}
+                            style={{marginLeft:10,color:'black'}}
                             id="outlined-name"
                             label="Email"
                             value={this.state.email}
@@ -88,6 +95,8 @@ export default class Login extends Component {
                     </FormGroup>
                     <FormGroup controlId="password">
                         <TextField
+                            error={this.state.error}
+                            style={{marginLeft:10,color:'black'}}
                             id="outlined-password-input"
                             label="Password"
                             type="password"
@@ -99,15 +108,15 @@ export default class Login extends Component {
                         />
                     </FormGroup>
                     <Button
+                        style={{margin:10}}
                         size="small"
                         color="primary"
                         onClick={this.handleSubmit}
-
                     >
                         Login
                     </Button>
-                </form>
-            </div>
+                    </Paper>
+           </div>
         );
             }
         else {

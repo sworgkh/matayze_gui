@@ -19,13 +19,21 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Redirect } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/core/SvgIcon/SvgIcon";
-import Popup from "reactjs-popup";
 import TextField from "@material-ui/core/TextField";
-
+import Logo from '../assets/logo.png'
+import Avatar from "@material-ui/core/Avatar";
+import Dialog from '@material-ui/core/Dialog'
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogActions from "@material-ui/core/DialogActions";
 
 
 const styles = theme => ({
+    bigAvatar: {
+        margin: 10,
+        width: 60,
+        height: 60,
+    },
     root: {
         width: '100%',
     },
@@ -95,12 +103,6 @@ const styles = theme => ({
     },
 });
 
-
-const message = [{
-    title:'Hello',
-    message:'Hello all people'
-}]
-
 class PrimarySearchAppBar extends React.Component {
     constructor(props) {
         super(props)
@@ -111,13 +113,27 @@ class PrimarySearchAppBar extends React.Component {
             search:'',
             AWS_LOGIN: false,
             message:'',
-            title:''
+            title:'',
+            BroadCastPopup:false
         };
         this.keyPress = this.keyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleAWSLogin = this.handleAWSLogin.bind(this);
         this.logOff = this.logOff.bind(this);
+        this.userProfile = this.userProfile.bind(this);
+        this.handleBroadCastPopup = this.handleBroadCastPopup.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.broadCastMessage = this.broadCastMessage.bind(this)
     }
+
+    handleBroadCastPopup(){
+        this.setState({ BroadCastPopup:true})
+    }
+    handleClose(){
+        this.setState({ BroadCastPopup:false})
+
+    }
+
 
     handleChange(e) {
         this.setState({ search: e.target.value });
@@ -130,10 +146,8 @@ class PrimarySearchAppBar extends React.Component {
 
     keyPress(e){
         if(e.keyCode === 13){
-            // alert(e.target.value)
             this.props.search(this.state.search)
         }
-
     }
 
     componentDidMount() {
@@ -177,9 +191,19 @@ class PrimarySearchAppBar extends React.Component {
 
     broadCastMessage(){
         //send to API
-
-        alert("Sent: " + "\nTitle: " + this.state.title + '\nMessage: ' + this.state.message)
+        this.handleClose()
+        let message = {
+            title: this.state.title,
+            message: this.state.message
+        }
         this.setState({message:'',title:''})
+        this.props.addMessage(message)
+    }
+
+    userProfile(){
+        this.handleMenuClose()
+        this.props.userProfile()
+
     }
 
 
@@ -197,12 +221,11 @@ class PrimarySearchAppBar extends React.Component {
                 open={isMenuOpen}
                 onClose={this.handleMenuClose}
             >
-                <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+
+                <MenuItem onClick={this.userProfile}>Profile</MenuItem>
                 <MenuItem onClick={this.logOff}>Log Off</MenuItem>
             </Menu>
         );
-
-
 
 
         const renderMenuLoggedOff = (
@@ -277,6 +300,7 @@ class PrimarySearchAppBar extends React.Component {
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
                                 <MenuIcon/>
                             </IconButton>
+                            <Avatar style={{marginRight:10}} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
                             </Typography>
@@ -297,68 +321,52 @@ class PrimarySearchAppBar extends React.Component {
                             </div>
                             <div className={classes.grow}/>
                             <div className={classes.sectionDesktop}>
-
-                                <Popup modal trigger={
-                                    <IconButton color="inherit"
-                                                aria-haspopup="true"
-                                    >
+                                <IconButton color="inherit" onClick={this.handleBroadCastPopup}
+                                            aria-haspopup="true"
+                                >
                                     <MessageIcon/>
-                                </IconButton>}>
-                                    {close => (
-                                        <div className="modal">
-                                            <a className="close" onClick={close}>
-                                                <CloseIcon/>
-                                            </a>
-                                            <div className="header" style={{color:'black'}}> Please enter the message you want to send</div>
-                                            <div className="content">
-                                            <TextField
-                                                id="standard-multiline-flexible"
-                                                label="Title"
-                                                value={this.state.title}
-                                                onChange={this.handleChangeVal('title')}
-                                                margin="normal"
-                                            />
-                                            <br/>
-                                                <TextField
-                                                    style={{width:'90%'}}
-                                                    id="standard-multiline-flexible"
-                                                    label="Message"
-                                                    multiline
-                                                    rowsMax="5"
-                                                    value={this.state.message}
-                                                    onChange={this.handleChangeVal('message')}
-                                                    margin="normal"
-                                                />
+                                </IconButton>
+                                <Dialog
+                                    fullWidth={true}
+                                    fullHeight={true}
+                                    open={this.state.BroadCastPopup}
+                                    onClose={this.handleClose}
+                                    aria-labelledby="form-dialog-title"
+                                >
+                                    <DialogTitle style={{justifyContent:'center',alignContent:'center'}} id="form-dialog-title">Enter message to broadcast</DialogTitle>
+                                    <DialogContent>
+                                        <TextField
+                                            id="standard-multiline-flexible"
+                                            label="Title"
+                                            value={this.state.title}
+                                            onChange={this.handleChangeVal('title')}
+                                            margin="normal"
+                                        />
+                                        <br/>
+                                        <TextField
+                                            style={{width:'90%'}}
+                                            id="standard-multiline-flexible"
+                                            label="Message"
+                                            multiline
+                                            rowsMax="5"
+                                            value={this.state.message}
+                                            onChange={this.handleChangeVal('message')}
+                                            margin="normal"
+                                        />
+                                    </DialogContent>
+                                    <DialogActions style={{justifyContent:'center',alignContent:'center'}}>
 
-                                            </div>
-                                            <Button
-                                                size="small"
-                                                color="primary"
-                                                onClick={() => {
-                                                    close()
-                                                }}
-                                            >
-                                                Cancel
-                                            </Button>
-                                            <Button
-                                                size="small"
-                                                color="primary"
-                                                onClick={() => {
-                                                    this.broadCastMessage()
-                                                    console.log('closed')
-                                                    close()
-                                                }}
-                                            >
-                                                Send Broadcast message
-                                            </Button>
-                                        </div>
-                                    )}
-                                </Popup>
 
+                                        <Button onClick={this.handleClose} color="primary">
+                                            Cancel
+                                        </Button>
+                                        <Button onClick={this.broadCastMessage} color="primary">
+                                            Broadcast
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
                                 <IconButton color="inherit">
-                                    <Badge badgeContent={1} color="secondary">
                                         <MailIcon/>
-                                    </Badge>
                                 </IconButton>
                                 <IconButton color="inherit">
                                     <Badge badgeContent={1} color="secondary">
@@ -403,9 +411,11 @@ class PrimarySearchAppBar extends React.Component {
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
                                 <MenuIcon/>
                             </IconButton>
+                            <Avatar style={{marginRight:10}} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Admin Panel
                             </Typography>
+
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
                                     <SearchIcon/>
