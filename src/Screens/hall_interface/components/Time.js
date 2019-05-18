@@ -18,7 +18,7 @@ export default class Time extends React.Component {
 
     return (
       <div style={styles.heading}>
-        <Clock format={"HH:mm"} ticking={true} timezone={"Israel"} />|{" "}
+        <Clock format={"HH:mm"} ticking={true} timezone={"Israel"} /> |{" "}
         {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
       </div>
     );

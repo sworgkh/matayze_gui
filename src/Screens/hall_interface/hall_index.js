@@ -5,6 +5,7 @@ import Time from "./components/Time";
 import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
+import {relative} from "path";
 
 const styles = {
   pageContainer: {
@@ -29,6 +30,7 @@ export default class hall_index extends React.Component {
         <div
           style={{
             display: "flex",
+            position: relative,
             justifyContent: "space-between",
             width: "80%",
             margin: "0 auto",
@@ -37,7 +39,7 @@ export default class hall_index extends React.Component {
           }}
         >
           <h1 style={styles.heading}>Confrance Name</h1>
-          <img src={logo} style={{ width: "70px", height: "90px" }} />
+          <img src={logo} style={{ position: "absolute",  left: "50%", marginLeft: "-50px", width: "70px", height: "90px" }} />
           <Time />
         </div>
 

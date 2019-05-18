@@ -16,13 +16,10 @@
     "react-moment": "^0.9.2",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-<<<<<<< HEAD
     "react-slick": "^0.24.0",
-=======
+    "reactjs-popup": "^1.4.0",
     "react-window-dimensions": "^1.0.2",
-    "react-window-size": "^1.2.2",
->>>>>>> a3a6504e1c7ba9d3ec982afdc8396cdc232f9dfd
-    "reactjs-popup": "^1.4.0"
+    "react-window-size": "^1.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
