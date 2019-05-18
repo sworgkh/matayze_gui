@@ -35,11 +35,14 @@ class PaperSheet extends React.Component{
 
     render() {
         return (
-            <div style={{margin:10,width:'96%'}}>
+            <div style={{margin:10,width:'45%',float: 'left',}}>
                 <Paper className={styles.root} style={{ display: 'flex',
                     flexWrap: 'wrap',
                     justifyContent:'space-between',
-                    alignContent: 'space-between'
+                    alignContent: 'space-between',
+
+                    // margin:10,
+                    width:'100%'
 
                 }} elevation={1}>
                     <div>

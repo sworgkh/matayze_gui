@@ -22,7 +22,7 @@ const styles = {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         width: '100%',
-        minHeight:'1000px',
+        minHeight:'800px',
         height: 'auto'
 
 
@@ -288,7 +288,7 @@ class managementIndex extends React.Component{
             return (
                 <div style={styles.containerStyle}>
                     <AppBar userProfile={this.userProfile.bind(this)} addMessage={this.addMessage.bind(this)} search={this.handleSearch.bind(this)} logOff={this.logOff.bind(this)} logged_in={this.state.logged_in}/>
-                    <Paper style={{width:'96%',marginTop:10, margin:'2%'}} elevation={1}>
+                    <Paper style={{marginTop:10,borderRadius:0}} elevation={1}>
                         <Typography style={{margin:10}} variant="h5" component="h3">
                             Broadcast Messages
                         </Typography>
@@ -297,9 +297,9 @@ class managementIndex extends React.Component{
                     <div style={{width:'96%',marginTop:10, margin:'2%'}} >
                         {this.state.messages.map(message => <Message delete={this.deleteMessage.bind(this)} key={message.title} message={message}/>)}
                     </div>
-
+                    <div style={{clear:'both'}}></div>
                     <div>
-                        <Paper style={{width:'96%',marginTop:10, margin:'2%'}} elevation={1}>
+                        <Paper style={{marginTop:10,borderRadius:0}} elevation={1}>
                             <Typography style={{margin:10}} variant="h5" component="h3">
                                 Meetings
                             </Typography>

@@ -13,7 +13,7 @@ const styles = {
     containerStyle: {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
-        minHeight: "1000px",
+        minHeight: "800px",
         justifyContent:'center',
         textColor:'white',
         zIndex: 9999
@@ -33,6 +33,7 @@ export default class Login extends Component {
             email: "",
             password: "",
             isAuthenticated: false,
+            error:false
         };
     }
 
@@ -43,11 +44,13 @@ export default class Login extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
+        if(this.state.email === "michael@gmail.com" &&  this.state.password === '1') {
+            this.setState({isAuthenticated: true})
 
-
-        // this.userHasAuthenticated(true);
-        this.setState({isAuthenticated:true})
-
+        }
+        else {
+            this.setState({password: '', error: true})
+        }
         // try {
         //     await Auth.signIn(this.state.email, this.state.password);
         //     this.userHasAuthenticated(true)
@@ -62,12 +65,9 @@ export default class Login extends Component {
 
 
     render() {
-
-
         if(!this.state.isAuthenticated){
         return (
             <div style={styles.containerStyle} className="Login">
-            {/*    <h1 style={{marginLeft:10,color:'black'}}> AWS Cognito Login</h1>*/}
                     <Paper style={{
                         alignContent: 'center',
                         backgroundImage: 'linear-gradient(to bottom right, gold, lightblue)',
@@ -83,6 +83,7 @@ export default class Login extends Component {
                         </div>
                     <FormGroup controlId="email">
                         <TextField
+                            error={this.state.error}
                             style={{marginLeft:10,color:'black'}}
                             id="outlined-name"
                             label="Email"
@@ -94,6 +95,7 @@ export default class Login extends Component {
                     </FormGroup>
                     <FormGroup controlId="password">
                         <TextField
+                            error={this.state.error}
                             style={{marginLeft:10,color:'black'}}
                             id="outlined-password-input"
                             label="Password"
