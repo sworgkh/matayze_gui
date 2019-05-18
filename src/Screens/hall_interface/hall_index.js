@@ -2,6 +2,7 @@ import React from "react";
 
 import Card from "./components/Card";
 import Time from "./components/Time";
+import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
 
@@ -46,6 +47,7 @@ export default class hall_index extends React.Component {
           <Card />
           <Card />
         </div>
+        <Message />
       </div>
     );
   }
