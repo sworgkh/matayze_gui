@@ -110,11 +110,11 @@ class PrimarySearchAppBar extends React.Component {
             anchorEl: null,
             anchorElMessage: null,
             mobileMoreAnchorEl: null,
-            search:'',
+            search: '',
             AWS_LOGIN: false,
-            message:'',
-            title:'',
-            BroadCastPopup:false
+            message: '',
+            title: '',
+            BroadCastPopup: false
         };
         this.keyPress = this.keyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -126,11 +126,11 @@ class PrimarySearchAppBar extends React.Component {
         this.broadCastMessage = this.broadCastMessage.bind(this)
     }
 
-    handleBroadCastPopup(){
-        this.setState({ BroadCastPopup:true})
+    handleBroadCastPopup() {
+        this.setState({ BroadCastPopup: true })
     }
-    handleClose(){
-        this.setState({ BroadCastPopup:false})
+    handleClose() {
+        this.setState({ BroadCastPopup: false })
 
     }
 
@@ -144,8 +144,8 @@ class PrimarySearchAppBar extends React.Component {
         this.setState({ [name]: event.target.value });
     };
 
-    keyPress(e){
-        if(e.keyCode === 13){
+    keyPress(e) {
+        if (e.keyCode === 13) {
             this.props.search(this.state.search)
         }
     }
@@ -176,31 +176,31 @@ class PrimarySearchAppBar extends React.Component {
     };
 
 
-    handleAWSLogin(e){
+    handleAWSLogin(e) {
         this.handleMenuClose()
-        this.setState({AWS_LOGIN:true})
+        this.setState({ AWS_LOGIN: true })
 
     }
 
-    logOff(){
+    logOff() {
         this.handleMenuClose()
         // console.log("log off")
         this.props.logOff()
     }
 
 
-    broadCastMessage(){
+    broadCastMessage() {
         //send to API
         this.handleClose()
         let message = {
             title: this.state.title,
             message: this.state.message
         }
-        this.setState({message:'',title:''})
+        this.setState({ message: '', title: '' })
         this.props.addMessage(message)
     }
 
-    userProfile(){
+    userProfile() {
         this.handleMenuClose()
         this.props.userProfile()
 
@@ -292,21 +292,21 @@ class PrimarySearchAppBar extends React.Component {
             </Menu>
         );
 
-        if(this.props.logged_in) {
+        if (this.props.logged_in) {
             return (
                 <div className={classes.root}>
                     <AppBar position="static">
                         <Toolbar>
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                                <MenuIcon/>
+                                <MenuIcon />
                             </IconButton>
-                            <Avatar style={{marginRight:10}} alt="User Logo" src={Logo} className={styles.bigAvatar} />
+                            <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
                             </Typography>
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
-                                    <SearchIcon/>
+                                    <SearchIcon />
                                 </div>
                                 <InputBase
                                     // onClick={this.props.search()}
@@ -319,12 +319,12 @@ class PrimarySearchAppBar extends React.Component {
                                     onKeyDown={this.keyPress}
                                 />
                             </div>
-                            <div className={classes.grow}/>
+                            <div className={classes.grow} />
                             <div className={classes.sectionDesktop}>
                                 <IconButton color="inherit" onClick={this.handleBroadCastPopup}
-                                            aria-haspopup="true"
+                                    aria-haspopup="true"
                                 >
-                                    <MessageIcon/>
+                                    <MessageIcon />
                                 </IconButton>
                                 <Dialog
                                     fullWidth={true}
@@ -333,7 +333,7 @@ class PrimarySearchAppBar extends React.Component {
                                     onClose={this.handleClose}
                                     aria-labelledby="form-dialog-title"
                                 >
-                                    <DialogTitle style={{justifyContent:'center',alignContent:'center'}} id="form-dialog-title">Enter message to broadcast</DialogTitle>
+                                    <DialogTitle style={{ justifyContent: 'center', alignContent: 'center' }} id="form-dialog-title">Enter message to broadcast</DialogTitle>
                                     <DialogContent>
                                         <TextField
                                             id="standard-multiline-flexible"
@@ -342,9 +342,9 @@ class PrimarySearchAppBar extends React.Component {
                                             onChange={this.handleChangeVal('title')}
                                             margin="normal"
                                         />
-                                        <br/>
+                                        <br />
                                         <TextField
-                                            style={{width:'90%'}}
+                                            style={{ width: '90%' }}
                                             id="standard-multiline-flexible"
                                             label="Message"
                                             multiline
@@ -354,7 +354,7 @@ class PrimarySearchAppBar extends React.Component {
                                             margin="normal"
                                         />
                                     </DialogContent>
-                                    <DialogActions style={{justifyContent:'center',alignContent:'center'}}>
+                                    <DialogActions style={{ justifyContent: 'center', alignContent: 'center' }}>
 
 
                                         <Button onClick={this.handleClose} color="primary">
@@ -366,11 +366,11 @@ class PrimarySearchAppBar extends React.Component {
                                     </DialogActions>
                                 </Dialog>
                                 <IconButton color="inherit">
-                                        <MailIcon/>
+                                    <MailIcon />
                                 </IconButton>
                                 <IconButton color="inherit">
                                     <Badge badgeContent={1} color="secondary">
-                                        <NotificationsIcon/>
+                                        <NotificationsIcon />
                                     </Badge>
                                 </IconButton>
                                 <IconButton
@@ -379,12 +379,12 @@ class PrimarySearchAppBar extends React.Component {
                                     onClick={this.handleProfileMenuOpen}
                                     color="inherit"
                                 >
-                                    <AccountCircle/>
+                                    <AccountCircle />
                                 </IconButton>
                             </div>
                             <div className={classes.sectionMobile}>
                                 <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                                    <MoreIcon/>
+                                    <MoreIcon />
                                 </IconButton>
                             </div>
                         </Toolbar>
@@ -394,13 +394,13 @@ class PrimarySearchAppBar extends React.Component {
                 </div>
             );
         }
-        if(!this.state.logged_in && this.state.AWS_LOGIN){
-            this.setState({AWS_LOGIN:false})
+        if (!this.state.logged_in && this.state.AWS_LOGIN) {
+            this.setState({ AWS_LOGIN: false })
             return <Redirect
                 to={{
                     pathname: '/login',
                     state: { logged_in: false }
-                }}/>
+                }} />
         }
         else                                                //if user is not logged in
         {
@@ -409,16 +409,16 @@ class PrimarySearchAppBar extends React.Component {
                     <AppBar position="static">
                         <Toolbar>
                             <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                                <MenuIcon/>
+                                <MenuIcon />
                             </IconButton>
-                            <Avatar style={{marginRight:10}} alt="User Logo" src={Logo} className={styles.bigAvatar} />
+                            <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Admin Panel
                             </Typography>
 
                             <div className={classes.search}>
                                 <div className={classes.searchIcon}>
-                                    <SearchIcon/>
+                                    <SearchIcon />
                                 </div>
                                 <InputBase
                                     placeholder="Search…"
@@ -428,7 +428,7 @@ class PrimarySearchAppBar extends React.Component {
                                     }}
                                 />
                             </div>
-                            <div className={classes.grow}/>
+                            <div className={classes.grow} />
                             <div className={classes.sectionDesktop}>
                                 <IconButton
                                     aria-owns={isMenuOpen ? 'material-appbar' : undefined}
@@ -436,12 +436,12 @@ class PrimarySearchAppBar extends React.Component {
                                     onClick={this.handleProfileMenuOpenLoggedOf}
                                     color="inherit"
                                 >
-                                    <AccountCircle/>
+                                    <AccountCircle />
                                 </IconButton>
                             </div>
                             <div className={classes.sectionMobile}>
                                 <IconButton aria-haspopup="true" onClick={this.handleProfileMenuOpenLoggedOf} color="inherit">
-                                    <MoreIcon/>
+                                    <MoreIcon />
                                 </IconButton>
                             </div>
                         </Toolbar>

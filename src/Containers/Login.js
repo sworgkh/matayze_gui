@@ -17,7 +17,6 @@ const styles = {
         justifyContent:'center',
         textColor:'white',
         zIndex: 9999
-
     }
 }
 
@@ -79,7 +78,7 @@ export default class Login extends Component {
                         }}
                              >
                         <h1 style={{marginLeft:10,color:'black'}}> AWS Cognito Login</h1>
-                        <Image style={{margin:10,height:200}} src={Logo} alt=""/>
+                        <Image style={{margin:10,height:70}} src={Logo} alt=""/>
                         </div>
                     <FormGroup controlId="email">
                         <TextField
