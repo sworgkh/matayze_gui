@@ -18,7 +18,8 @@ const styles = {
         maxWidth: 600,
         width: "31%",
         float: "left",
-        margin: "1%"
+        margin: "1%",
+        // backgroundColor:'#bbdefb',
     },
     media: {
         height: 400,
@@ -106,7 +107,7 @@ class Lecture extends React.Component {
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>
 
-                    <Button size="small" color="primary" onClick={this.handleOpenEdit}>
+                    <Button variant="contained" color="primary" onClick={this.handleOpenEdit}>
                         Edit
                     </Button>
 
@@ -195,7 +196,7 @@ class Lecture extends React.Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                    <Button size="small" color="primary" onClick={this.handleOpenDelete}>
+                    <Button variant="contained" color="primary" onClick={this.handleOpenDelete}>
                         Delete
                     </Button>
 

@@ -14,7 +14,7 @@ const styles = {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         minHeight: "800px",
-        justifyContent:'center',
+        // justifyContent:'center',
         textColor:'white',
         zIndex: 9999
     }

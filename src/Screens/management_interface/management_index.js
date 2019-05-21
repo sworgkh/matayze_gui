@@ -1,5 +1,6 @@
 import React from 'react';
 import AppBar from './components/AppBar'
+import Messages from  './components/Messages'
 import Card from './components/Card_with_lecture'
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -88,14 +89,15 @@ class managementIndex extends React.Component {
             room: 0,
             description: "",
             searchValue: '',
-            openAdd: false
+            openAdd: false,
+            messages_screen:false
         }
         this.createLecture = this.createLecture.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
         this.logOff = this.logOff.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.changeLoginState = this.changeLoginState.bind(this);
-        // this.handleSearch = this.handleSearch.bind(this);
+        this.messagesScreen =this.messagesScreen.bind(this)
         this.addMessage = this.addMessage.bind(this);
         this.openCreateLecture = this.openCreateLecture.bind(this);
     }
@@ -152,6 +154,14 @@ class managementIndex extends React.Component {
             profile: !this.state.profile
         });
     }
+
+    messagesScreen() {
+
+        this.setState({
+            messages_screen: !this.state.messages_screen
+        });
+    }
+
 
     updateEvent(newValues, id) {
         //database edit
@@ -257,7 +267,6 @@ class managementIndex extends React.Component {
         this.setState({ messages: [... this.state.messages, message] })
     }
 
-
     deleteMessage(id) {
         //need to implement delete from database
 
@@ -288,6 +297,26 @@ class managementIndex extends React.Component {
                 </div>
             );
         }
+        // if (this.state.logged_in && this.state.messages_screen) {
+        //
+        //     return (
+        //         <div style={styles.containerStyle}>
+        //             <AppBar
+        //                 userProfile={this.userProfile.bind(this)}
+        //                 addMessage={this.addMessage.bind(this)}
+        //                 search={this.handleSearch.bind(this)}
+        //                 logOff={this.logOff.bind(this)}
+        //                 logged_in={this.state.logged_in} />
+        //             <Messages
+        //                 // messages={this.state.messages}
+        //                 messagesScreen={this.messagesScreen.bind(this)}
+        //                 deleteMessage={this.deleteMessage.bind(this)}
+        //             />
+        //         </div>
+        //     );
+        // }
+
+
         if (this.state.logged_in) {
             return (
                 <div style={styles.containerStyle}>
@@ -296,10 +325,11 @@ class managementIndex extends React.Component {
                         addMessage={this.addMessage.bind(this)}
                         search={this.handleSearch.bind(this)}
                         logOff={this.logOff.bind(this)}
+                        messagesScreen={this.messagesScreen.bind(this)}
                         logged_in={this.state.logged_in}
                     />
-                    <Paper style={{ marginTop: 10, borderRadius: 0 }} elevation={1}>
-                        <Typography style={{ margin: 10 }} variant="h5" component="h3">
+                    <Paper style={{margin:10,borderRadius: 3,backgroundColor:'#3f51b5' }} elevation={1}>
+                        <Typography style={{margin:5,color:'white'}} variant="h5" component="h3">
                             Broadcast Messages
                         </Typography>
                     </Paper>
@@ -309,8 +339,8 @@ class managementIndex extends React.Component {
                     </div>
                     <div style={{ clear: 'both' }}></div>
                     <div>
-                        <Paper style={{ marginTop: 10, borderRadius: 0 }} elevation={1}>
-                            <Typography style={{ margin: 10 }} variant="h5" component="h3">
+                        <Paper style={{ margin: 10, borderRadius: 3,backgroundColor:'#3f51b5' }} elevation={1}>
+                            <Typography style={{margin:5,color:'white'}} variant="h5" component="h3">
                                 Meetings
                             </Typography>
                         </Paper>

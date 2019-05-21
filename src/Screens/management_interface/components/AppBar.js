@@ -124,6 +124,7 @@ class PrimarySearchAppBar extends React.Component {
         this.handleBroadCastPopup = this.handleBroadCastPopup.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.broadCastMessage = this.broadCastMessage.bind(this)
+        this.messagesScreen = this.messagesScreen.bind(this)
     }
 
     handleBroadCastPopup() {
@@ -203,6 +204,11 @@ class PrimarySearchAppBar extends React.Component {
     userProfile() {
         this.handleMenuClose()
         this.props.userProfile()
+
+    }
+
+    messagesScreen() {
+        this.props.messagesScreen()
 
     }
 
@@ -297,9 +303,9 @@ class PrimarySearchAppBar extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="static">
                         <Toolbar>
-                            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                                <MenuIcon />
-                            </IconButton>
+                            {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">*/}
+                            {/*    <MenuIcon />*/}
+                            {/*</IconButton>*/}
                             <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
@@ -365,7 +371,7 @@ class PrimarySearchAppBar extends React.Component {
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
-                                <IconButton color="inherit">
+                                <IconButton onClick={this.messagesScreen} color="inherit">
                                     <MailIcon />
                                 </IconButton>
                                 <IconButton color="inherit">
