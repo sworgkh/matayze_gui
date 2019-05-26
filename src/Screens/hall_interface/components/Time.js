@@ -15,11 +15,10 @@ export default class Time extends React.Component {
 
   render() {
     const date = new Date();
-
     return (
       <div style={styles.heading}>
         <Clock format={"HH:mm"} ticking={true} timezone={"Israel"} /> |{" "}
-        {date.getDay()}/{date.getMonth()}/{date.getFullYear()}
+        {date.getDate()}/{date.getMonth() + 1}/{date.getFullYear()}
       </div>
     );
   }
