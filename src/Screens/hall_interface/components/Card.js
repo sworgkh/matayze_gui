@@ -10,7 +10,7 @@ const styles = {
     justifyContent: "space-around",
     alignItems: "center",
     width: "80vw",
-    height: "20vh",
+    height: "10vw",
     margin: "0 auto",
     color: "#fff"
   },
@@ -47,7 +47,7 @@ const styles = {
     fontSize: "2vw"
   },
   devider: {
-    width: "80%",
+    width: "80vw",
     margin: "0 auto"
   },
   lecturedescription: {
