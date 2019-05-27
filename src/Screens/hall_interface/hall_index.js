@@ -5,13 +5,25 @@ import Time from "./components/Time";
 import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
+import loader from "./assets/preloader.gif"
 import { relative } from "path";
 
 const styles = {
   pageContainer: {
     width: "100vw",
     height: "100vh",
-    backgroundImage: "linear-gradient(to top left, purple, black)"
+    background: "linear-gradient(to top left, purple 30%, #2a2a2a 70%)"
+  },
+  loader: {
+    displat: "block",
+    width: "10vw",
+    height: "auto",
+    position: "absolute",
+    left: "50%",
+    marginLeft: "-50px",
+    marginTop: "-50px",
+    top: "50%"
+    
   },
   heading: {
     color: "white",
@@ -24,7 +36,8 @@ export default class hall_index extends React.Component {
     super(props);
 
     this.state = {
-      lectures: []
+      lectures: [],
+      isLoaded: false
     };
   }
 
@@ -33,47 +46,57 @@ export default class hall_index extends React.Component {
       .then(lectures => {
         return lectures.json();
       })
-      .then(response => {
-        this.setState({ lectures: response.data });
-      });
+        .then(response => {
+          this.setState({
+            lectures: response.data,
+            isLoaded: true
+          });
+        });
   }
 
   render() {
-    return (
-      <div style={styles.pageContainer}>
-        <div
-          style={{
-            display: "flex",
-            position: relative,
-            justifyContent: "space-between",
-            width: "80%",
-            margin: "0 auto",
-            alignItems: "center",
-            height: "110px"
-          }}
-        >
-          <h1 style={styles.heading}>Confrance Name</h1>
-          <img
-            src={logo}
+    if (!this.state.isLoaded) {
+      return (
+        <div style={styles.pageContainer}>
+              <img src={loader} style={styles.loader} />
+        </div>
+      )} else {
+      return (
+        <div style={styles.pageContainer}>
+          <div
             style={{
-              position: "absolute",
-              left: "50%",
-              marginLeft: "-50px",
-              width: "70px",
-              height: "90px"
+              display: "flex",
+              position: "relative",
+              justifyContent: "space-between",
+              width: "80vw",
+              margin: "0 auto",
+              alignItems: "center",
+              height: "15vh"
             }}
-          />
-          <Time />
-        </div>
+          >
+            <h1 style={styles.heading}>Confrance Name</h1>
+            <img
+              src={logo}
+              style={{
+                position: "absolute",
+                left: "50%",
+                marginLeft: "-50px",
+                maxWidth: "5vw",
+                height: "auto"
+              }}
+            />
+            <Time />
+          </div>
 
-        <hr />
-        <div style={{ padding: "30px" }}>
-          {this.state.lectures.map(lecture => {
-            return <Card key={lecture.lectureID} data={lecture} />;
-          })}
+          <hr />
+          <div style={{padding: "2vh"}}>
+            {this.state.lectures.map(lecture => {
+              return <Card key={lecture.lectureID} data={lecture} />;
+            })}
+          </div>
+          <Message />
         </div>
-        <Message />
-      </div>
-    );
+      );
+    }
   }
 }
