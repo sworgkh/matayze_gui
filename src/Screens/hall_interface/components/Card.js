@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
-import lecturerImg from "../assets/lecturer_1.png";
-import { ConsoleLogger } from "@aws-amplify/core";
+const moment = require("moment");
+moment().format();
 
 const styles = {
   container: {
@@ -63,9 +62,11 @@ class Card extends Component {
       lecturerImg: ""
     };
   }
+
   render() {
     const { data } = this.props;
     const date = new Date(data.startDate);
+
     return (
       <div>
         <div style={styles.container}>

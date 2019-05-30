@@ -38,6 +38,18 @@ export default class hall_index extends React.Component {
       });
   }
 
+  checkLecturetime = () => {
+    setInterval(() => {
+      let tmpDate = new Date();
+      //   // let tmpDateToCheck = `${tmpDate.getHours()}:${tmpDate.getMinutes()}`;
+      //   // let dateTocheck = `${date.getHours()}:${date.getMinutes()}`;
+
+      if (tmpDate.getMinutes() % 5 === 0) {
+        //     if (tmpDate < date) timeToShow = "Started";
+      }
+    }, 60000);
+  };
+
   render() {
     return (
       <div style={styles.pageContainer}>
