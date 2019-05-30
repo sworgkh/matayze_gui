@@ -6,7 +6,7 @@ const styles = {
   container: {
     // display: "flex",
     width: "60vw",
-    height: "10vh",
+    height: "30vh",
     margin: "0 10vw",
     color: "#fff",
   },

@@ -11,7 +11,7 @@ import { relative } from "path";
 const styles = {
   pageContainer: {
     width: "100vw",
-    height: "100vh",
+    minHeight: "100vh",
     background: "linear-gradient(to top left, purple 30%, #2a2a2a 70%)"
   },
   loader: {
