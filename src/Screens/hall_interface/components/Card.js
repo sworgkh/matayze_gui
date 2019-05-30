@@ -9,30 +9,30 @@ const styles = {
     justifyContent: "space-around",
     alignItems: "center",
     width: "80vw",
-    height: "80px",
-    margin: "25px 0",
+    height: "10vw",
+    margin: "0 auto",
     color: "#fff"
   },
+  lectureLeft: {
+    display: "flex",
+  },
   lecturerImg: {
-    display: "block",
-    width: "80px",
-    height: "80px",
+    // display: "block",
+    width: "8vw",
+    height: "8vw",
     backgroundRepeat: "no-repeat",
     backgroundSize: "contain",
     borderRadius: "100%"
   },
-  lectureLeft: {
-    display: "flex"
-  },
   lectureDetails: {
-    marginLeft: "20px",
+    marginLeft: "2vw",
     width: "80%"
   },
   lectureTitle: {
-    fontSize: "1.8rem"
+    fontSize: "1.8vw"
   },
   lecturerName: {
-    fontSize: "1.5rem"
+    fontSize: "1.5vw"
   },
   timeContainer: {
     display: "flex",
@@ -40,13 +40,18 @@ const styles = {
     alignItems: "center"
   },
   timeAndDate: {
-    fontSize: "1.8rem"
+    fontSize: "3vw",
+  },
+  room: {
+    fontSize: "2vw"
   },
   devider: {
-    width: "80%",
+    width: "80vw",
     margin: "0 auto"
   },
   lecturedescription: {
+    fontSize: "1.2vw",
+    paddingTop: "3vh",
     whiteSpace: "nowrap",
     width: 600,
     overflow: "hidden",
@@ -82,7 +87,7 @@ class Card extends Component {
             <p style={styles.timeAndDate}>
               {date.getHours()}:{date.getMinutes()}
             </p>
-            <p style={styles.timeAndDate}>Hall {data.room}</p>
+            <p style={styles.room}>Room {data.room}</p>
           </div>
         </div>
         <hr style={styles.devider} />

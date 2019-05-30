@@ -5,32 +5,30 @@ import Slider from "react-slick";
 const styles = {
   container: {
     // display: "flex",
-    width: "80vw",
-    height: "80px",
-    margin: "25px auto",
+    width: "60vw",
+    height: "30vh",
+    margin: "0 10vw",
     color: "#fff",
-    backgroundColor: "transparent"
   },
   heading: {
     color: "white",
     fontSize: "2.2em"
   },
-  devider: {
-    width: "80%",
-    margin: "0 auto"
-  },
   messageBody: {
-    margin: "35px auto",
-    paddingLeft: "10px"
+    margin: "2.2vw auto",
+    paddingLeft: "2vw"
   }
 };
 
-const messages = ["message 1", "message 2", "message 3", "message 4"];
+const messages = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris       vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt."];
 
 export default class Message extends React.Component {
   render() {
     var settings = {
-      dots: true,
+      dots: false,
       infinite: true,
       speed: 500,
       slidesToShow: 1,
@@ -55,8 +53,7 @@ export default class Message extends React.Component {
           <div>
             <p style={styles.messageBody}>{messages[3]}</p>
           </div>
-        </Slider>
-        <hr />
+        </Slider>    
       </div>
     );
   }
