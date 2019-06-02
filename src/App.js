@@ -7,8 +7,10 @@ import Button from "@material-ui/core/Button";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state ={val:''}
-
+    this.state ={
+      val:'',
+      token:''
+    }
 
 
     this.login = this.login.bind(this)
@@ -16,6 +18,65 @@ class App extends React.Component {
     this.hall_index = this.hall_index.bind(this)
     this.interface_index = this.interface_index.bind(this)
   }
+
+  componentDidMount() {
+    let a = this.props.location.hash
+    a = a.toString().split('&')
+
+    if (a[0]) {
+      let token = a[0]
+
+      token = token.slice(10, token.length)
+      console.log(token)
+      if (token) {
+        var obj = {
+          link: 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures',
+          object: {
+            method: 'GET',
+            headers: {
+              'mode': 'no-cors',
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token,
+              // 'Host': 'localhost:3000'
+              'Host': 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com'
+            }
+          }
+        };
+        fetch('https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures', obj)
+            .then((response) => {
+              console.log(response)
+            })
+            .then((responseData) => {
+              console.log(responseData);
+            })
+        // this.setState({val:'management_index'})
+        console.log("WOW")
+      }
+    }
+
+
+
+
+
+
+    //https://matayze.s3-website-eu-west-1.amazonaws.com/?code=887bcc2c-42a1-41d5-b773-b07486d46cb1
+
+
+
+    //check for token
+      // fetch('https://auth.matayze.shenkar.cloud/login?response_type=token&client_id=3uslmcib25uq3sah74hp6lgvr9&redirect_uri=http://matayze.s3-website-eu-west-1.amazonaws.comm')
+    //     .then(response => {
+    //       console.log(response.json())
+    //     } )
+    //     .then(data => this.setState({ data }));
+    //
+
+
+    // this.setState({val:''})
+  }
+
+
 
   login(){
     this.setState({val:'login'})
@@ -31,9 +92,7 @@ class App extends React.Component {
     this.setState({val:'interface_index'})
   }
 
-  componentDidMount() {
-    this.setState({val:''})
-  }
+
 
 
   render() {
@@ -43,7 +102,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/login',
-          state: { logged_in: false }
+          state: { logged_in: false,authToken: this.state.token }
         }}/>
       }
       case 'management_index':
