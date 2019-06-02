@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
-import lecturerImg from "../assets/lecturer_1.png";
-import { ConsoleLogger } from "@aws-amplify/core";
+const moment = require("moment");
+moment().format();
 
 const styles = {
   container: {
@@ -15,7 +14,7 @@ const styles = {
     color: "#fff"
   },
   lectureLeft: {
-    display: "flex",
+    display: "flex"
   },
   lecturerImg: {
     // display: "block",
@@ -41,7 +40,7 @@ const styles = {
     alignItems: "center"
   },
   timeAndDate: {
-    fontSize: "3vw",
+    fontSize: "3vw"
   },
   room: {
     fontSize: "2vw"
@@ -68,9 +67,11 @@ class Card extends Component {
       lecturerImg: ""
     };
   }
+
   render() {
     const { data } = this.props;
     const date = new Date(data.startDate);
+
     return (
       <div>
         <div style={styles.container}>
@@ -84,7 +85,8 @@ class Card extends Component {
           </div>
           <div style={styles.timeContainer}>
             <p style={styles.timeAndDate}>
-              {date.getHours()}:{date.getMinutes()}
+              {date.getHours()}:
+              {date.getMinutes() < 10 ? "0" : date.getMinutes()}
             </p>
             <p style={styles.room}>Room {data.room}</p>
           </div>
