@@ -6,8 +6,6 @@ import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
 import loader from "./assets/preloader.gif";
-import { relative } from "path";
-import { utc } from "moment";
 
 const styles = {
   pageContainer: {
@@ -27,7 +25,14 @@ const styles = {
   },
   heading: {
     color: "white",
-    fontSize: "2.5em"
+    fontSize: "4em"
+  },
+  message: {
+    color: "white",
+    fontSize: "4.5em",
+    paddingTop: "20vh"
+    // alignText: "center",
+    // width: "30vw"
   }
 };
 
@@ -71,10 +76,31 @@ export default class hall_index extends React.Component {
       if (startDate > now && startDate.getDate() === now.getDate())
         tempLectures.push(lecture);
     });
+
     tempLectures.sort((a, b) => {
-      return b.startDate - a.startDate;
+      return new Date(a.startDate) - new Date(b.startDate);
     });
     this.setState({ shownLectures: tempLectures });
+  };
+
+  cardRendering = () => {
+    let tmp = [];
+    if (this.state.shownLectures.length === 0)
+      return <h1 style={styles.message}>No More lectures For Today</h1>;
+
+    if (this.state.shownLectures.length) {
+      for (let i = 0; i < 3; i++) {
+        if (this.state.shownLectures[i]) {
+          tmp.push(
+            <Card
+              data={this.state.shownLectures[i]}
+              key={this.state.shownLectures[i].lectureID}
+            />
+          );
+        }
+      }
+      return tmp;
+    }
   };
 
   render() {
@@ -99,7 +125,7 @@ export default class hall_index extends React.Component {
               height: "15vh"
             }}
           >
-            <h1 style={styles.heading}>Confrance Name</h1>
+            <h1 style={styles.heading}>{this.lectures[2].conference_title}</h1>
             <img
               src={logo}
               style={{
@@ -114,10 +140,16 @@ export default class hall_index extends React.Component {
           </div>
 
           <hr />
-          <div style={{ padding: "2vh" }}>
-            {this.state.shownLectures.map(lecture => {
-              return <Card key={lecture.lectureID} data={lecture} />;
-            })}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: "2vh",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            {this.cardRendering()}
           </div>
           <Message />
         </div>

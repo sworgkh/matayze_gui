@@ -4,26 +4,31 @@ import Slider from "react-slick";
 
 const styles = {
   container: {
-    // display: "flex",
+    position: "fixed",
+    bottom: "5vh",
     width: "60vw",
-    height: "30vh",
-    margin: "0 10vw",
-    color: "#fff",
+    height: "12vh",
+    marginLeft: "15vw",
+    marginTop: ".5vh",
+    color: "#fff"
   },
   heading: {
     color: "white",
     fontSize: "2.2em"
   },
   messageBody: {
-    margin: "2.2vw auto",
-    paddingLeft: "2vw"
+    margin: ".5vw auto",
+    paddingLeft: "2vw",
+    fontSize: "1.5em"
   }
 };
 
-const messages = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris       vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
+const messages = [
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris       vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt.",
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt."];
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque rhoncus purus ut mauris vehicula auctor. Mauris tincidunt sem quis ex tincidunt, sit amet condimentum diam tincidunt."
+];
 
 export default class Message extends React.Component {
   render() {
@@ -53,7 +58,7 @@ export default class Message extends React.Component {
           <div>
             <p style={styles.messageBody}>{messages[3]}</p>
           </div>
-        </Slider>    
+        </Slider>
       </div>
     );
   }
