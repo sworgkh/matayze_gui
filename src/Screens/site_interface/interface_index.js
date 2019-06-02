@@ -18,6 +18,7 @@ const styles = {
     headerStyle: {
         padding: '2%',
         margin: 'auto',
+        paddingBottom: 30,
         width: '50%'
     }
 }

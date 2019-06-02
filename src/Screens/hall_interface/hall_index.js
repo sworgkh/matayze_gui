@@ -5,8 +5,9 @@ import Time from "./components/Time";
 import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
-import loader from "./assets/preloader.gif"
+import loader from "./assets/preloader.gif";
 import { relative } from "path";
+import { utc } from "moment";
 
 const styles = {
   pageContainer: {
@@ -23,7 +24,6 @@ const styles = {
     marginLeft: "-50px",
     marginTop: "-50px",
     top: "50%"
-    
   },
   heading: {
     color: "white",
@@ -35,44 +35,57 @@ export default class hall_index extends React.Component {
   constructor(props) {
     super(props);
 
+    this.lectures = [];
+
     this.state = {
-      lectures: [],
+      shownLectures: [],
       isLoaded: false
     };
   }
 
-  componentDidMount() {
-    fetch("prod/lectures")
+  async componentDidMount() {
+    await fetch("prod/lectures")
       .then(lectures => {
         return lectures.json();
       })
-        .then(response => {
-          this.setState({
-            lectures: response.data,
-            isLoaded: true
-          });
-        });
+      .then(response => {
+        this.lectures = response.data;
+        this.setState({ isLoaded: true });
+        console.log();
+      });
+    this.checkLecturetime();
+    setInterval(() => {
+      let minutes = new Date().getMinutes();
+      if (minutes % 5 === 0) {
+        this.checkLecturetime();
+      }
+    }, 60000);
   }
 
   checkLecturetime = () => {
-    setInterval(() => {
-      let tmpDate = new Date();
-      //   // let tmpDateToCheck = `${tmpDate.getHours()}:${tmpDate.getMinutes()}`;
-      //   // let dateTocheck = `${date.getHours()}:${date.getMinutes()}`;
+    let tempLectures = [];
 
-      if (tmpDate.getMinutes() % 5 === 0) {
-        //     if (tmpDate < date) timeToShow = "Started";
-      }
-    }, 60000);
+    this.lectures.map(lecture => {
+      let startDate = new Date(lecture.startDate);
+      let now = new Date();
+      if (startDate > now && startDate.getDate() === now.getDate())
+        tempLectures.push(lecture);
+    });
+    tempLectures.sort((a, b) => {
+      return b.startDate - a.startDate;
+    });
+    this.setState({ shownLectures: tempLectures });
   };
 
   render() {
+    // this.checkLecturetime();
     if (!this.state.isLoaded) {
       return (
         <div style={styles.pageContainer}>
-              <img src={loader} style={styles.loader} />
+          <img src={loader} style={styles.loader} />
         </div>
-      )} else {
+      );
+    } else {
       return (
         <div style={styles.pageContainer}>
           <div
@@ -101,8 +114,8 @@ export default class hall_index extends React.Component {
           </div>
 
           <hr />
-          <div style={{padding: "2vh"}}>
-            {this.state.lectures.map(lecture => {
+          <div style={{ padding: "2vh" }}>
+            {this.state.shownLectures.map(lecture => {
               return <Card key={lecture.lectureID} data={lecture} />;
             })}
           </div>
