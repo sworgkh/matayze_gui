@@ -86,7 +86,9 @@ class Card extends Component {
           <div style={styles.timeContainer}>
             <p style={styles.timeAndDate}>
               {date.getHours()}:
-              {date.getMinutes() < 10 ? "0" : date.getMinutes()}
+              {date.getMinutes() < 10
+                ? `0${date.getMinutes()}`
+                : date.getMinutes()}
             </p>
             <p style={styles.room}>Room {data.room}</p>
           </div>

@@ -11,6 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
+import CardMedia from "@material-ui/core/CardMedia";
 
 
 const styles = {
@@ -32,14 +33,17 @@ class Lecture extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            start_time: props.allData.start_time,
-            end_time: props.allData.end_time,
+            lecturer_image: props.allData.lecturer_image,
+            conference_title: props.allData.conference_title,
+            start_time: props.allData.startDate.toString().slice(0,16),
+            end_time: props.allData.endDate.toString().slice(0,16),
             lecture: props.allData.lecture,
             description: props.allData.description,
             lecturer: props.allData.lecturer,
             room: props.allData.room,
             EditPopup:false,
-            DeletePopup:false
+            DeletePopup:false,
+            startDateTime:null
         };
         this.edit = this.edit.bind(this);
         this.delete = this.delete.bind(this);
@@ -59,7 +63,10 @@ class Lecture extends React.Component {
     edit() {
         this.handleClose()
         //need to implemet edit
+
+        console.log(this.state.startDateTime)
         let newEventVals = {
+            conference_title: this.state.conference_title,
             start_time: this.state.start_time,
             end_time:this.state.end_time ,
             lecture: this.state.lecture,
@@ -96,8 +103,14 @@ class Lecture extends React.Component {
         return (
             <Card style={styles.card}>
                 <CardActionArea>
+                    <CardMedia
+                        style={{height:300}}
+                        image={this.state.lecturer_image}
+                        title="Contemplative Reptile"
+                    />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2"> {this.state.lecture}</Typography>
+                        <Typography gutterBottom variant="h5" component="h2"> {this.state.conference_title}</Typography>
+                        <Typography component="p">Lecture: {this.state.lecture}</Typography>
                         <Typography component="p">Lecturer: {this.state.lecturer} </Typography>
                         <Typography component="p">Start time: {this.state.start_time} </Typography>
                         <Typography component="p">End time: {this.state.end_time} </Typography>
@@ -122,6 +135,14 @@ class Lecture extends React.Component {
                         <DialogContent style={{justifyContent:'center',alignContent:'center'}}>
                             <TextField
                                 id="standard-name"
+                                label="Title of the conference"
+                                value={this.state.conference_title}
+                                onChange={this.handleChange('conference_title')}
+                                margin="normal"
+                            />
+                            <br/>
+                            <TextField
+                                id="standard-name"
                                 label="Title of the lecture"
                                 value={this.state.lecture}
                                 onChange={this.handleChange('lecture')}
@@ -136,10 +157,24 @@ class Lecture extends React.Component {
                                 margin="normal"
                             />
                             <br/>
+                            {/*<TextField*/}
+                            {/*    id="datetime-local"*/}
+                            {/*    label="Next appointment"*/}
+                            {/*    type="datetime-local"*/}
+                            {/*    defaultValue="2017-05-24T10:30"*/}
+                            {/*    onChange={this.handleChange('startDateTime')}*/}
+                            {/*    value={this.state.startDateTime}*/}
+                            {/*    InputLabelProps={{*/}
+                            {/*        shrink: true,*/}
+                            {/*    }}*/}
+                            {/*/>*/}
+                            {/*<br/>*/}
+
+
                             <TextField
                                 id="standard-start_time"
                                 label="Start time"
-                                style={{width:'11%'}}
+                                type="datetime-local"
                                 value={this.state.start_time}
                                 onChange={this.handleChange('start_time')}
                                 // type="number"
@@ -165,7 +200,7 @@ class Lecture extends React.Component {
                             <TextField
                                 id="standard-number"
                                 label="End time"
-                                style={{width:'11%'}}
+                                type="datetime-local"
                                 value={this.state.end_time}
                                 onChange={this.handleChange('end_time')}
                                 // type="number"

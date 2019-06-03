@@ -90,7 +90,9 @@ class managementIndex extends React.Component {
             description: "",
             searchValue: '',
             openAdd: false,
-            messages_screen:false
+            messages_screen:false,
+            token:'',
+            conference_title:''
         }
         this.createLecture = this.createLecture.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
@@ -106,17 +108,52 @@ class managementIndex extends React.Component {
     componentDidMount() {
         //check if user is logged in
 
-        if (this.props.location.state)
-            this.setState({ logged_in: this.props.location.state.logged_in })
+        // console.log(this.props.location.state.authToken.toString())
+
+        this.loadProps()
+        // this.setState({token: this.props.location.state.authToken.toString()})
+
+        // console.log(this.state)
+
+
+
+        this.setState({logged_in: this.props.location.state.logged_in,token:this.props.location.state.authToken})
+
+        if (this.props.location.state) {
+            this.setState({logged_in: this.props.location.state.logged_in,token:this.props.location.state.authToken})
+        }
         else
             this.setState({ logged_in: false })
 
 
+        // console.log(this.state)
+        // if(this.state.token !== '') {
+        //     console.log('got here 1')
+            let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
+            let bearer = 'Bearer ' + this.props.location.state.authToken;
+            fetch(url, {
+                method: 'GET',
+                crossDomain: true,
+                // withCredentials: true,
+                // credentials: 'include',
+                headers: {
+                    // 'Access-Control-Allow-Origin': '*',
+                    'Authorization': bearer,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => response.json())
+                .then(responseJson => {
+                    console.log(responseJson.data);
+                    this.dealWithData(responseJson.data)
+
+
+                })
+        // }
 
         //connect to API and fetch data
 
         this.setState({
-            lectures: static_data,
+            // lectures: static_data,
             messages: messages
         })
 
@@ -124,8 +161,15 @@ class managementIndex extends React.Component {
 
     }
 
-
-
+    loadProps = () => {
+        this.setState({token: this.props.location.state.authToken.toString()})
+    }
+    dealWithData = (data) => {
+        this.setState({
+            lectures:data,
+            messages: messages
+        })
+    }
     changeLoginState(newState) {
         this.setState({ logged_in: newState })
     }
@@ -184,7 +228,7 @@ class managementIndex extends React.Component {
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
-    };
+    };a
 
     openCreateLecture() {
         this.setState({ openAdd: true })
@@ -198,15 +242,72 @@ class managementIndex extends React.Component {
         this.handleCloseCreateLecture()
         //need to implement add to database
 
-        let newLecure = {
+        let newLecture = {
+            conference_title: this.state.conference_title,
             lecture: this.state.lecture,
             lecturer: this.state.lecturer,
-            start_time: this.state.start_time,   //Time
-            end_time: this.state.end_time,
+            startDate: this.state.start_time,   //Time
+            endDate: this.state.end_time,
+            lecturer_image:'',
             room: this.state.room.toString(),
             description: this.state.description
         }
-        this.setState({ lectures: [... this.state.lectures, newLecure] })
+
+        //post
+        let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
+        let bearer = 'Bearer ' + this.props.location.state.authToken;
+        fetch(url, {
+            method: 'POST',
+            crossDomain: true,
+            body: {
+                conference_title: this.state.conference_title,
+                lecture: this.state.lecture,
+                lecturer: this.state.lecturer,
+                startDate: this.state.start_time,
+                endDate: this.state.end_time,
+                lecturer_image:'',
+                room: this.state.room.toString(),
+                description: this.state.description
+            },
+            // withCredentials: true,
+            // credentials: 'include',
+            headers: {
+                // 'Access-Control-Allow-Origin': '*',
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson.data);
+
+            })
+
+        this.setState({lectures:[]})
+
+        // let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
+        // let bearer = 'Bearer ' + this.props.location.state.authToken;
+        fetch(url, {
+            method: 'GET',
+            crossDomain: true,
+            // withCredentials: true,
+            // credentials: 'include',
+            headers: {
+                // 'Access-Control-Allow-Origin': '*',
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson.data);
+                this.dealWithData(responseJson.data)
+
+
+            })
+
+
+
+
+        // this.setState({ lectures: [... this.state.lectures, newLecture] })
     }
 
     handleSearch(val) {
@@ -347,7 +448,7 @@ class managementIndex extends React.Component {
                     </div>
 
                     <div style={{ width: '96%', marginTop: 10, margin: '2%' }} >
-                        {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lecture} allData={lecture} />)}
+                        {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lectureID} allData={lecture} />)}
                     </div>
 
                     <Tooltip title="Add" aria-label="Add" onClick={this.openCreateLecture}>
@@ -367,6 +468,14 @@ class managementIndex extends React.Component {
                         <DialogContent style={{ justifyContent: 'center', alignContent: 'center' }}>
                             <TextField
                                 id="standard-name"
+                                label="Title of the conference"
+                                value={this.state.conference_title}
+                                onChange={this.handleChange('conference_title')}
+                                margin="normal"
+                            />
+                            <br />
+                            <TextField
+                                id="standard-name"
                                 label="Title of the lecture"
                                 value={this.state.lecture}
                                 onChange={this.handleChange('lecture')}
@@ -382,17 +491,32 @@ class managementIndex extends React.Component {
                             />
                             <br />
                             <TextField
-                                id="standard-start_time"
+                                id="datetime-local"
                                 label="Start time"
-                                value={this.state.start_time}
+                                type="datetime-local"
+                                defaultValue="2017-05-24T10:30"
                                 onChange={this.handleChange('start_time')}
-                                // type="number"
+                                value={this.state.startDateTime}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                margin="normal"
                             />
-                            <br />
+                            <br/>
+
+
+
+                            {/*<TextField*/}
+                            {/*    id="standard-start_time"*/}
+                            {/*    label="Start time"*/}
+                            {/*    value={this.state.start_time}*/}
+                            {/*    onChange={this.handleChange('start_time')}*/}
+                            {/*    // type="number"*/}
+                            {/*    InputLabelProps={{*/}
+                            {/*        shrink: true,*/}
+                            {/*    }}*/}
+                            {/*    margin="normal"*/}
+                            {/*/>*/}
+                            {/*<br />*/}
                             <TextField
                                 id="standard-number"
                                 label="Room"
@@ -405,16 +529,31 @@ class managementIndex extends React.Component {
                             />
                             <br />
                             <TextField
-                                id="standard-number"
+                                id="datetime-local"
                                 label="End time"
-                                value={this.state.end_time}
+                                type="datetime-local"
+                                defaultValue="2017-05-24T10:30"
                                 onChange={this.handleChange('end_time')}
+                                value={this.state.startDateTime}
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
-                                margin="normal"
                             />
-                            <br />
+                            <br/>
+
+
+
+                            {/*<TextField*/}
+                            {/*    id="standard-number"*/}
+                            {/*    label="End time"*/}
+                            {/*    value={this.state.end_time}*/}
+                            {/*    onChange={this.handleChange('end_time')}*/}
+                            {/*    InputLabelProps={{*/}
+                            {/*        shrink: true,*/}
+                            {/*    }}*/}
+                            {/*    margin="normal"*/}
+                            {/*/>*/}
+                            {/*<br />*/}
                             <TextField
                                 id="standard-multiline-flexible"
                                 label="Description"

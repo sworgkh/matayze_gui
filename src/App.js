@@ -27,32 +27,52 @@ class App extends React.Component {
       let token = a[0]
 
       token = token.slice(10, token.length)
-      console.log(token)
       if (token) {
-        var obj = {
-          link: 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures',
-          object: {
-            method: 'GET',
-            headers: {
-              'mode': 'no-cors',
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token,
-              // 'Host': 'localhost:3000'
-              'Host': 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com'
-            }
-          }
-        };
-        fetch('https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures', obj)
-            .then((response) => {
-              console.log(response)
-            })
-            .then((responseData) => {
-              console.log(responseData);
-            })
-        // this.setState({val:'management_index'})
-        console.log("WOW")
+          this.setState({token:token,val:'management_index'})
+
+        // var url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
+        // var bearer = 'Bearer ' + token;
+        // fetch(url, {
+        //   method: 'GET',
+        //   crossDomain: true,
+        //   // withCredentials: true,
+        //   // credentials: 'include',
+        //   headers: {
+        //     // 'Access-Control-Allow-Origin': '*',
+        //     'Authorization': bearer,
+        //     'Content-Type': 'application/json'
+        //   }
+        // }).then(response => response.json())
+        //     .then(responseJson => {
+        //       console.log(responseJson);
+        //
+        //     })
       }
+
+
+      //   var obj = {
+      //     link: 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures',
+      //     object: {
+      //       method: 'GET',
+      //       headers: {
+      //         'Accept': 'application/json',
+      //         'Content-Type': 'application/json',
+      //         'Authorization': 'Bearer ' + token,
+      //         // 'Host': 'localhost:3000'
+      //         // 'Host': 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com'
+      //       }
+      //     }
+      //   };
+      //   fetch('https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures', obj)
+      //       .then((response) => {
+      //         console.log(response)
+      //       })
+      //       .then((responseData) => {
+      //         console.log(responseData);
+      //       })
+      //   // this.setState({val:'management_index'})
+      //   console.log("WOW")
+      // }
     }
 
 
@@ -107,10 +127,14 @@ class App extends React.Component {
       }
       case 'management_index':
       {
+        let logged_in = false
+        if(this.state.token !== ''){
+          logged_in = true
+        }
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/management_index',
-          state: { logged_in: false }
+          state: { logged_in: logged_in, authToken: this.state.token }
         }}/>
       }
       case 'hall_index':
@@ -118,7 +142,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/hall_index',
-          state: { logged_in: false }
+          state: { logged_in: false , authToken: this.state.token}
         }}/>
       }
       case 'interface_index':
@@ -126,7 +150,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/interface_index',
-          state: { logged_in: false }
+          state: { logged_in: false , authToken: this.state.token }
         }}/>
       }
       default:
