@@ -19,7 +19,7 @@ const routing = (
           return null;
       }}/>
 
-
+      <Route path="/index.html" component={App}/>
       <Route exact path="/" component={App} />
       <Route path="/management_index" component={Management} />
       <Route path="/interface_index" component={SiteInterface} />

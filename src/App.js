@@ -31,7 +31,7 @@ class App extends React.Component {
         let userToken = a[0]
         userToken = userToken.toString().slice(10,userToken.length)
         this.setToken(userToken)
-        var url = "https:/auth.matayze.shenkar.cloud/oauth2/userInfo";
+        var url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
         var bearer = 'Bearer ' + token;
         fetch(url, {
           method: 'GET',
