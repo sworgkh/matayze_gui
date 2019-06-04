@@ -23,11 +23,11 @@ class App extends React.Component {
   componentDidMount() {
     let a = this.props.location.hash
     a = a.toString().split('&')
+    console.log(a)
+    if (a[1]) {
+      let token = a[1]
 
-    if (a[0]) {
-      let token = a[0]
-
-      token = token.slice(10, token.length)
+      token = token.slice(13, token.length)
       if (token) {
 
 
