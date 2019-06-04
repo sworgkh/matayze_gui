@@ -242,16 +242,18 @@ class managementIndex extends React.Component {
         this.handleCloseCreateLecture()
         //need to implement add to database
 
-        let newLecture = {
-            conference_title: this.state.conference_title,
+        let newLecture = JSON.stringify({
+            description: this.state.description,
+            endDate: this.state.end_time,
+
             lecture: this.state.lecture,
             lecturer: this.state.lecturer,
-            startDate: this.state.start_time,   //Time
-            endDate: this.state.end_time,
-            lecturer_image:'',
+            lecturer_image:'hhh',
             room: this.state.room.toString(),
-            description: this.state.description
-        }
+            startDate: this.state.start_time,
+            conference_title: this.state.conference_title,
+        })
+        console.log(newLecture)
 
         //post
         let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
@@ -259,26 +261,24 @@ class managementIndex extends React.Component {
         fetch(url, {
             method: 'POST',
             crossDomain: true,
-            body: {
-                conference_title: this.state.conference_title,
+            body: JSON.stringify({
+                description: this.state.description,
+                endDate: this.state.end_time,
+
                 lecture: this.state.lecture,
                 lecturer: this.state.lecturer,
-                startDate: this.state.start_time,
-                endDate: this.state.end_time,
-                lecturer_image:'',
+                lecturer_image:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pictor_A_composite.jpg/220px-Pictor_A_composite.jpg',
                 room: this.state.room.toString(),
-                description: this.state.description
-            },
-            // withCredentials: true,
-            // credentials: 'include',
+                startDate: this.state.start_time,
+                conference_title: this.state.conference_title,
+            }),
             headers: {
-                // 'Access-Control-Allow-Origin': '*',
                 'Authorization': bearer,
                 'Content-Type': 'application/json'
             }
         }).then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson.data);
+                console.log(responseJson);
 
             })
 

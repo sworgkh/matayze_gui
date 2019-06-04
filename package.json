@@ -20,7 +20,8 @@
     "react-slick": "^0.24.0",
     "react-window-dimensions": "^1.0.2",
     "react-window-size": "^1.2.2",
-    "reactjs-popup": "^1.4.0"
+    "reactjs-popup": "^1.4.0",
+    "aws-sdk": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

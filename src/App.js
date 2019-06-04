@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Redirect } from "react-router-dom"
 import Button from "@material-ui/core/Button";
+// import AWS from 'aws-sdk';
 
 class App extends React.Component {
   constructor(props) {
@@ -28,25 +29,36 @@ class App extends React.Component {
 
       token = token.slice(10, token.length)
       if (token) {
+
+
+        console.log(token)
+        // let i = 'https://matayze.auth.eu-west-1.amazoncognito.com/oauth2/userInfo'
+        var url = "https:/auth.matayze.shenkar.cloud/oauth2/userInfo";
+        var bearer = 'Bearer ' + token;
+        fetch(url, {
+          method: 'GET',
+          // crossDomain: true,
+          // withCredentials: true,
+          // credentials: 'include',
+          headers: {
+            // 'Access-Control-Allow-Origin': '*',
+            'Authorization': bearer,
+            'Content-Type': 'application/json'
+          }
+        }).then(response => response.json())
+            .then(responseJson => {
+              console.log(responseJson);
+
+            })
+
+
+
+
+
+
           this.setState({token:token,val:'management_index'})
 
-        // var url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
-        // var bearer = 'Bearer ' + token;
-        // fetch(url, {
-        //   method: 'GET',
-        //   crossDomain: true,
-        //   // withCredentials: true,
-        //   // credentials: 'include',
-        //   headers: {
-        //     // 'Access-Control-Allow-Origin': '*',
-        //     'Authorization': bearer,
-        //     'Content-Type': 'application/json'
-        //   }
-        // }).then(response => response.json())
-        //     .then(responseJson => {
-        //       console.log(responseJson);
-        //
-        //     })
+
       }
 
 
