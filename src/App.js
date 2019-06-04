@@ -12,101 +12,54 @@ class App extends React.Component {
       val:'',
       token:''
     }
-
-
     this.login = this.login.bind(this)
     this.management_index = this.management_index.bind(this)
     this.hall_index = this.hall_index.bind(this)
     this.interface_index = this.interface_index.bind(this)
+    this.redirectUser = this.redirectUser.bind(this)
+    this.setToken = this.setToken.bind(this)
+
   }
 
   componentDidMount() {
     let a = this.props.location.hash
     a = a.toString().split('&')
-    console.log(a)
     if (a[1]) {
       let token = a[1]
-
       token = token.slice(13, token.length)
       if (token) {
-
-
-        console.log(token)
-        // let i = 'https://matayze.auth.eu-west-1.amazoncognito.com/oauth2/userInfo'
+        let userToken = a[0]
+        userToken = userToken.toString().slice(10,userToken.length)
+        this.setToken(userToken)
         var url = "https:/auth.matayze.shenkar.cloud/oauth2/userInfo";
         var bearer = 'Bearer ' + token;
         fetch(url, {
           method: 'GET',
-          // crossDomain: true,
-          // withCredentials: true,
-          // credentials: 'include',
           headers: {
-            // 'Access-Control-Allow-Origin': '*',
             'Authorization': bearer,
             'Content-Type': 'application/json'
           }
         }).then(response => response.json())
             .then(responseJson => {
-              console.log(responseJson);
-
+              // console.log(responseJson);
+              this.redirectUser(responseJson)
             })
-
-
-
-
-
-
-          this.setState({token:token,val:'management_index'})
-
-
       }
-
-
-      //   var obj = {
-      //     link: 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures',
-      //     object: {
-      //       method: 'GET',
-      //       headers: {
-      //         'Accept': 'application/json',
-      //         'Content-Type': 'application/json',
-      //         'Authorization': 'Bearer ' + token,
-      //         // 'Host': 'localhost:3000'
-      //         // 'Host': 'https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com'
-      //       }
-      //     }
-      //   };
-      //   fetch('https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures', obj)
-      //       .then((response) => {
-      //         console.log(response)
-      //       })
-      //       .then((responseData) => {
-      //         console.log(responseData);
-      //       })
-      //   // this.setState({val:'management_index'})
-      //   console.log("WOW")
-      // }
     }
-
-
-
-
-
-
-    //https://matayze.s3-website-eu-west-1.amazonaws.com/?code=887bcc2c-42a1-41d5-b773-b07486d46cb1
-
-
-
-    //check for token
-      // fetch('https://auth.matayze.shenkar.cloud/login?response_type=token&client_id=3uslmcib25uq3sah74hp6lgvr9&redirect_uri=http://matayze.s3-website-eu-west-1.amazonaws.comm')
-    //     .then(response => {
-    //       console.log(response.json())
-    //     } )
-    //     .then(data => this.setState({ data }));
-    //
-
-
-    // this.setState({val:''})
   }
+
+  redirectUser(userData){
+      if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com') {
+         this.setState({token: this.state.token, val:'management_index'})
+      }
+      else {
+        this.setState({token: this.state.token, val:'hall_index'})
+      }
+  }
+  setToken(token){
+    this.setState({token: token})
+  }
+
 
 
 

@@ -125,28 +125,20 @@ class managementIndex extends React.Component {
         else
             this.setState({ logged_in: false })
 
-
-        // console.log(this.state)
-        // if(this.state.token !== '') {
-        //     console.log('got here 1')
             let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
             let bearer = 'Bearer ' + this.props.location.state.authToken;
             fetch(url, {
                 method: 'GET',
                 crossDomain: true,
-                // withCredentials: true,
-                // credentials: 'include',
                 headers: {
-                    // 'Access-Control-Allow-Origin': '*',
                     'Authorization': bearer,
                     'Content-Type': 'application/json'
                 }
-            }).then(response => response.json())
+            })
+                .then(response => response.json())
                 .then(responseJson => {
                     console.log(responseJson.data);
                     this.dealWithData(responseJson.data)
-
-
                 })
         // }
 
@@ -187,8 +179,7 @@ class managementIndex extends React.Component {
 
     logOff() {
         //manage database logged_in
-
-        this.setState({ logged_in: false })
+        this.setState({ logged_in: false,token: '' })
     }
 
 
@@ -289,8 +280,6 @@ class managementIndex extends React.Component {
         fetch(url, {
             method: 'GET',
             crossDomain: true,
-            // withCredentials: true,
-            // credentials: 'include',
             headers: {
                 // 'Access-Control-Allow-Origin': '*',
                 'Authorization': bearer,
@@ -300,8 +289,6 @@ class managementIndex extends React.Component {
             .then(responseJson => {
                 console.log(responseJson.data);
                 this.dealWithData(responseJson.data)
-
-
             })
 
 
