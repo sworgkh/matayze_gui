@@ -233,18 +233,18 @@ class managementIndex extends React.Component {
         this.handleCloseCreateLecture()
         //need to implement add to database
 
-        let newLecture = JSON.stringify({
-            description: this.state.description,
-            endDate: this.state.end_time,
-
-            lecture: this.state.lecture,
-            lecturer: this.state.lecturer,
-            lecturer_image:'hhh',
-            room: this.state.room.toString(),
-            startDate: this.state.start_time,
-            conference_title: this.state.conference_title,
-        })
-        console.log(newLecture)
+        // let newLecture = JSON.stringify({
+        //     description: this.state.description,
+        //     endDate: this.state.end_time,
+        //
+        //     lecture: this.state.lecture,
+        //     lecturer: this.state.lecturer,
+        //     lecturer_image:'hhh',
+        //     room: this.state.room.toString(),
+        //     startDate: this.state.start_time,
+        //     conference_title: this.state.conference_title,
+        // })
+        // console.log(newLecture)
 
         //post
         let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
@@ -258,7 +258,8 @@ class managementIndex extends React.Component {
 
                 lecture: this.state.lecture,
                 lecturer: this.state.lecturer,
-                lecturer_image:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pictor_A_composite.jpg/220px-Pictor_A_composite.jpg',
+                lecturer_image: this.state.lecturer_image,
+                // lecturer_image:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pictor_A_composite.jpg/220px-Pictor_A_composite.jpg',
                 room: this.state.room.toString(),
                 startDate: this.state.start_time,
                 conference_title: this.state.conference_title,
@@ -307,23 +308,27 @@ class managementIndex extends React.Component {
         }
 
         oldState.map(lecture => {
+            console.log(lecture)
             let contains = false
+            if (lecture.conference_title.includes(val)) {
+                contains = true
+            }
             if (lecture.lecture.includes(val)) {
                 contains = true
             }
             if (lecture.lecturer.includes(val)) {
                 contains = true
             }
-            if (lecture.start_time.includes(val)) {
+            if (lecture.startDate.toString().includes(val)) {
                 contains = true
             }
-            if (lecture.end_time.includes(val)) {
+            if (lecture.endDate.toString().includes(val)) {
                 contains = true
             }
             if (lecture.description.includes(val)) {
                 contains = true
             }
-            if (lecture.room.includes(val)) {
+            if (lecture.room.toString().includes(val)) {
                 contains = true
             }
             if (contains)
@@ -460,6 +465,10 @@ class managementIndex extends React.Component {
                                 onChange={this.handleChange('conference_title')}
                                 margin="normal"
                             />
+
+
+
+
                             <br />
                             <TextField
                                 id="standard-name"
@@ -490,20 +499,6 @@ class managementIndex extends React.Component {
                             />
                             <br/>
 
-
-
-                            {/*<TextField*/}
-                            {/*    id="standard-start_time"*/}
-                            {/*    label="Start time"*/}
-                            {/*    value={this.state.start_time}*/}
-                            {/*    onChange={this.handleChange('start_time')}*/}
-                            {/*    // type="number"*/}
-                            {/*    InputLabelProps={{*/}
-                            {/*        shrink: true,*/}
-                            {/*    }}*/}
-                            {/*    margin="normal"*/}
-                            {/*/>*/}
-                            {/*<br />*/}
                             <TextField
                                 id="standard-number"
                                 label="Room"
@@ -527,20 +522,18 @@ class managementIndex extends React.Component {
                                 }}
                             />
                             <br/>
+                            <TextField
+                                id="standard-multiline-flexible"
+                                label="Image URL"
+                                multiline
+                                style={{ width: '90%' }}
+                                rowsMax="5"
 
-
-
-                            {/*<TextField*/}
-                            {/*    id="standard-number"*/}
-                            {/*    label="End time"*/}
-                            {/*    value={this.state.end_time}*/}
-                            {/*    onChange={this.handleChange('end_time')}*/}
-                            {/*    InputLabelProps={{*/}
-                            {/*        shrink: true,*/}
-                            {/*    }}*/}
-                            {/*    margin="normal"*/}
-                            {/*/>*/}
-                            {/*<br />*/}
+                                value={this.state.lecturer_image}
+                                onChange={this.handleChange('lecturer_image')}
+                                margin="normal"
+                            />
+                            <br />
                             <TextField
                                 id="standard-multiline-flexible"
                                 label="Description"
