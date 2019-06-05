@@ -1,9 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 import { Redirect } from "react-router-dom"
 import Button from "@material-ui/core/Button";
 // import AWS from 'aws-sdk';
+import windowSize from 'react-window-size';
+
+const styles = {
+  containerStyle: {
+    position: 'relative',
+    backgroundImage: 'linear-gradient(to bottom right, black, purple)',
+    overflow: 'auto',
+    minHeight: 980
+  },
+  logoStyle: {
+    position: 'absolute',
+    top: 15,
+    right: '1%'
+  },
+  headerStyle: {
+    padding: '2%',
+    margin: 'auto',
+    paddingBottom: 30,
+    width: '50%'
+  }
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -120,26 +141,30 @@ class App extends React.Component {
       }
       default:
         return (
-            <div className="App">
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-                <p>Hello people, this is our project, we shall use only <a
-                    href="https://material-ui.com/">material-ui.com</a> for this project</p>
-                <p>Before you write a component check if you can find it there.</p>
-                {/*<p>To access your folder use your rout: http://localhost:3000/interface_index</p>*/}
-                {/*<p>To access your folder use your rout: http://localhost:3000/hall_index</p>*/}
-                {/*<p>To access your folder use your rout: http://localhost:3000/management_index</p>*/}
-                <p>To access login use rout: <Button onClick={this.login} style={{color:'white'}}>/login</Button></p>
-                <p>To access management_index use rout: <Button onClick={this.management_index} style={{color:'white'}}>/management_index</Button></p>
-                <p>To access hall_index use rout: <Button onClick={this.hall_index} style={{color:'white'}}>/hall_index</Button></p>
-                <p>To access interface_index use rout: <Button onClick={this.interface_index} style={{color:'white'}}>/interface_index</Button></p>
+            <div style={styles.containerStyle}>
+
+              <header  style={styles.containerStyle}>
+                <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to mataize</h1>
+                <img
+                    src={logo}
+                    style={{
+                      position: "relative",
+                      left: "95%",
+                      marginLeft: "-50px",
+                      maxWidth: "7vw",
+                      height: "auto",
+                      float: 'left'
+                    }}
+                />
+                <p style={{color:'white',margin:10}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>
+                <p style={{color:'white',margin:10}}>To access management_index use rout: <Button  variant="outlined" color="primary"  onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
+                <p style={{color:'white',margin:10}}>To access hall_index use rout: <Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>halls</Button></p>
+                <p style={{color:'white',marginLeft:40,marginTop:10}}> To access interface_index use rout: <Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
               </header>
             </div>
         );
     }
-
-
   }
 }
 
-export default App;
+export default windowSize(App);
