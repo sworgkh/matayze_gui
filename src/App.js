@@ -49,7 +49,7 @@ class App extends React.Component {
   }
 
   redirectUser(userData){
-      if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com') {
+      if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com' || userData.email === 'shohamroditi@gmail.com') {
          this.setState({token: this.state.token, val:'management_index'})
       }
       else {
