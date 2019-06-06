@@ -8,6 +8,7 @@ import logo from "./assets/logo.png";
 import loader from "./assets/preloader.gif";
 import env_vars from '../../ENV_VAR'
 import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router-dom";
 
 
 const styles = {
@@ -46,16 +47,18 @@ export default class hall_index extends React.Component {
     this.lectures = [];
 
     this.state = {
+        AWS_LOGIN:false,
         logged_in: false,
         shownLectures: [],
         isLoaded: false
     };
+    this.login = this.login.bind(this)
   }
 
   async componentDidMount() {
 
 
-      console.log(this.props.location.state.authToken)
+      // console.log(this.props.location.state.authToken)
 
       let url = env_vars.api_link + "lectures";
       // let url = https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures“;
@@ -99,8 +102,8 @@ export default class hall_index extends React.Component {
   }
 
 
-  login = () => {
-    window.location.href = '/login'
+  login(){
+      this.setState({ AWS_LOGIN: true })
   }
 
   checkLecturetime = () => {
@@ -140,6 +143,16 @@ export default class hall_index extends React.Component {
   };
 
   render() {
+      if (!this.state.logged_in && this.state.AWS_LOGIN) {
+          console.log('Here')
+          this.setState({ AWS_LOGIN: false })
+          return <Redirect
+              to={{
+                  pathname: '/login',
+                  state: { logged_in: false }
+              }} />
+      }
+
       if(!this.state.logged_in){
           return (
               <div style={styles.pageContainer}>
@@ -147,6 +160,7 @@ export default class hall_index extends React.Component {
               </div>
           )
       }
+
     // this.checkLecturetime();
     if (!this.state.isLoaded) {
       return (
