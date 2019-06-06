@@ -5,7 +5,7 @@ import Time from "./components/Time";
 import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
-import loader from "./assets/preloader.gif"
+import preloader from "./assets/preloader.gif"
 import { relative } from "path";
 
 const styles = {
@@ -46,11 +46,12 @@ export default class hall_index extends React.Component {
       .then(lectures => {
         return lectures.json();
       })
-        .then(response => {
+      .then(response => {
           this.setState({
             lectures: response.data,
             isLoaded: true
           });
+        console.log(response.data)
         });
   }
 
@@ -58,7 +59,7 @@ export default class hall_index extends React.Component {
     if (!this.state.isLoaded) {
       return (
         <div style={styles.pageContainer}>
-              <img src={loader} style={styles.loader} />
+              <img src={preloader} style={styles.loader} />
         </div>
       )} else {
       return (
@@ -74,7 +75,7 @@ export default class hall_index extends React.Component {
               height: "15vh"
             }}
           >
-            <h1 style={styles.heading}>Confrance Name</h1>
+            <h1 style={styles.heading}>{this.state.lectures[1].conference_title}</h1>
             <img
               src={logo}
               style={{
