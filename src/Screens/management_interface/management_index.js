@@ -1,6 +1,5 @@
 import React from 'react';
 import AppBar from './components/AppBar'
-import Messages from  './components/Messages'
 import Card from './components/Card_with_lecture'
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -16,6 +15,7 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
+import env_vars from '../../ENV_VAR'
 
 
 const styles = {
@@ -27,37 +27,6 @@ const styles = {
         height: 'auto'
     }
 }
-
-
-
-
-const static_data =
-    [
-        {
-            lecture: "Demo one",
-            lecturer: "Valin",
-            start_time: "00:00",   //Time
-            end_time: "01:00",
-            room: "265",
-            description: "Welcome all people go do stuff"
-        },
-        {
-            lecture: "Demo two",
-            lecturer: "Mona",
-            start_time: "01:00",   //Time
-            end_time: "04:00",
-            room: "165",
-            description: "Welcome all people go do stuff"
-        },
-        {
-            lecture: "Demo three",
-            lecturer: "Moba",
-            start_time: "01:00",   //Time
-            end_time: "02:00",
-            room: "2645",
-            description: "Welcome all people go do stuff"
-        }
-    ]
 
 
 
@@ -125,8 +94,12 @@ class managementIndex extends React.Component {
         else
             this.setState({ logged_in: false })
 
-            let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
+
+
+
+            let url = env_vars.api_link + "lectures";
             let bearer = 'Bearer ' + this.props.location.state.authToken;
+
             fetch(url, {
                 method: 'GET',
                 crossDomain: true,
@@ -219,7 +192,7 @@ class managementIndex extends React.Component {
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.value });
-    };a
+    };
 
     openCreateLecture() {
         this.setState({ openAdd: true })
@@ -247,7 +220,7 @@ class managementIndex extends React.Component {
         // console.log(newLecture)
 
         //post
-        let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
+        let url = env_vars.api_link + "lectures";
         let bearer = 'Bearer ' + this.props.location.state.authToken;
         fetch(url, {
             method: 'POST',
@@ -259,7 +232,6 @@ class managementIndex extends React.Component {
                 lecture: this.state.lecture,
                 lecturer: this.state.lecturer,
                 lecturer_image: this.state.lecturer_image,
-                // lecturer_image:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Pictor_A_composite.jpg/220px-Pictor_A_composite.jpg',
                 room: this.state.room.toString(),
                 startDate: this.state.start_time,
                 conference_title: this.state.conference_title,
@@ -276,13 +248,10 @@ class managementIndex extends React.Component {
 
         this.setState({lectures:[]})
 
-        // let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures";
-        // let bearer = 'Bearer ' + this.props.location.state.authToken;
         fetch(url, {
             method: 'GET',
             crossDomain: true,
             headers: {
-                // 'Access-Control-Allow-Origin': '*',
                 'Authorization': bearer,
                 'Content-Type': 'application/json'
             }
@@ -291,11 +260,6 @@ class managementIndex extends React.Component {
                 console.log(responseJson.data);
                 this.dealWithData(responseJson.data)
             })
-
-
-
-
-        // this.setState({ lectures: [... this.state.lectures, newLecture] })
     }
 
     handleSearch(val) {
@@ -355,7 +319,32 @@ class managementIndex extends React.Component {
     }
 
     addMessage(message) {
+        console.log(message)
         //need to implement add to database
+        // console.log(this.props.location.state.authToken)
+
+        let url = env_vars.api_link + "messages";
+        let bearer = 'Bearer ' + this.props.location.state.authToken;
+        fetch(url, {
+            method: 'POST',
+            crossDomain: true,
+            body: JSON.stringify({                                                  ///
+                message: message.message,
+                title: message.title
+            }),
+            headers: {
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson);
+
+            })
+
+
+
+
 
         this.setState({ messages: [... this.state.messages, message] })
     }
@@ -390,26 +379,6 @@ class managementIndex extends React.Component {
                 </div>
             );
         }
-        // if (this.state.logged_in && this.state.messages_screen) {
-        //
-        //     return (
-        //         <div style={styles.containerStyle}>
-        //             <AppBar
-        //                 userProfile={this.userProfile.bind(this)}
-        //                 addMessage={this.addMessage.bind(this)}
-        //                 search={this.handleSearch.bind(this)}
-        //                 logOff={this.logOff.bind(this)}
-        //                 logged_in={this.state.logged_in} />
-        //             <Messages
-        //                 // messages={this.state.messages}
-        //                 messagesScreen={this.messagesScreen.bind(this)}
-        //                 deleteMessage={this.deleteMessage.bind(this)}
-        //             />
-        //         </div>
-        //     );
-        // }
-
-
         if (this.state.logged_in) {
             return (
                 <div style={styles.containerStyle}>
@@ -465,10 +434,6 @@ class managementIndex extends React.Component {
                                 onChange={this.handleChange('conference_title')}
                                 margin="normal"
                             />
-
-
-
-
                             <br />
                             <TextField
                                 id="standard-name"
@@ -569,15 +534,13 @@ class managementIndex extends React.Component {
                 <div style={styles.containerStyle}>
                     <AppBar logged_in={this.state.logged_in} />
                     <h3 style={{ margin: 20, color: 'white' }}>Welcome to your management console, Please login to make changes</h3>
-
+                    <Button  variant="outlined" color="primary"  onClick={() => {window.location.href = '/'}} style={{color:'white',margin:20}}>Back to main page</Button>
                 </div>
             );
 
         }
 
     }
-
-
 }
 //
 export default windowSize(managementIndex);
