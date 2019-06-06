@@ -6,6 +6,9 @@ import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
 import loader from "./assets/preloader.gif";
+import env_vars from '../../ENV_VAR'
+import Button from "@material-ui/core/Button";
+
 
 const styles = {
   pageContainer: {
@@ -43,21 +46,49 @@ export default class hall_index extends React.Component {
     this.lectures = [];
 
     this.state = {
-      shownLectures: [],
-      isLoaded: false
+        logged_in: false,
+        shownLectures: [],
+        isLoaded: false
     };
   }
 
   async componentDidMount() {
-    await fetch("prod/lectures")
-      .then(lectures => {
-        return lectures.json();
-      })
-      .then(response => {
-        this.lectures = response.data;
-        this.setState({ isLoaded: true });
-        console.log();
-      });
+
+
+      console.log(this.props.location.state.authToken)
+
+      let url = env_vars.api_link + "lectures";
+      // let url = https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures“;
+      let bearer = "Bearer " + this.props.location.state.authToken;
+      await fetch(url, {
+          method: 'GET',
+      crossDomain: true,
+          headers: {
+      'Authorization': bearer,
+                   'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+          .then(responseJson => {
+              console.log(responseJson.data);
+              this.lectures = responseJson.data;
+              // this.dealWithData(responseJson.data)
+          })
+
+
+   this.setState({ isLoaded: true });
+
+
+    console.log(this.lectures)
+    // await fetch("prod/lectures")
+    //   .then(lectures => {
+    //     return lectures.json();
+    //   })
+    //   .then(response => {
+    //     this.lectures = response.data;
+    //     this.setState({ isLoaded: true });
+    //     console.log();
+    //   });
     this.checkLecturetime();
     setInterval(() => {
       let minutes = new Date().getMinutes();
@@ -65,6 +96,11 @@ export default class hall_index extends React.Component {
         this.checkLecturetime();
       }
     }, 60000);
+  }
+
+
+  login = () => {
+    window.location.href = '/login'
   }
 
   checkLecturetime = () => {
@@ -104,6 +140,13 @@ export default class hall_index extends React.Component {
   };
 
   render() {
+      if(!this.state.logged_in){
+          return (
+              <div style={styles.pageContainer}>
+                  <Button variant="outlined" color="primary"  onClick={this.login} style={{color:'white',margin:20}}>login</Button>
+              </div>
+          )
+      }
     // this.checkLecturetime();
     if (!this.state.isLoaded) {
       return (

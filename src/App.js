@@ -70,12 +70,16 @@ class App extends React.Component {
   }
 
   redirectUser(userData){
+    //
       if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com' || userData.email === 'shohamroditi@gmail.com') {
          this.setState({token: this.state.token, val:'management_index'})
       }
-      else {
-        this.setState({token: this.state.token, val:'hall_index'})
-      }
+    if (userData.email === 'eran9maron@gmail.com') {
+      this.setState({token: this.state.token, val:'hall_index'})
+    }
+    else {
+        this.setState({token: this.state.token, val:'interface_index'})
+    }
   }
   setToken(token){
     this.setState({token: token})
