@@ -23,6 +23,7 @@ class PaperSheet extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            id :  props.message.id,
             title: props.message.title,
             message: props.message.message,
         }
@@ -30,7 +31,7 @@ class PaperSheet extends React.Component{
     }
 
     delete() {
-        this.props.delete(this.state.title);
+        this.props.delete(this.state.id);
     }
 
     render() {

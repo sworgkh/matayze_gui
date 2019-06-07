@@ -29,7 +29,6 @@ const styles = {
 }
 
 
-
 const messages = [
     {
         title: 'Hello',
@@ -55,20 +54,20 @@ class managementIndex extends React.Component {
             lecturer: "",
             start_time: "",                                                     //Time
             end_time: "",                                                       //Time
-            room: 0,
+            room: '',
             description: "",
             searchValue: '',
             openAdd: false,
-            messages_screen:false,
-            token:'',
-            conference_title:''
+            messages_screen: false,
+            token: '',
+            conference_title: ''
         }
         this.createLecture = this.createLecture.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
         this.logOff = this.logOff.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.changeLoginState = this.changeLoginState.bind(this);
-        this.messagesScreen =this.messagesScreen.bind(this)
+        this.messagesScreen = this.messagesScreen.bind(this)
         this.addMessage = this.addMessage.bind(this);
         this.openCreateLecture = this.openCreateLecture.bind(this);
     }
@@ -77,7 +76,7 @@ class managementIndex extends React.Component {
     componentDidMount() {
         //check if user is logged in
 
-        // console.log(this.props.location.state.authToken.toString())
+        console.log(this.props.location.state.authToken.toString())
 
         this.loadProps()
         // this.setState({token: this.props.location.state.authToken.toString()})
@@ -85,42 +84,67 @@ class managementIndex extends React.Component {
         // console.log(this.state)
 
 
-
-        this.setState({logged_in: this.props.location.state.logged_in,token:this.props.location.state.authToken})
+        this.setState({logged_in: this.props.location.state.logged_in, token: this.props.location.state.authToken})
 
         if (this.props.location.state) {
-            this.setState({logged_in: this.props.location.state.logged_in,token:this.props.location.state.authToken})
-        }
-        else
-            this.setState({ logged_in: false })
+            this.setState({logged_in: this.props.location.state.logged_in, token: this.props.location.state.authToken})
+        } else
+            this.setState({logged_in: false})
 
+        this.setState({lectures: []})
+        let url = env_vars.api_link + "lectures";
+        let bearer = 'Bearer ' + this.props.location.state.authToken;
 
-
-
-            let url = env_vars.api_link + "lectures";
-            let bearer = 'Bearer ' + this.props.location.state.authToken;
-
-            fetch(url, {
-                method: 'GET',
-                crossDomain: true,
-                headers: {
-                    'Authorization': bearer,
-                    'Content-Type': 'application/json'
-                }
+        fetch(url, {
+            method: 'GET',
+            crossDomain: true,
+            headers: {
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson.data);
+                this.dealWithData(responseJson.data)
             })
-                .then(response => response.json())
-                .then(responseJson => {
-                    console.log(responseJson.data);
-                    this.dealWithData(responseJson.data)
-                })
         // }
+
+
+        //get all messages
+        this.setState({messages: []})
+        url = env_vars.message_link + 'messages'
+        fetch(url, {
+            method: 'POST',
+            crossDomain: true,
+            body: JSON.stringify({
+                    "type":"getAll",
+                    "title":"test",
+                    "message":"test"
+            }),
+            headers: {
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson)
+                console.log(responseJson)
+                this.setState({messages : responseJson.data})
+            })
+
+
+        // {
+
+        // }
+
 
         //connect to API and fetch data
 
-        this.setState({
-            // lectures: static_data,
-            messages: messages
-        })
+        // this.setState({
+        //     // lectures: static_data,
+        //     messages: messages
+        // })
 
         //static data for now
 
@@ -131,12 +155,13 @@ class managementIndex extends React.Component {
     }
     dealWithData = (data) => {
         this.setState({
-            lectures:data,
+            lectures: data,
             messages: messages
         })
     }
+
     changeLoginState(newState) {
-        this.setState({ logged_in: newState })
+        this.setState({logged_in: newState})
     }
 
     deleteEvent(id) {
@@ -152,7 +177,7 @@ class managementIndex extends React.Component {
 
     logOff() {
         //manage database logged_in
-        this.setState({ logged_in: false,token: '' })
+        this.setState({logged_in: false, token: ''})
     }
 
 
@@ -191,15 +216,15 @@ class managementIndex extends React.Component {
     }
 
     handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
+        this.setState({[name]: event.target.value});
     };
 
     openCreateLecture() {
-        this.setState({ openAdd: true })
+        this.setState({openAdd: true})
     }
 
     handleCloseCreateLecture = () => {
-        this.setState({ openAdd: false });
+        this.setState({openAdd: false});
     };
 
     createLecture() {
@@ -246,20 +271,22 @@ class managementIndex extends React.Component {
 
             })
 
-        this.setState({lectures:[]})
-
-        fetch(url, {
-            method: 'GET',
-            crossDomain: true,
-            headers: {
-                'Authorization': bearer,
-                'Content-Type': 'application/json'
+        this.setState({lectures: []})
+        setTimeout(() => {
+                fetch(url, {
+                    method: 'GET',
+                    crossDomain: true,
+                    headers: {
+                        'Authorization': bearer,
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => response.json())
+                    .then(responseJson => {
+                        console.log(responseJson.data);
+                        this.dealWithData(responseJson.data)
+                    })
             }
-        }).then(response => response.json())
-            .then(responseJson => {
-                console.log(responseJson.data);
-                this.dealWithData(responseJson.data)
-            })
+            , 1000);
     }
 
     handleSearch(val) {
@@ -298,7 +325,7 @@ class managementIndex extends React.Component {
             if (contains)
                 newState.push(lecture)
         })
-        this.setState({ lectures: newState })
+        this.setState({lectures: newState})
 
         oldState = this.state.messages
         newState = []
@@ -314,7 +341,7 @@ class managementIndex extends React.Component {
             if (contains)
                 newState.push(message)
         })
-        this.setState({ messages: newState })
+        this.setState({messages: newState})
 
     }
 
@@ -323,14 +350,15 @@ class managementIndex extends React.Component {
         //need to implement add to database
         // console.log(this.props.location.state.authToken)
 
-        let url = env_vars.api_link + "messages";
+        let url = env_vars.message_link + "messages";
         let bearer = 'Bearer ' + this.props.location.state.authToken;
         fetch(url, {
             method: 'POST',
             crossDomain: true,
             body: JSON.stringify({                                                  ///
                 message: message.message,
-                title: message.title
+                title: message.title,
+                type: 'publish'
             }),
             headers: {
                 'Authorization': bearer,
@@ -341,27 +369,42 @@ class managementIndex extends React.Component {
                 console.log(responseJson);
 
             })
-
-
-
-
-
-        this.setState({ messages: [... this.state.messages, message] })
+        this.setState({messages: [...this.state.messages, message]})
     }
 
     deleteMessage(id) {
+        console.log(id)
+        let url = env_vars.message_link + 'messages'
+        let bearer = 'Bearer ' + this.props.location.state.authToken;
+        fetch(url, {
+            method: 'POST',
+            crossDomain: true,
+            body: JSON.stringify({
+                "type":"delete",
+                "id":id,
+                "message": "delete",
+                "title": "delete"
+            }),
+            headers: {
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson)
+            })
+
+
         //need to implement delete from database
 
         const newState = this.state;
-        const index = newState.messages.findIndex(a => a.title === id);
+        const index = newState.messages.findIndex(a => a.id === id);
 
         if (index === -1) return;
         newState.messages.splice(index, 1);
 
         this.setState(newState);
     }
-
-
 
 
     render() {
@@ -374,8 +417,8 @@ class managementIndex extends React.Component {
                         addMessage={this.addMessage.bind(this)}
                         search={this.handleSearch.bind(this)}
                         logOff={this.logOff.bind(this)}
-                        logged_in={this.state.logged_in} />
-                    <Profile userProfile={this.userProfile.bind(this)} />
+                        logged_in={this.state.logged_in}/>
+                    <Profile userProfile={this.userProfile.bind(this)}/>
                 </div>
             );
         }
@@ -390,31 +433,34 @@ class managementIndex extends React.Component {
                         messagesScreen={this.messagesScreen.bind(this)}
                         logged_in={this.state.logged_in}
                     />
-                    <Paper style={{margin:10,borderRadius: 3,backgroundColor:'#3f51b5' }} elevation={1}>
-                        <Typography style={{margin:5,color:'white'}} variant="h5" component="h3">
+                    <Paper style={{margin: 10, borderRadius: 3, backgroundColor: '#3f51b5'}} elevation={1}>
+                        <Typography style={{margin: 5, color: 'white'}} variant="h5" component="h3">
                             Broadcast Messages
                         </Typography>
                     </Paper>
 
-                    <div style={{ width: '96%', marginTop: 10, margin: '2%' }} >
-                        {this.state.messages.map(message => <Message delete={this.deleteMessage.bind(this)} key={message.title} message={message} />)}
+                    <div style={{width: '96%', marginTop: 10, margin: '2%'}}>
+                        {this.state.messages.map(message => <Message delete={this.deleteMessage.bind(this)}
+                                                                     key={message.id} message={message}/>)}
                     </div>
-                    <div style={{ clear: 'both' }}></div>
+                    <div style={{clear: 'both'}}></div>
                     <div>
-                        <Paper style={{ margin: 10, borderRadius: 3,backgroundColor:'#3f51b5' }} elevation={1}>
-                            <Typography style={{margin:5,color:'white'}} variant="h5" component="h3">
+                        <Paper style={{margin: 10, borderRadius: 3, backgroundColor: '#3f51b5'}} elevation={1}>
+                            <Typography style={{margin: 5, color: 'white'}} variant="h5" component="h3">
                                 Meetings
                             </Typography>
                         </Paper>
                     </div>
 
-                    <div style={{ width: '96%', marginTop: 10, margin: '2%' }} >
-                        {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lectureID} allData={lecture} />)}
+                    <div style={{width: '96%', marginTop: 10, margin: '2%'}}>
+                        {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)}
+                                                                  update={this.updateEvent.bind(this)}
+                                                                  key={lecture.lectureID} allData={lecture}/>)}
                     </div>
 
                     <Tooltip title="Add" aria-label="Add" onClick={this.openCreateLecture}>
-                        <Fab color="secondary" style={{ margin: 10 }}>
-                            <AddIcon />
+                        <Fab color="secondary" style={{margin: 10}}>
+                            <AddIcon/>
                         </Fab>
                     </Tooltip>
 
@@ -425,8 +471,9 @@ class managementIndex extends React.Component {
                         onClose={this.handleCloseCreateLecture}
                         aria-labelledby="form-dialog-title"
                     >
-                        <DialogTitle style={{ justifyContent: 'center', alignContent: 'center' }} id="form-dialog-title">Create new Event</DialogTitle>
-                        <DialogContent style={{ justifyContent: 'center', alignContent: 'center' }}>
+                        <DialogTitle style={{justifyContent: 'center', alignContent: 'center'}} id="form-dialog-title">Create
+                            new Event</DialogTitle>
+                        <DialogContent style={{justifyContent: 'center', alignContent: 'center'}}>
                             <TextField
                                 id="standard-name"
                                 label="Title of the conference"
@@ -434,7 +481,7 @@ class managementIndex extends React.Component {
                                 onChange={this.handleChange('conference_title')}
                                 margin="normal"
                             />
-                            <br />
+                            <br/>
                             <TextField
                                 id="standard-name"
                                 label="Title of the lecture"
@@ -442,7 +489,7 @@ class managementIndex extends React.Component {
                                 onChange={this.handleChange('lecture')}
                                 margin="normal"
                             />
-                            <br />
+                            <br/>
                             <TextField
                                 id="standard-lecturer"
                                 label="Name for the lecturer"
@@ -450,7 +497,7 @@ class managementIndex extends React.Component {
                                 onChange={this.handleChange('lecturer')}
                                 margin="normal"
                             />
-                            <br />
+                            <br/>
                             <TextField
                                 id="datetime-local"
                                 label="Start time"
@@ -474,7 +521,7 @@ class managementIndex extends React.Component {
                                 }}
                                 margin="normal"
                             />
-                            <br />
+                            <br/>
                             <TextField
                                 id="datetime-local"
                                 label="End time"
@@ -491,19 +538,19 @@ class managementIndex extends React.Component {
                                 id="standard-multiline-flexible"
                                 label="Image URL"
                                 multiline
-                                style={{ width: '90%' }}
+                                style={{width: '90%'}}
                                 rowsMax="5"
 
                                 value={this.state.lecturer_image}
                                 onChange={this.handleChange('lecturer_image')}
                                 margin="normal"
                             />
-                            <br />
+                            <br/>
                             <TextField
                                 id="standard-multiline-flexible"
                                 label="Description"
                                 multiline
-                                style={{ width: '90%' }}
+                                style={{width: '90%'}}
                                 rowsMax="5"
 
                                 value={this.state.description}
@@ -511,9 +558,9 @@ class managementIndex extends React.Component {
                                 // className={classes.textField}
                                 margin="normal"
                             />
-                            <br />
+                            <br/>
                         </DialogContent>
-                        <DialogActions style={{ justifyContent: 'center', alignContent: 'center' }}>
+                        <DialogActions style={{justifyContent: 'center', alignContent: 'center'}}>
                             <Button onClick={this.handleCloseCreateLecture} color="primary">
                                 Cancel
                             </Button>
@@ -523,18 +570,20 @@ class managementIndex extends React.Component {
                         </DialogActions>
                     </Dialog>
 
-                    <div style={{ clear: 'both' }}></div>
+                    <div style={{clear: 'both'}}></div>
                 </div>
             );
-        }
-        else {
+        } else {
 
 
             return (
                 <div style={styles.containerStyle}>
-                    <AppBar logged_in={this.state.logged_in} />
-                    <h3 style={{ margin: 20, color: 'white' }}>Welcome to your management console, Please login to make changes</h3>
-                    <Button  variant="outlined" color="primary"  onClick={() => {window.location.href = '/'}} style={{color:'white',margin:20}}>Back to main page</Button>
+                    <AppBar logged_in={this.state.logged_in}/>
+                    <h3 style={{margin: 20, color: 'white'}}>Welcome to your management console, Please login to make
+                        changes</h3>
+                    <Button variant="outlined" color="primary" onClick={() => {
+                        window.location.href = '/'
+                    }} style={{color: 'white', margin: 20}}>Back to main page</Button>
                 </div>
             );
 
@@ -542,5 +591,6 @@ class managementIndex extends React.Component {
 
     }
 }
+
 //
 export default windowSize(managementIndex);
