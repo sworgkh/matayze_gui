@@ -5,6 +5,25 @@ import { Redirect } from "react-router-dom"
 import Button from "@material-ui/core/Button";
 // import AWS from 'aws-sdk';
 import windowSize from 'react-window-size';
+import AppBarIndex from './appBarIndex'
+import styled from "styled-components";
+
+//shahar
+
+import * as serviceWorker from './serviceWorker';
+import AppBar from "./Screens/management_interface/components/AppBar";
+import Footer from "./footer";
+
+
+
+
+//shahar
+export const Container = styled.div`
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+`;
+
 
 const styles = {
   containerStyle: {
@@ -31,15 +50,20 @@ class App extends React.Component {
     super(props);
     this.state ={
       val:'',
-      token:''
+      token:'',
+      logged_in : false
     }
     this.login = this.login.bind(this)
+
+    this.halls = this.halls.bind(this)
+
     this.management_index = this.management_index.bind(this)
     this.hall_index = this.hall_index.bind(this)
     this.interface_index = this.interface_index.bind(this)
     this.redirectUser = this.redirectUser.bind(this)
     this.setToken = this.setToken.bind(this)
-
+    this.logOff = this.logOff.bind(this)
+    this.management = this.management.bind(this)
   }
 
   componentDidMount() {
@@ -64,6 +88,8 @@ class App extends React.Component {
             .then(responseJson => {
               // console.log(responseJson);
               this.redirectUser(responseJson)
+
+              this.setState({logged_in:true, userEmail: responseJson.email})
             })
       }
     }
@@ -71,19 +97,28 @@ class App extends React.Component {
 
   redirectUser(userData){
     console.log(userData)
-    //
-      if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com' || userData.email === 'shohamroditi@gmail.com') {
-         this.setState({token: this.state.token, val:'management_index'})
-      }
-    if (userData.email === 'eran9maron@gmail.com') {
-      this.setState({token: this.state.token, val:'hall_index'})
-    }
-    else {
-        this.setState({token: this.state.token, val:'interface_index'})
-    }
+
+      // if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com' || userData.email === 'shohamroditi@gmail.com') {
+      //    this.setState({token: this.state.token, val:'management_index'})
+      // }
+
+    // this.setState({token: this.state.token, val:'halls'})
+
+    // if (userData.email === 'alarn777@gmail.com' || userData.email === 'eran9maron@gmail.com') {
+    //   this.setState({token: this.state.token, val:'hall_index'})
+    // }
+    // else {
+    //     this.setState({token: this.state.token, val:'interface_index'})
+    // }
   }
   setToken(token){
     this.setState({token: token})
+  }
+  logOff(){
+    this.setState({logged_in: false,val:'',
+      token:'',userEmail:''})
+
+    window.location.href = '/'
   }
 
 
@@ -93,6 +128,7 @@ class App extends React.Component {
     this.setState({val:'login'})
   }
   management_index(){
+
     this.setState({val:'management_index'})
   }
 
@@ -103,25 +139,53 @@ class App extends React.Component {
     this.setState({val:'interface_index'})
   }
 
+  halls()
+  {
+    this.setState({val:'halls'})
+  }
 
-
+  management(){
+    if (this.state.userEmail === 'alarn777@gmail.com' || this.state.userEmail === 'sworgkh@gmail.com' || this.state.userEmail === 'shohamroditi@gmail.com'){
+      return (
+          <p style={{color:'white',margin:30}}>To access management_index use rout: <Button  variant="outlined" color="primary"  onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
+      )
+    }
+    else {
+      return <div/>
+    }
+  }
 
   render() {
+
+    let logged_in = false
+    if(this.state.token !== ''){
+      logged_in = true
+    }
+
     switch (this.state.val) {
+      //shahar
+      case 'halls':
+      {
+        this.setState({val:''})
+        return  <Redirect  to={{
+          pathname: '/halls',
+          state: { logged_in: logged_in ,authToken: this.state.token }
+        }}/>
+      }
+      //shahar
+
+
+
       case 'login':
       {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/login',
-          state: { logged_in: false,authToken: this.state.token }
+          state: { logged_in: logged_in ,authToken: this.state.token }
         }}/>
       }
       case 'management_index':
       {
-        let logged_in = false
-        if(this.state.token !== ''){
-          logged_in = true
-        }
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/management_index',
@@ -133,7 +197,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/hall_index',
-          state: { logged_in: false , authToken: this.state.token}
+          state: { logged_in: logged_in , authToken: this.state.token}
         }}/>
       }
       case 'interface_index':
@@ -141,33 +205,61 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/interface_index',
-          state: { logged_in: false , authToken: this.state.token }
+          state: { logged_in: logged_in , authToken: this.state.token }
         }}/>
       }
       default:
-        return (
-            <div style={styles.containerStyle}>
-
-              <header  style={styles.containerStyle}>
-                <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to mataize</h1>
-                <img
-                    src={logo}
-                    style={{
-                      position: "relative",
-                      left: "95%",
-                      marginLeft: "-50px",
-                      maxWidth: "7vw",
-                      height: "auto",
-                      float: 'left'
-                    }}
+        if(this.state.logged_in){
+          return (
+              <div style={styles.containerStyle}>
+                <AppBarIndex
+                    userEmail={this.state.userEmail}
+                    logged_in={this.state.logged_in}
+                    logOff = {this.logOff}
                 />
-                <p style={{color:'white',margin:10}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>
-                <p style={{color:'white',margin:10}}>To access management_index use rout: <Button  variant="outlined" color="primary"  onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
-                <p style={{color:'white',margin:10}}>To access hall_index use rout: <Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>halls</Button></p>
-                <p style={{color:'white',marginLeft:40,marginTop:10}}> To access interface_index use rout: <Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
-              </header>
-            </div>
-        );
+                <header  style={styles.containerStyle}>
+                  <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to mataize</h1>
+                  {/*<p style={{color:'white',margin:30}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>*/}
+                  {this.management()}
+
+                  <p style={{color:'white',margin:30}}>To access hall_index use rout: <Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>hall index</Button></p>
+                  <p style={{color:'white',margin:30}}> To access interface_index use rout: <Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
+                  <p style={{color:'white',margin:30}}> To access halls use rout: <Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white'}}>halls</Button></p>
+                </header>
+                {/*<Footer/>*/}
+              </div>
+          );
+        }
+        else {
+
+
+          return (
+              <div style={styles.containerStyle}>
+                <AppBarIndex
+                    userEmail={this.state.userEmail}
+                    logged_in={this.state.logged_in}
+                    logOff={this.logOff}
+                />
+                <header style={styles.containerStyle}>
+                  <h1 style={{position: 'center', alignSelf: 'center', margin: 20, color: 'white'}}>Welcome to
+                    mataize</h1>
+                  <img
+                      src={logo}
+                      style={{
+                        position: "relative",
+                        left: "95%",
+                        marginLeft: "-50px",
+                        maxWidth: "7vw",
+                        height: "auto",
+                        float: 'left'
+                      }}
+                  />
+                  <p style={{color: 'white', margin: 10}}>Please login first </p>
+                </header>
+                {/*<Footer/>*/}
+              </div>
+          );
+        }
     }
   }
 }

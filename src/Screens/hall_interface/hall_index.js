@@ -59,6 +59,8 @@ export default class hall_index extends React.Component {
 
 
       // console.log(this.props.location.state.authToken)
+      if(this.props.location.state)
+        this.setState({logged_in: true})
 
       let url = env_vars.api_link + "lectures";
       // let url = https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures“;
