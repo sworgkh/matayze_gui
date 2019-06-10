@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 //
-var IntervalTime = 1000 * 60 * 5;
+var IntervalTime = 1000 * 60 * 1;
 const styles = {
   container: {
     position: "fixed",
