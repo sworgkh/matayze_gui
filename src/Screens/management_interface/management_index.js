@@ -41,6 +41,9 @@ const messages = [
 ]
 
 
+
+
+
 class managementIndex extends React.Component {
     constructor(props) {
         super(props);
@@ -150,6 +153,18 @@ class managementIndex extends React.Component {
 
     }
 
+
+    getWindowDimensions() {
+        const { innerWidth: width, innerHeight: height } = window;
+        return {
+            width,
+            height
+        };
+    }
+
+
+
+
     loadProps = () => {
         this.setState({token: this.props.location.state.authToken.toString()})
     }
@@ -234,10 +249,9 @@ class managementIndex extends React.Component {
         // let newLecture = JSON.stringify({
         //     description: this.state.description,
         //     endDate: this.state.end_time,
-        //
         //     lecture: this.state.lecture,
         //     lecturer: this.state.lecturer,
-        //     lecturer_image:'hhh',
+        //     lecturer_image: this.state.lecturer_image,
         //     room: this.state.room.toString(),
         //     startDate: this.state.start_time,
         //     conference_title: this.state.conference_title,
@@ -408,6 +422,17 @@ class managementIndex extends React.Component {
 
 
     render() {
+
+        console.log(this.getWindowDimensions())
+        let width = this.getWindowDimensions().width
+        console.log(width)
+        let cardWidth = '31%'
+        let messageWidth = '48%'
+        if(width < 1053){
+            cardWidth = '100%'
+            messageWidth = '100%'
+        }
+
         if (this.state.logged_in && this.state.profile) {
 
             return (
@@ -440,7 +465,7 @@ class managementIndex extends React.Component {
                     </Paper>
 
                     <div style={{width: '96%', marginTop: 10, margin: '2%'}}>
-                        {this.state.messages.map(message => <Message delete={this.deleteMessage.bind(this)}
+                        {this.state.messages.map(message => <Message width={messageWidth} delete={this.deleteMessage.bind(this)}
                                                                      key={message.id} message={message}/>)}
                     </div>
                     <div style={{clear: 'both'}}></div>
@@ -453,7 +478,7 @@ class managementIndex extends React.Component {
                     </div>
 
                     <div style={{width: '96%', marginTop: 10, margin: '2%'}}>
-                        {this.state.lectures.map(lecture => <Card delete={this.deleteEvent.bind(this)}
+                        {this.state.lectures.map(lecture => <Card width={cardWidth} delete={this.deleteEvent.bind(this)}
                                                                   update={this.updateEvent.bind(this)}
                                                                   key={lecture.lectureID} allData={lecture}/>)}
                     </div>

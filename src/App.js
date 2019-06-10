@@ -145,9 +145,9 @@ class App extends React.Component {
   }
 
   management(){
-    if (this.state.userEmail === 'alarn777@gmail.com' || this.state.userEmail === 'sworgkh@gmail.com' || this.state.userEmail === 'shohamroditi@gmail.com'){
+    if (this.state.userEmail === 'alarn777@gmail.com' || this.state.userEmail === 'sworgkh@gmail.com' || this.state.userEmail === 'shohamroditi@gmail.com' || this.state.userEmail === 'zahor55+testaws@gmail.com' || this.state.userEmail === 'dmun1009@gmail.com'){
       return (
-          <p style={{color:'white',margin:30}}>To access management_index use rout: <Button  variant="outlined" color="primary"  onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
+          <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary" onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
       )
     }
     else {
@@ -222,9 +222,9 @@ class App extends React.Component {
                   {/*<p style={{color:'white',margin:30}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>*/}
                   {this.management()}
 
-                  <p style={{color:'white',margin:30}}>To access hall_index use rout: <Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>hall index</Button></p>
-                  <p style={{color:'white',margin:30}}> To access interface_index use rout: <Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
-                  <p style={{color:'white',margin:30}}> To access halls use rout: <Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white'}}>halls</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>hall index</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white'}}>halls</Button></p>
                 </header>
                 {/*<Footer/>*/}
               </div>

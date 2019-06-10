@@ -13,11 +13,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import CardMedia from "@material-ui/core/CardMedia";
 
-
 const styles = {
     card: {
         maxWidth: 600,
-        width: "31%",
+        // width: this.props.width,
+        // width: "31%",
         float: "left",
         margin: "1%",
         // backgroundColor:'#bbdefb',
@@ -26,7 +26,6 @@ const styles = {
         height: 400,
     },
 };
-
 
 
 class Lecture extends React.Component {
@@ -55,6 +54,11 @@ class Lecture extends React.Component {
 
 
     }
+
+
+
+
+
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
@@ -100,6 +104,28 @@ class Lecture extends React.Component {
     }
 
     render() {
+
+
+        const styles = {
+            card: {
+                maxWidth: '100%',
+                // width: this.props.width,
+                width: this.props.width,
+                float: "left",
+                margin: "1%",
+                // backgroundColor:'#bbdefb',
+            },
+            media: {
+                height: 400,
+            },
+        };
+
+
+
+
+
+
+
         return (
             <Card style={styles.card}>
                 <CardActionArea>
