@@ -3,6 +3,7 @@ import '../css/lecture.css'
 import Lectures from '../components/lectures'
 import Button from "@material-ui/core/Button";
 import 'bootstrap/dist/css/bootstrap.css';
+import env_vars from "../../../ENV_VAR";
 
 
 const login_url = 'https://auth.matayze.shenkar.cloud/login?response_type=token&client_id=3uslmcib25uq3sah74hp6lgvr9&redirect_uri=http://localhost:3000&scope=openid+profile+aws.cognito.signin.user.admin'
@@ -42,7 +43,9 @@ class Menu extends Component {
         if(this.props.location.state.authToken){
             this.setState({logged_in:true})
             //all lectures will be fetched here
-            let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/prod/lectures";
+            let url = env_vars.api_link + "lectures";
+
+            // let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/prod/lectures";
             let bearer = 'Bearer ' + this.props.location.state.authToken;
             fetch(url, {
                 method: 'GET',
