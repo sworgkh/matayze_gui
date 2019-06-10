@@ -29,7 +29,7 @@ export default class interface_index extends React.Component {
             <div style={styles.containerStyle}>
                 <Logo style={styles.logoStyle} />
                 <Header style={styles.headerStyle} />
-                <Schedule />
+                <Schedule location = {this.props.location} />
             </div>
         )
     }
