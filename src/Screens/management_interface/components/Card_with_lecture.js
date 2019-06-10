@@ -108,11 +108,11 @@ class Lecture extends React.Component {
 
         const styles = {
             card: {
-                maxWidth: '100%',
+                maxWidth: '96%',
                 // width: this.props.width,
                 width: this.props.width,
                 float: "left",
-                margin: "1%",
+                margin: "2%",
                 // backgroundColor:'#bbdefb',
             },
             media: {

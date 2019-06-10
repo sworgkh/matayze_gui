@@ -360,7 +360,7 @@ class managementIndex extends React.Component {
     }
 
     addMessage(message) {
-        console.log(message)
+        // console.log(message)
         //need to implement add to database
         // console.log(this.props.location.state.authToken)
 
@@ -423,14 +423,13 @@ class managementIndex extends React.Component {
 
     render() {
 
-        console.log(this.getWindowDimensions())
+
         let width = this.getWindowDimensions().width
-        console.log(width)
         let cardWidth = '31%'
         let messageWidth = '48%'
         if(width < 1053){
             cardWidth = '100%'
-            messageWidth = '100%'
+            messageWidth = '96%'
         }
 
         if (this.state.logged_in && this.state.profile) {

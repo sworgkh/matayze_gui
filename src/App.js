@@ -95,22 +95,19 @@ class App extends React.Component {
     }
   }
 
-  redirectUser(userData){
-    console.log(userData)
 
-      // if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com' || userData.email === 'shohamroditi@gmail.com') {
-      //    this.setState({token: this.state.token, val:'management_index'})
-      // }
-
-    // this.setState({token: this.state.token, val:'halls'})
-
-    // if (userData.email === 'alarn777@gmail.com' || userData.email === 'eran9maron@gmail.com') {
-    //   this.setState({token: this.state.token, val:'hall_index'})
-    // }
-    // else {
-    //     this.setState({token: this.state.token, val:'interface_index'})
-    // }
+  getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
   }
+
+  redirectUser(userData){
+    // console.log(userData)
+  }
+
   setToken(token){
     this.setState({token: token})
   }
@@ -144,10 +141,10 @@ class App extends React.Component {
     this.setState({val:'halls'})
   }
 
-  management(){
+  management(buttonWidth){
     if (this.state.userEmail === 'alarn777@gmail.com' || this.state.userEmail === 'sworgkh@gmail.com' || this.state.userEmail === 'shohamroditi@gmail.com' || this.state.userEmail === 'zahor55+testaws@gmail.com' || this.state.userEmail === 'dmun1009@gmail.com'){
       return (
-          <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary" onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
+          <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary" onClick={this.management_index} style={{color:'white',width:buttonWidth}}>management panel</Button></p>
       )
     }
     else {
@@ -156,6 +153,13 @@ class App extends React.Component {
   }
 
   render() {
+
+    let width = this.getWindowDimensions().width
+    let buttonWidth = '31%'
+    if(width < 1053){
+      buttonWidth = '100%'
+    }
+
 
     let logged_in = false
     if(this.state.token !== ''){
@@ -220,11 +224,11 @@ class App extends React.Component {
                 <header  style={styles.containerStyle}>
                   <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to mataize</h1>
                   {/*<p style={{color:'white',margin:30}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>*/}
-                  {this.management()}
+                  {this.management(buttonWidth)}
 
-                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>hall index</Button></p>
-                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
-                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white'}}>halls</Button></p>
+                  <p style={{color:'white',margin:30}}><Button   variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white',width:buttonWidth}}>hall index</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white',width:buttonWidth}}>interface</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white',width:buttonWidth}}>halls</Button></p>
                 </header>
                 {/*<Footer/>*/}
               </div>
