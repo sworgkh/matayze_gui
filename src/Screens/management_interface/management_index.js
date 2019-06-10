@@ -28,22 +28,6 @@ const styles = {
     }
 }
 
-
-const messages = [
-    {
-        title: 'Hello',
-        message: 'Hello all people'
-    },
-    {
-        title: 'Hello1',
-        message: 'Hello all people 1'
-    }
-]
-
-
-
-
-
 class managementIndex extends React.Component {
     constructor(props) {
         super(props);
@@ -171,7 +155,6 @@ class managementIndex extends React.Component {
     dealWithData = (data) => {
         this.setState({
             lectures: data,
-            messages: messages
         })
     }
 

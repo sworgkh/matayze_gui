@@ -20,6 +20,7 @@ const styles = {
         // width: "31%",
         float: "left",
         margin: "1%",
+        backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         // backgroundColor:'#bbdefb',
     },
     media: {
@@ -112,8 +113,9 @@ class Lecture extends React.Component {
                 // width: this.props.width,
                 width: this.props.width,
                 float: "left",
-                margin: "2%",
+                margin: "1%",
                 // backgroundColor:'#bbdefb',
+                backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
             },
             media: {
                 height: 400,
