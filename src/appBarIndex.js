@@ -143,7 +143,7 @@ class PrimarySearchAppBar extends React.Component {
                             </Typography>
 
                             <div className={classes.grow} />
-                            <Typography variant="h7" color="inherit" noWrap>
+                            <Typography variant="h6" color="inherit" noWrap>
                                 {email}
                             </Typography>
                             <div className={classes.sectionDesktop}>

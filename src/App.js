@@ -205,7 +205,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/interface_index',
-          state: { logged_in: logged_in , authToken: this.state.token }
+          state: { logged_in: logged_in , authToken: this.state.token, userEmail: this.state.userEmail }
         }}/>
       }
       default:
