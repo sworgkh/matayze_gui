@@ -51,7 +51,8 @@ class App extends React.Component {
     this.state ={
       val:'',
       token:'',
-      logged_in : false
+      logged_in : false,
+      access_token:''
     }
     this.login = this.login.bind(this)
 
@@ -67,17 +68,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    let a = this.props.location.hash
-    a = a.toString().split('&')
-    if (a[1]) {
-      let token = a[1]
-      token = token.slice(13, token.length)
-      if (token) {
-        let userToken = a[0]
-        userToken = userToken.toString().slice(10,userToken.length)
-        this.setToken(userToken)
-        var url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
-        var bearer = 'Bearer ' + token;
+    console.log(this.props.location)
+    if (this.props.location.state) {
+      if(!this.props.location.state.logged_in){
+        this.logOff()
+      } else {
+        this.setState({logged_in: false, token: this.props.location.state.authToken, access_token:this.props.location.state.access_token })
+        let url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
+        let bearer = 'Bearer ' + this.props.location.state.access_token
+        console.log(bearer)
         fetch(url, {
           method: 'GET',
           headers: {
@@ -86,39 +85,66 @@ class App extends React.Component {
           }
         }).then(response => response.json())
             .then(responseJson => {
-              // console.log(responseJson);
+              console.log(responseJson);
               this.redirectUser(responseJson)
-
-              this.setState({logged_in:true, userEmail: responseJson.email})
+  
+              this.setState({logged_in: true, userEmail: responseJson.email})
             })
+      }
+    } else {
+
+
+      let a = this.props.location.hash
+      a = a.toString().split('&')
+      if (a[1]) {
+        let token = a[1]
+        token = token.slice(13, token.length)
+        if (token) {
+          let userToken = a[0]
+          this.setState({access_token: token})
+          userToken = userToken.toString().slice(10, userToken.length)
+          this.setToken(userToken)
+          let url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
+          let bearer = 'Bearer ' + token;
+          fetch(url, {
+            method: 'GET',
+            headers: {
+              'Authorization': bearer,
+              'Content-Type': 'application/json'
+            }
+          }).then(response => response.json())
+              .then(responseJson => {
+                // console.log(responseJson);
+                this.redirectUser(responseJson)
+
+                this.setState({logged_in: true, userEmail: responseJson.email})
+              })
+        }
       }
     }
   }
 
-  redirectUser(userData){
-    console.log(userData)
 
-      // if (userData.email === 'alarn777@gmail.com' || userData.email === 'sworgkh@gmail.com' || userData.email === 'shohamroditi@gmail.com') {
-      //    this.setState({token: this.state.token, val:'management_index'})
-      // }
-
-    // this.setState({token: this.state.token, val:'halls'})
-
-    // if (userData.email === 'alarn777@gmail.com' || userData.email === 'eran9maron@gmail.com') {
-    //   this.setState({token: this.state.token, val:'hall_index'})
-    // }
-    // else {
-    //     this.setState({token: this.state.token, val:'interface_index'})
-    // }
+  getWindowDimensions() {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height
+    };
   }
+
+  redirectUser(userData){
+    // console.log(userData)
+  }
+
   setToken(token){
     this.setState({token: token})
   }
   logOff(){
-    this.setState({logged_in: false,val:'',
-      token:'',userEmail:''})
+    this.setState({logged_in: false,val:'logoff',
+      token:'',userEmail:'',access_token: ''})
 
-    window.location.href = '/'
+    // window.location.href = '/'
   }
 
 
@@ -144,10 +170,10 @@ class App extends React.Component {
     this.setState({val:'halls'})
   }
 
-  management(){
-    if (this.state.userEmail === 'alarn777@gmail.com' || this.state.userEmail === 'sworgkh@gmail.com' || this.state.userEmail === 'shohamroditi@gmail.com'){
+  management(buttonWidth){
+    if (this.state.userEmail === 'alarn777@gmail.com' || this.state.userEmail === 'sworgkh@gmail.com' || this.state.userEmail === 'shohamroditi@gmail.com' || this.state.userEmail === 'zahor55+testaws@gmail.com' || this.state.userEmail === 'dmun1009@gmail.com'){
       return (
-          <p style={{color:'white',margin:30}}>To access management_index use rout: <Button  variant="outlined" color="primary"  onClick={this.management_index} style={{color:'white'}}>management panel</Button></p>
+          <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary" onClick={this.management_index} style={{color:'white',width:buttonWidth}}>management panel</Button></p>
       )
     }
     else {
@@ -156,6 +182,13 @@ class App extends React.Component {
   }
 
   render() {
+
+    let width = this.getWindowDimensions().width
+    let buttonWidth = '31%'
+    if(width < 1053){
+      buttonWidth = '100%'
+    }
+
 
     let logged_in = false
     if(this.state.token !== ''){
@@ -169,11 +202,18 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/halls',
-          state: { logged_in: logged_in ,authToken: this.state.token }
+          state: { logged_in: logged_in ,authToken: this.state.token,access_token: this.state.access_token  }
         }}/>
       }
       //shahar
-
+      case 'logoff':
+        {
+          this.setState({val:''})
+          return  <Redirect  to={{
+            pathname: '/',
+            state: null
+          }}/>
+        }
 
 
       case 'login':
@@ -181,7 +221,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/login',
-          state: { logged_in: logged_in ,authToken: this.state.token }
+          state: { logged_in: logged_in ,authToken: this.state.token,access_token: this.state.access_token  }
         }}/>
       }
       case 'management_index':
@@ -189,7 +229,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/management_index',
-          state: { logged_in: logged_in, authToken: this.state.token }
+          state: { logged_in: logged_in, authToken: this.state.token ,access_token: this.state.access_token }
         }}/>
       }
       case 'hall_index':
@@ -197,7 +237,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/hall_index',
-          state: { logged_in: logged_in , authToken: this.state.token}
+          state: { logged_in: logged_in , authToken: this.state.token,access_token: this.state.access_token }
         }}/>
       }
       case 'interface_index':
@@ -205,7 +245,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/interface_index',
-          state: { logged_in: logged_in , authToken: this.state.token, userEmail: this.state.userEmail }
+          state: { logged_in: logged_in , authToken: this.state.token, userEmail: this.state.userEmail, access_token: this.state.access_token }
         }}/>
       }
       default:
@@ -220,11 +260,11 @@ class App extends React.Component {
                 <header  style={styles.containerStyle}>
                   <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to mataize</h1>
                   {/*<p style={{color:'white',margin:30}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>*/}
-                  {this.management()}
+                  {this.management(buttonWidth)}
 
-                  <p style={{color:'white',margin:30}}>To access hall_index use rout: <Button  variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white'}}>hall index</Button></p>
-                  <p style={{color:'white',margin:30}}> To access interface_index use rout: <Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white'}}>interface</Button></p>
-                  <p style={{color:'white',margin:30}}> To access halls use rout: <Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white'}}>halls</Button></p>
+                  <p style={{color:'white',margin:30}}><Button   variant="outlined" color="primary"  onClick={this.hall_index} style={{color:'white',width:buttonWidth}}>hall index</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.interface_index} style={{color:'white',width:buttonWidth}}>interface</Button></p>
+                  <p style={{color:'white',margin:30}}><Button  variant="outlined" color="primary"  onClick={this.halls} style={{color:'white',width:buttonWidth}}>halls</Button></p>
                 </header>
                 {/*<Footer/>*/}
               </div>

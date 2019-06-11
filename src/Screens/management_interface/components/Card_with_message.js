@@ -36,11 +36,12 @@ class PaperSheet extends React.Component{
 
     render() {
         return (
-            <div style={{margin:10,width:'48%',float: 'left'}}>
+            <div style={{margin:10,width:this.props.width,height:90,float: 'left'}}>
                 <Paper className={styles.root} style={{
                     display: 'flex',
                     // backgroundColor:'#bbdefb',
                     flexWrap: 'wrap',
+                    backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
                     justifyContent:'space-between',
                     alignContent: 'space-between',
 

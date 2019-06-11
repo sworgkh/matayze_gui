@@ -14,12 +14,12 @@ const styles = {
   },
   heading: {
     color: "white",
-    fontSize: "2.2em"
+    fontSize: "2.2vw"
   },
   messageBody: {
     margin: ".5vw auto",
     paddingLeft: "2vw",
-    fontSize: "1.5em"
+    fontSize: "1.5vw"
   }
 };
 var sliderSettings = {
@@ -47,7 +47,8 @@ export default class Messages extends Component {
     let options = {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token
       }
     };
     fetch(url, options)

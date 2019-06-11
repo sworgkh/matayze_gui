@@ -1,5 +1,4 @@
 import React from 'react'
-import Logo from './components/logo'
 import Header from './components/header'
 import Schedule from './components/events'
 import { Redirect } from 'react-router-dom'
@@ -11,17 +10,12 @@ const styles = {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         overflow: 'auto',
-        minHeight: 980
-    },
-    logoStyle: {
-        position: 'absolute',
-        top: 15,
-        right: '1%'
+        minHeight: 780
     },
     headerStyle: {
         padding: '2%',
         margin: 'auto',
-        paddingBottom: 30,
+        paddingBottom: 45,
         width: '50%'
     },
     backStyle: {
@@ -42,7 +36,8 @@ export default class interface_index extends React.Component {
                 state: {
                     logged_in: false,
                     userEmail: '',
-                    authToken: ''
+                    authToken: '',
+                    access_token: ''
                 }
             }
         }
@@ -59,7 +54,7 @@ export default class interface_index extends React.Component {
     }
 
     logOff(){
-        this.setState({location: {state: {logged_in: false,val:'',token:'',userEmail:''}}})
+        this.setState({location: {state: {logged_in: false,authToken: '',access_token:'',userEmail:''}}})
     }
 
     render() {
@@ -68,8 +63,8 @@ export default class interface_index extends React.Component {
                 pathname: '/',
                 state: { 
                     logged_in: this.state.location.state.logged_in,
-                    authToken: this.props.location.state.authToken,
-                    access_token:  this.props.location.state.access_token
+                    authToken: this.state.location.state.authToken,
+                    access_token:  this.state.location.state.access_token
                 }
             }}/>        
         }
@@ -81,7 +76,7 @@ export default class interface_index extends React.Component {
                     logged_in= {this.state.location.state.logged_in}
                     logOff = {this.logOff}
                 />
-                <Button style={styles.backStyle} Button  variant="outlined" color="primary" onClick={() => this.back()}>BACK</Button>
+                <Button style={styles.backStyle} variant="outlined" color="primary" onClick={() => this.back()}>BACK</Button>
                 <Header style={styles.headerStyle} />
                 <Schedule location = {this.props.location} />
             </div>
