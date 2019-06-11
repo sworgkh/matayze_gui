@@ -207,7 +207,7 @@ export default class hall_index extends React.Component {
           >
             {this.cardRendering()}
           </div>
-          <Message />
+          <Message  token={this.props.location.state.authToken} />
         </div>
       );
     }
