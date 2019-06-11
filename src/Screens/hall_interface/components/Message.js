@@ -14,12 +14,12 @@ const styles = {
   },
   heading: {
     color: "white",
-    fontSize: "2.2em"
+    fontSize: "2.2vw"
   },
   messageBody: {
     margin: ".5vw auto",
     paddingLeft: "2vw",
-    fontSize: "1.5em"
+    fontSize: "1.5vw"
   }
 };
 var sliderSettings = {

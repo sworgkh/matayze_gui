@@ -29,11 +29,11 @@ const styles = {
   },
   heading: {
     color: "white",
-    fontSize: "4em"
+    fontSize: "3vw"
   },
   message: {
     color: "white",
-    fontSize: "4.5em",
+    fontSize: "4vw",
     paddingTop: "20vh"
     // alignText: "center",
     // width: "30vw"
@@ -67,10 +67,10 @@ export default class hall_index extends React.Component {
       let bearer = "Bearer " + this.props.location.state.authToken;
       await fetch(url, {
           method: 'GET',
-      crossDomain: true,
+          crossDomain: true,
           headers: {
-      'Authorization': bearer,
-                   'Content-Type': 'application/json'
+          'Authorization': bearer,
+          'Content-Type': 'application/json'
       }
   })
   .then(response => response.json())
@@ -80,9 +80,7 @@ export default class hall_index extends React.Component {
               // this.dealWithData(responseJson.data)
           })
 
-
    this.setState({ isLoaded: true });
-
 
     console.log(this.lectures)
     // await fetch("prod/lectures")
@@ -102,7 +100,6 @@ export default class hall_index extends React.Component {
       }
     }, 60000);
   }
-
 
   login(){
       this.setState({ AWS_LOGIN: true })
@@ -158,7 +155,7 @@ export default class hall_index extends React.Component {
       if(!this.state.logged_in){
           return (
               <div style={styles.pageContainer}>
-                  <Button variant="outlined" color="primary"  onClick={this.login} style={{color:'white',margin:20}}>login</Button>
+                  <Button variant="outlined" color="primary" onClick={this.login} style={{color:'white',margin:20}}>login</Button>
               </div>
           )
       }
