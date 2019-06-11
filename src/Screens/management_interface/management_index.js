@@ -59,10 +59,9 @@ class managementIndex extends React.Component {
         this.openCreateLecture = this.openCreateLecture.bind(this);
     }
 
-
     componentDidMount() {
         //check if user is logged in
-
+        console.log('didmount')
         console.log(this.props.location.state.authToken.toString())
 
         this.loadProps()
@@ -79,23 +78,57 @@ class managementIndex extends React.Component {
             this.setState({logged_in: false})
 
         this.setState({lectures: []})
-        let url = env_vars.api_link + "lectures";
-        let bearer = 'Bearer ' + this.props.location.state.authToken;
 
-        fetch(url, {
-            method: 'GET',
-            crossDomain: true,
-            headers: {
-                'Authorization': bearer,
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(responseJson => {
-                console.log(responseJson.data);
-                this.dealWithData(responseJson.data)
-            })
+
+        //getAllLectures
+        this.loadData()
+
+        let url = env_vars.api_link + "getAllLectures";
+        let bearer = 'Bearer ' + this.props.location.state.authToken;
+        // try {
+        //     fetch(url, {
+        //         method: 'GET',
+        //         crossDomain: true,
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+        //         .then(response => response.json())
+        //
+        //         .then(responseJson => {
+        //             console.log(responseJson.data);
+        //             this.dealWithData(responseJson.data)
+        //         })
+        //         .catch(err => console.error('Caught error: ', err))
+        //
         // }
+        // catch (e) {
+        //     console.log({Fetch_lectures_error: e})
+        // }
+
+
+
+
+        //lectures
+
+        // let url = env_vars.api_link + "lectures";
+        //
+        // let bearer = 'Bearer ' + this.props.location.state.authToken;
+        //
+        // fetch(url, {
+        //     method: 'GET',
+        //     crossDomain: true,
+        //     headers: {
+        //         // 'Authorization': bearer,
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(responseJson => {
+        //         console.log(responseJson.data);
+        //         this.dealWithData(responseJson.data)
+        //     })
+
 
 
         //get all messages
@@ -115,7 +148,6 @@ class managementIndex extends React.Component {
             }
         }).then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson)
                 console.log(responseJson)
                 this.setState({messages : responseJson.data})
             })
@@ -144,6 +176,32 @@ class managementIndex extends React.Component {
             width,
             height
         };
+    }
+
+    loadData = () => {
+        console.log('load data')
+        let url = env_vars.api_link + "getAllLectures";
+        try {
+            fetch(url, {
+                method: 'GET',
+                crossDomain: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+
+                .then(responseJson => {
+                    console.log(responseJson.data);
+                    this.dealWithData(responseJson.data)
+                })
+                .catch(err => console.error('Caught error: ', err))
+
+        }
+        catch (e) {
+            console.log({Fetch_lectures_error: e})
+        }
+
     }
 
 
@@ -229,28 +287,28 @@ class managementIndex extends React.Component {
         this.handleCloseCreateLecture()
         //need to implement add to database
 
-        // let newLecture = JSON.stringify({
-        //     description: this.state.description,
-        //     endDate: this.state.end_time,
-        //     lecture: this.state.lecture,
-        //     lecturer: this.state.lecturer,
-        //     lecturer_image: this.state.lecturer_image,
-        //     room: this.state.room.toString(),
-        //     startDate: this.state.start_time,
-        //     conference_title: this.state.conference_title,
-        // })
-        // console.log(newLecture)
+        let newLecture = JSON.stringify({
+            description: this.state.description,
+            endDate: this.state.end_time,
+            lecture: this.state.lecture,
+            lecturer: this.state.lecturer,
+            lecturer_image: this.state.lecturer_image,
+            room: this.state.room.toString(),
+            startDate: this.state.start_time,
+            conference_title: this.state.conference_title,
+        })
+        console.log(newLecture)
 
         //post
-        let url = env_vars.api_link + "lectures";
+        // let url = env_vars.api_link_post + "lectures";
+        let url = env_vars.api_link + 'createLecture'
         let bearer = 'Bearer ' + this.props.location.state.authToken;
         fetch(url, {
             method: 'POST',
-            crossDomain: true,
+            // crossDomain: true,
             body: JSON.stringify({
                 description: this.state.description,
                 endDate: this.state.end_time,
-
                 lecture: this.state.lecture,
                 lecturer: this.state.lecturer,
                 lecturer_image: this.state.lecturer_image,
@@ -270,23 +328,28 @@ class managementIndex extends React.Component {
 
         this.setState({lectures: []})
         setTimeout(() => {
-                fetch(url, {
-                    method: 'GET',
-                    crossDomain: true,
-                    headers: {
-                        'Authorization': bearer,
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => response.json())
-                    .then(responseJson => {
-                        console.log(responseJson.data);
-                        this.dealWithData(responseJson.data)
-                    })
+
+
+                this.loadData()
+                // fetch(url, {
+                //     method: 'GET',
+                //     crossDomain: true,
+                //     headers: {
+                //         'Authorization': bearer,
+                //         'Content-Type': 'application/json'
+                //     }
+                // }).then(response => response.json())
+                //     .then(responseJson => {
+                //         console.log(responseJson.data);
+                //         this.dealWithData(responseJson.data)
+                //     })
             }
             , 1000);
     }
 
     handleSearch(val) {
+        console.log('search')
+        // this.loadData()
         let oldState = this.state.lectures
         let newState = []
 

@@ -138,6 +138,7 @@ class PrimarySearchAppBar extends React.Component {
 
     handleChange(e) {
         this.setState({ search: e.target.value });
+        this.props.search(this.state.search)
     }
 
 
@@ -148,6 +149,9 @@ class PrimarySearchAppBar extends React.Component {
     keyPress(e) {
         if (e.keyCode === 13) {
             this.props.search(this.state.search)
+        }
+        if (e.keyCode === 8 && (this.state.search.length === 1)) {
+            this.props.search('')
         }
     }
 
@@ -311,8 +315,8 @@ class PrimarySearchAppBar extends React.Component {
                                 Management Panel
                             </Typography>
                             <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <SearchIcon />
+                                <div className={classes.searchIcon} onClick={()=> alert('search')} >
+                                    <SearchIcon/>
                                 </div>
                                 <InputBase
                                     // onClick={this.props.search()}
