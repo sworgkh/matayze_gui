@@ -13,7 +13,7 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
+import BackIcon from '@material-ui/icons/ArrowBack';
 import MessageIcon from '@material-ui/icons/Message';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -216,6 +216,10 @@ class PrimarySearchAppBar extends React.Component {
 
     }
 
+    back = () =>{
+        this.props.back()
+    }
+
 
     render() {
         const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -307,9 +311,9 @@ class PrimarySearchAppBar extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="static">
                         <Toolbar>
-                            {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">*/}
-                            {/*    <MenuIcon />*/}
-                            {/*</IconButton>*/}
+                           <IconButton onClick={() => this.back()} className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                                <BackIcon />
+                            </IconButton>
                             <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} onClick={()=> {window.location.href = '/'}}/>
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
