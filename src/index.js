@@ -8,11 +8,18 @@ import Hall from "./Screens/hall_interface/hall_index";
 import SiteInterface from "./Screens/site_interface/interface_index";
 import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Login from "./Containers/Login";
+import login_page from './ENV_VAR'
 
 const routing = (
   <Router>
     <div>
-      <Route path="/login" exact component={Login} />
+      {/*<Route path="/login" exact component={Login} />*/}
+      <Route path='/login' exact component={() => {
+          window.location.href = login_page.login_url;
+          return null;
+      }}/>
+
+      <Route path="/index.html" component={App}/>
       <Route exact path="/" component={App} />
       <Route path="/management_index" component={Management} />
       <Route path="/interface_index" component={SiteInterface} />
@@ -27,3 +34,4 @@ ReactDOM.render(routing, document.getElementById("root"));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+

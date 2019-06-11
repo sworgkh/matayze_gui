@@ -5,8 +5,11 @@ import Time from "./components/Time";
 import Message from "./components/Message";
 
 import logo from "./assets/logo.png";
-import preloader from "./assets/preloader.gif"
-import { relative } from "path";
+import loader from "./assets/preloader.gif";
+import env_vars from '../../ENV_VAR'
+import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router-dom";
+
 
 const styles = {
   pageContainer: {
@@ -23,11 +26,17 @@ const styles = {
     marginLeft: "-50px",
     marginTop: "-50px",
     top: "50%"
-    
   },
   heading: {
     color: "white",
-    fontSize: "2.5em"
+    fontSize: "4em"
+  },
+  message: {
+    color: "white",
+    fontSize: "4.5em",
+    paddingTop: "20vh"
+    // alignText: "center",
+    // width: "30vw"
   }
 };
 
@@ -35,33 +44,128 @@ export default class hall_index extends React.Component {
   constructor(props) {
     super(props);
 
+    this.lectures = [];
+
     this.state = {
-      lectures: [],
-      isLoaded: false
+        AWS_LOGIN:false,
+        logged_in: false,
+        shownLectures: [],
+        isLoaded: false
     };
+    this.login = this.login.bind(this)
   }
 
-  componentDidMount() {
-    fetch("prod/lectures")
-      .then(lectures => {
-        return lectures.json();
-      })
-      .then(response => {
-          this.setState({
-            lectures: response.data,
-            isLoaded: true
-          });
-        console.log(response.data)
-        });
+  async componentDidMount() {
+      let url = env_vars.api_link + "lectures";
+      // let url = https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures“;
+      let bearer = "Bearer " + this.props.location.state.authToken;
+      await fetch(url, {
+          method: 'GET',
+          crossDomain: true,
+          headers: {
+          'Authorization': bearer,
+          'Content-Type': 'application/json'
+      }
+  })
+  .then(response => response.json())
+          .then(responseJson => {
+              console.log(responseJson.data);
+              this.lectures = responseJson.data;
+              // this.dealWithData(responseJson.data)
+          })
+
+   this.setState({ isLoaded: true });
+
+    console.log(this.lectures)
+    // await fetch("prod/lectures")
+    //   .then(lectures => {
+    //     return lectures.json();
+    //   })
+    //   .then(response => {
+    //     this.lectures = response.data;
+    //     this.setState({ isLoaded: true });
+    //     console.log();
+    //   });
+    this.checkLecturetime();
+    setInterval(() => {
+      let minutes = new Date().getMinutes();
+      if (minutes % 5 === 0) {
+        this.checkLecturetime();
+      }
+    }, 60000);
   }
+
+  login(){
+      this.setState({ AWS_LOGIN: true })
+  }
+
+  checkLecturetime = () => {
+    let tempLectures = [];
+
+    this.lectures.map(lecture => {
+      let startDate = new Date(lecture.startDate);
+      let now = new Date();
+      if (startDate > now && startDate.getDate() === now.getDate())
+        tempLectures.push(lecture);
+    });
+
+    tempLectures.sort((a, b) => {
+      return new Date(a.startDate) - new Date(b.startDate);
+    });
+    this.setState({ shownLectures: tempLectures });
+  };
+
+  cardRendering = () => {
+    let tmp = [];
+    if (this.state.shownLectures.length === 0)
+      return <h1 style={styles.message}>No More lectures For Today</h1>;
+
+    if (this.state.shownLectures.length) {
+      for (let i = 0; i < 3; i++) {
+        if (this.state.shownLectures[i]) {
+          tmp.push(
+            <Card
+              data={this.state.shownLectures[i]}
+              key={this.state.shownLectures[i].lectureID}
+            />
+          );
+        }
+      }
+      return tmp;
+    }
+  };
 
   render() {
+      if (!this.state.logged_in && this.state.AWS_LOGIN) {
+          console.log('Here')
+          this.setState({ AWS_LOGIN: false })
+          return <Redirect
+              to={{
+                  pathname: '/login',
+                  state: { logged_in: false }
+              }} />
+      }
+
+      if(!this.state.logged_in){
+          return (
+              <div style={styles.pageContainer}>
+                  <Button variant="outlined" color="primary" onClick={this.login} style={{color:'white',margin:20}}>login</Button>
+              </div>
+          )
+      }
+
+    // this.checkLecturetime();
     if (!this.state.isLoaded) {
       return (
         <div style={styles.pageContainer}>
+<<<<<<< HEAD
               <img src={preloader} style={styles.loader} />
+=======
+          <img src={loader} style={styles.loader} />
+>>>>>>> edb0dd629a1bd0b8c44d9fe38cafd1eff08b81ed
         </div>
-      )} else {
+      );
+    } else {
       return (
         <div style={styles.pageContainer}>
           <div
@@ -75,7 +179,11 @@ export default class hall_index extends React.Component {
               height: "15vh"
             }}
           >
+<<<<<<< HEAD
             <h1 style={styles.heading}>{this.state.lectures[1].conference_title}</h1>
+=======
+            <h1 style={styles.heading}>{this.lectures[2].conference_title}</h1>
+>>>>>>> edb0dd629a1bd0b8c44d9fe38cafd1eff08b81ed
             <img
               src={logo}
               style={{
@@ -90,10 +198,16 @@ export default class hall_index extends React.Component {
           </div>
 
           <hr />
-          <div style={{padding: "2vh"}}>
-            {this.state.lectures.map(lecture => {
-              return <Card key={lecture.lectureID} data={lecture} />;
-            })}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              padding: "2vh",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            {this.cardRendering()}
           </div>
           <Message />
         </div>

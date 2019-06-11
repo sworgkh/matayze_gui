@@ -27,7 +27,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 
-
 const styles = theme => ({
     bigAvatar: {
         margin: 10,
@@ -402,9 +401,15 @@ class PrimarySearchAppBar extends React.Component {
         }
         if (!this.state.logged_in && this.state.AWS_LOGIN) {
             this.setState({ AWS_LOGIN: false })
+            // return <Redirect
+            //     to={{
+            //         pathname: '/login',
+            //         state: { logged_in: false }
+            //     }} />
             return <Redirect
                 to={{
                     pathname: '/login',
+                    // pathname:login_page.login_url,
                     state: { logged_in: false }
                 }} />
         }

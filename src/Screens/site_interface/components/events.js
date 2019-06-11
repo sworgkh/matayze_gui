@@ -39,56 +39,7 @@ class Events extends Component {
     this.state = {
       days: new Set(),
       selected: 1,
-      events : [
-        {
-          lecture: 'Project Presentation',
-          lecturer: 'Development Team',
-          startTime: new Date('Sat Jun 1 2019 16:00:00 GMT+0300'),
-          endTime: new Date('Sat Jun 1 2019 19:00:00 GMT+0300'),
-          room: 'Conference Hall',
-          description: 'The development team presents the project\'s software.'
-        },
-        {
-          lecture: 'Cloud Lecture',
-          lecturer: 'Development Team',
-          startTime: new Date('Sat Jun 1 2019 18:00:00 GMT+0300'),
-          endTime: new Date('Sat Jun 1 2019 21:00:00 GMT+0300'),
-          room: 'Room 2',
-          description: 'Learn about amazon web services.'
-        },
-        {
-          lecture: 'Meeting',
-          lecturer: 'Development Team',
-          startTime: new Date('Wed May 31 2019 15:00:00 GMT+0300'),
-          endTime: new Date('Wed May 31 42019 17:00:00 GMT+0300'),
-          room: 'Room 3',
-          description: 'Meet to discuss the project.'
-        },
-        {
-          lecture: 'Test2 lecture',
-          lecturer: 'Development Team',
-          startTime: new Date('Sun Jun 2 2019 8:00:00 GMT+0300'),
-          endTime: new Date('Sun Jun 2 42019 10:00:00 GMT+0300'),
-          room: 'Room 1',
-          description: 'This lecture is a test. Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description...'
-        },
-        {
-          lecture: 'Event\'s End',
-          lecturer: 'Development Team',
-          startTime: new Date('Sun Jun 2 2019 9:00:00 GMT+0300'),
-          endTime: new Date('Sun Jun 2 42019 12:00:00 GMT+0300'),
-          room: 'Conference Hall',
-          description: 'The last day of the event.'
-        },
-        {
-          lecture: 'Test lecture',
-          lecturer: 'Development Team',
-          startTime: new Date('Sun Jun 1 2019 8:00:00 GMT+0300'),
-          endTime: new Date('Sun Jun 1 42019 10:00:00 GMT+0300'),
-          room: 'Room 1',
-          description: 'This lecture is a test. Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description... Long description...'
-        }
-      ]
+      events : []
     }
 
     this.renderEvents = this.renderEvents.bind(this)
@@ -98,8 +49,25 @@ class Events extends Component {
   }
 
   componentDidMount(){
-    this.calculateEventDaysAndSort()
-    this.initDaysSet()
+    fetch('https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/prod/lectures')
+      .then(res => res.json())
+      .then(json => json.data.map((item, i) => this.setState(prevState => ({
+        events: [
+          ...prevState.events, {
+            lecture: item.lecture,
+            lecturer: item.lecturer,
+            startTime: new Date(item.startDate),
+            endTime: new Date(item.endDate),
+            room: item.room,
+            description: item.description
+          }
+        ]
+      }), () => { 
+        if(json.data.length -1 === i) {
+          this.calculateEventDaysAndSort()
+          this.initDaysSet()
+        }
+      })))
   }
 
   calculateEventDaysAndSort(){
@@ -124,7 +92,6 @@ class Events extends Component {
 
   handleClick(e) {
     this.setState({selected: parseInt(e.currentTarget.id)})
-    console.log(this.state.selected)
   }
 
   renderEvents(item, i){
@@ -148,7 +115,7 @@ class Events extends Component {
                   - 
                   <Moment format='HH:mm'>{item.endTime}</Moment>
                   <Typography color="textSecondary" gutterBottom>
-                    {item.room}
+                    Room {item.room}
                   </Typography>
             </CardContent>
           </Card>
