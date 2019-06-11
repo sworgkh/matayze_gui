@@ -69,7 +69,7 @@ class App extends React.Component {
 
   componentDidMount() {
     console.log(this.props.location)
-    if (this.props.location.state !== undefined) {
+    if (this.props.location.state) {
       this.setState({logged_in: false, token: this.props.location.state.authToken, access_token:this.props.location.state.access_token })
       let url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
       let bearer = 'Bearer ' + this.props.location.state.access_token
@@ -137,8 +137,7 @@ class App extends React.Component {
     this.setState({token: token})
   }
   logOff(){
-    this.setState({val:'/'})
-    this.setState({logged_in: false,val:'',
+    this.setState({logged_in: false,val:'logoff',
       token:'',userEmail:'',access_token: ''})
 
     // window.location.href = '/'
@@ -203,7 +202,14 @@ class App extends React.Component {
         }}/>
       }
       //shahar
-
+      case 'logoff':
+        {
+          this.setState({val:''})
+          return  <Redirect  to={{
+            pathname: '/',
+            state: null
+          }}/>
+        }
 
 
       case 'login':
