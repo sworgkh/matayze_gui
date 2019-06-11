@@ -47,7 +47,8 @@ export default class Messages extends Component {
     let options = {
       method: "GET",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.token
       }
     };
     fetch(url, options)
