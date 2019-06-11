@@ -10,6 +10,10 @@ import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Login from "./Containers/Login";
 import login_page from './ENV_VAR'
 
+
+import Halls from './Screens/halls_shahar/components/menu'
+
+
 const routing = (
   <Router>
     <div>
@@ -18,6 +22,9 @@ const routing = (
           window.location.href = login_page.login_url;
           return null;
       }}/>
+
+      <Route path="/halls" component={Halls}/>
+
 
       <Route path="/index.html" component={App}/>
       <Route exact path="/" component={App} />

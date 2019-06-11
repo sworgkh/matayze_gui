@@ -4,6 +4,8 @@ import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
+import env_vars from '../../../ENV_VAR'
+import { Redirect } from 'react-router-dom'
 import css from '../styles/style.css'
 
 const styles = {
@@ -39,18 +41,31 @@ class Events extends Component {
     this.state = {
       days: new Set(),
       selected: 1,
-      events : []
+      events : [],
+      AWS_LOGIN: false,
+      logged_in: false
     }
 
     this.renderEvents = this.renderEvents.bind(this)
     this.calculateEventDaysAndSort = this.calculateEventDaysAndSort.bind(this)
     this.initDaysSet = this.initDaysSet.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.login = this.login.bind(this)
   }
 
-  componentDidMount(){
-    fetch('https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/prod/lectures')
-      .then(res => res.json())
+  async componentDidMount() {
+    if(this.props.location.state)
+      this.setState({logged_in: true})
+
+    await fetch(env_vars.api_link_get, {
+      method: 'GET',
+      crossDomain: true,
+      headers: {
+      'Authorization': "Bearer " + this.props.location.state.authToken,
+      'Content-Type': 'application/json'
+      } 
+    })
+      .then(response => response.json())
       .then(json => json.data.map((item, i) => this.setState(prevState => ({
         events: [
           ...prevState.events, {
@@ -68,6 +83,10 @@ class Events extends Component {
           this.initDaysSet()
         }
       })))
+  }
+
+  login(){
+    this.setState({ AWS_LOGIN: true })
   }
 
   calculateEventDaysAndSort(){
@@ -125,6 +144,23 @@ class Events extends Component {
   }
 
   render(){
+    if (!this.state.logged_in && this.state.AWS_LOGIN) {
+      this.setState({ AWS_LOGIN: false })
+      return <Redirect
+          to={{
+              pathname: '/login',
+              state: { logged_in: false }
+          }} />
+    }
+
+    if(!this.state.logged_in){
+        return (
+            <div style={styles.pageContainer}>
+                <Button variant="outlined" color="primary"  onClick={this.login} style={{color:'white',margin:20}}>login</Button>
+            </div>
+        )
+    }
+
     return (
       <div style={styles.container} className='eventContainer'>
         <div style={styles.nav}>

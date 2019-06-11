@@ -29,11 +29,11 @@ const styles = {
   },
   heading: {
     color: "white",
-    fontSize: "4em"
+    fontSize: "3vw"
   },
   message: {
     color: "white",
-    fontSize: "4.5em",
+    fontSize: "4vw",
     paddingTop: "20vh"
     // alignText: "center",
     // width: "30vw"
@@ -56,7 +56,13 @@ export default class hall_index extends React.Component {
   }
 
   async componentDidMount() {
-      let url = env_vars.api_link + "lectures";
+
+
+      // console.log(this.props.location.state.authToken)
+      if(this.props.location.state)
+        this.setState({logged_in: true})
+
+      let url = env_vars.api_link_get;
       // let url = https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures“;
       let bearer = "Bearer " + this.props.location.state.authToken;
       await fetch(url, {
@@ -158,11 +164,7 @@ export default class hall_index extends React.Component {
     if (!this.state.isLoaded) {
       return (
         <div style={styles.pageContainer}>
-<<<<<<< HEAD
-              <img src={preloader} style={styles.loader} />
-=======
           <img src={loader} style={styles.loader} />
->>>>>>> edb0dd629a1bd0b8c44d9fe38cafd1eff08b81ed
         </div>
       );
     } else {
@@ -179,11 +181,7 @@ export default class hall_index extends React.Component {
               height: "15vh"
             }}
           >
-<<<<<<< HEAD
-            <h1 style={styles.heading}>{this.state.lectures[1].conference_title}</h1>
-=======
             <h1 style={styles.heading}>{this.lectures[2].conference_title}</h1>
->>>>>>> edb0dd629a1bd0b8c44d9fe38cafd1eff08b81ed
             <img
               src={logo}
               style={{

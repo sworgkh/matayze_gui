@@ -23,6 +23,7 @@ class PaperSheet extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
+            id :  props.message.id,
             title: props.message.title,
             message: props.message.message,
         }
@@ -30,16 +31,17 @@ class PaperSheet extends React.Component{
     }
 
     delete() {
-        this.props.delete(this.state.title);
+        this.props.delete(this.state.id);
     }
 
     render() {
         return (
-            <div style={{margin:10,width:'48%',float: 'left'}}>
+            <div style={{margin:10,width:this.props.width,height:90,float: 'left'}}>
                 <Paper className={styles.root} style={{
                     display: 'flex',
                     // backgroundColor:'#bbdefb',
                     flexWrap: 'wrap',
+                    backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
                     justifyContent:'space-between',
                     alignContent: 'space-between',
 

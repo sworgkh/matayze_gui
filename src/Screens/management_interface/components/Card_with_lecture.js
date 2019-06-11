@@ -12,21 +12,22 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import Dialog from "@material-ui/core/Dialog";
 import CardMedia from "@material-ui/core/CardMedia";
-
-
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 const styles = {
     card: {
         maxWidth: 600,
-        width: "31%",
+        // width: this.props.width,
+        // width: "31%",
         float: "left",
         margin: "1%",
+        backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         // backgroundColor:'#bbdefb',
     },
     media: {
         height: 400,
     },
 };
-
 
 
 class Lecture extends React.Component {
@@ -55,6 +56,11 @@ class Lecture extends React.Component {
 
 
     }
+
+
+
+
+
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
@@ -100,6 +106,30 @@ class Lecture extends React.Component {
     }
 
     render() {
+
+
+        const styles = {
+            card: {
+                maxWidth: '96%',
+                // width: this.props.width,
+                width: this.props.width,
+                float: "left",
+                margin: "1%",
+                // height:500,
+                // backgroundColor:'#bbdefb',
+                backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
+            },
+            media: {
+                height: 400,
+            },
+        };
+
+
+
+
+
+
+
         return (
             <Card style={styles.card}>
                 <CardActionArea>
@@ -115,7 +145,9 @@ class Lecture extends React.Component {
                         <Typography component="p">Start time: {this.state.start_time} </Typography>
                         <Typography component="p">End time: {this.state.end_time} </Typography>
                         <Typography component="p">Room: {this.state.room} </Typography>
-                        <Typography component="p">Description: {this.state.description} </Typography>
+                        <PerfectScrollbar>
+                            <Typography style={{height:50}} component="p">Description: {this.state.description} </Typography>
+                        </PerfectScrollbar>
                     </CardContent>
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>

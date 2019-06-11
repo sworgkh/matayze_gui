@@ -127,6 +127,7 @@ class PrimarySearchAppBar extends React.Component {
     }
 
     handleBroadCastPopup() {
+        this.handleMenuClose()
         this.setState({ BroadCastPopup: true })
     }
     handleClose() {
@@ -137,6 +138,7 @@ class PrimarySearchAppBar extends React.Component {
 
     handleChange(e) {
         this.setState({ search: e.target.value });
+        this.props.search(this.state.search)
     }
 
 
@@ -147,6 +149,9 @@ class PrimarySearchAppBar extends React.Component {
     keyPress(e) {
         if (e.keyCode === 13) {
             this.props.search(this.state.search)
+        }
+        if (e.keyCode === 8 && (this.state.search.length === 1)) {
+            this.props.search('')
         }
     }
 
@@ -254,10 +259,10 @@ class PrimarySearchAppBar extends React.Component {
                 open={isMobileMenuOpen}
                 onClose={this.handleMenuClose}
             >
-                <MenuItem onClick={this.handleMobileMenuClose}>
+                <MenuItem  onClick={this.handleBroadCastPopup}>
                     <IconButton color="inherit">
                         <Badge badgeContent={0} color="secondary">
-                            <MailIcon />
+                            <MessageIcon />
                         </Badge>
                     </IconButton>
                     <p>Messages</p>
@@ -305,13 +310,13 @@ class PrimarySearchAppBar extends React.Component {
                             {/*<IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">*/}
                             {/*    <MenuIcon />*/}
                             {/*</IconButton>*/}
-                            <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
+                            <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} onClick={()=> {window.location.href = '/'}}/>
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
                             </Typography>
                             <div className={classes.search}>
-                                <div className={classes.searchIcon}>
-                                    <SearchIcon />
+                                <div className={classes.searchIcon} onClick={()=> alert('search')} >
+                                    <SearchIcon/>
                                 </div>
                                 <InputBase
                                     // onClick={this.props.search()}
@@ -370,9 +375,9 @@ class PrimarySearchAppBar extends React.Component {
                                         </Button>
                                     </DialogActions>
                                 </Dialog>
-                                <IconButton onClick={this.messagesScreen} color="inherit">
-                                    <MailIcon />
-                                </IconButton>
+                                {/*<IconButton onClick={this.messagesScreen} color="inherit">*/}
+                                {/*    <MailIcon />*/}
+                                {/*</IconButton>*/}
                                 <IconButton color="inherit">
                                     <Badge badgeContent={1} color="secondary">
                                         <NotificationsIcon />
