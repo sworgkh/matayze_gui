@@ -83,7 +83,7 @@ class managementIndex extends React.Component {
         //getAllLectures
         this.loadData()
 
-        let url = env_vars.api_link + "getAllLectures";
+        let url = env_vars.api_link
         let bearer = 'Bearer ' + this.props.location.state.authToken;
         // try {
         //     fetch(url, {
@@ -179,28 +179,50 @@ class managementIndex extends React.Component {
     }
 
     loadData = () => {
+
         console.log('load data')
-        let url = env_vars.api_link + "getAllLectures";
-        try {
-            fetch(url, {
-                method: 'GET',
-                crossDomain: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+        let url = env_vars.api_link_get;
+
+        let bearer = 'Bearer ' + this.props.location.state.authToken;
+
+        fetch(url, {
+            method: 'GET',
+            crossDomain: true,
+            headers: {
+                'Authorization': bearer,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson.data);
+                this.dealWithData(responseJson.data)
             })
-                .then(response => response.json())
 
-                .then(responseJson => {
-                    console.log(responseJson.data);
-                    this.dealWithData(responseJson.data)
-                })
-                .catch(err => console.error('Caught error: ', err))
 
-        }
-        catch (e) {
-            console.log({Fetch_lectures_error: e})
-        }
+
+
+
+        // try {
+        //     fetch(url, {
+        //         method: 'GET',
+        //         crossDomain: true,
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+        //         .then(response => response.json())
+        //
+        //         .then(responseJson => {
+        //             console.log(responseJson.data);
+        //             this.dealWithData(responseJson.data)
+        //         })
+        //         .catch(err => console.error('Caught error: ', err))
+        //
+        // }
+        // catch (e) {
+        //     console.log({Fetch_lectures_error: e})
+        // }
 
     }
 
@@ -301,7 +323,7 @@ class managementIndex extends React.Component {
 
         //post
         // let url = env_vars.api_link_post + "lectures";
-        let url = env_vars.api_link + 'createLecture'
+        let url = env_vars.api_link_post
         let bearer = 'Bearer ' + this.props.location.state.authToken;
         fetch(url, {
             method: 'POST',

@@ -43,7 +43,7 @@ class Menu extends Component {
         if(this.props.location.state.authToken){
             this.setState({logged_in:true})
             //all lectures will be fetched here
-            let url = env_vars.api_link + "lectures";
+            let url = env_vars.api_link_get;
 
             // let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/prod/lectures";
             let bearer = 'Bearer ' + this.props.location.state.authToken;

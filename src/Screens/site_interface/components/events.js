@@ -57,7 +57,7 @@ class Events extends Component {
     if(this.props.location.state)
       this.setState({logged_in: true})
 
-    await fetch(env_vars.api_link + "lectures", {
+    await fetch(env_vars.api_link_get, {
       method: 'GET',
       crossDomain: true,
       headers: {
