@@ -16,7 +16,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 import env_vars from '../../ENV_VAR'
-
+import { Redirect } from "react-router-dom"
 
 const styles = {
     containerStyle: {
@@ -47,7 +47,8 @@ class managementIndex extends React.Component {
             openAdd: false,
             messages_screen: false,
             token: '',
-            conference_title: ''
+            conference_title: '',
+            back: false
         }
         this.createLecture = this.createLecture.bind(this);
         this.updateEvent = this.updateEvent.bind(this);
@@ -61,7 +62,7 @@ class managementIndex extends React.Component {
 
     componentDidMount() {
         //check if user is logged in
-        console.log('didmount')
+
         console.log(this.props.location.state.authToken.toString())
 
         this.loadProps()
@@ -260,7 +261,6 @@ class managementIndex extends React.Component {
 
 
     userProfile() {
-
         this.setState({
             profile: !this.state.profile
         });
@@ -454,6 +454,10 @@ class managementIndex extends React.Component {
         this.setState({messages: [...this.state.messages, message]})
     }
 
+    back =() =>{
+        this.setState({back:true})
+    }
+
     deleteMessage(id) {
         console.log(id)
         let url = env_vars.message_link + 'messages'
@@ -490,6 +494,12 @@ class managementIndex extends React.Component {
 
 
     render() {
+        if(this.state.back){
+            return  <Redirect  to={{
+                pathname: '/',
+                state: { logged_in: false ,authToken: null, access_token:  null}
+            }}/>
+        }
 
 
         let width = this.getWindowDimensions().width
@@ -505,6 +515,7 @@ class managementIndex extends React.Component {
             return (
                 <div style={styles.containerStyle}>
                     <AppBar
+                        back={this.back.bind(this)}
                         userProfile={this.userProfile.bind(this)}
                         addMessage={this.addMessage.bind(this)}
                         search={this.handleSearch.bind(this)}
@@ -518,6 +529,8 @@ class managementIndex extends React.Component {
             return (
                 <div style={styles.containerStyle}>
                     <AppBar
+                        username={this.props.location.state.userData.username}
+                        back={this.back.bind(this)}
                         userProfile={this.userProfile.bind(this)}
                         addMessage={this.addMessage.bind(this)}
                         search={this.handleSearch.bind(this)}
@@ -666,15 +679,16 @@ class managementIndex extends React.Component {
                 </div>
             );
         } else {
-
-
             return (
                 <div style={styles.containerStyle}>
-                    <AppBar logged_in={this.state.logged_in}/>
+                    <AppBar
+                        back={this.back.bind(this)}
+                        logged_in={this.state.logged_in}/>
                     <h3 style={{margin: 20, color: 'white'}}>Welcome to your management console, Please login to make
                         changes</h3>
                     <Button variant="outlined" color="primary" onClick={() => {
-                        window.location.href = '/'
+                        this.back()
+                        // window.location.href = '/'
                     }} style={{color: 'white', margin: 20}}>Back to main page</Button>
                 </div>
             );

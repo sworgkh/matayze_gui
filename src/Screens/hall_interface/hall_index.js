@@ -56,8 +56,6 @@ export default class hall_index extends React.Component {
   }
 
   async componentDidMount() {
-
-
       // console.log(this.props.location.state.authToken)
       if(this.props.location.state)
         this.setState({logged_in: true})
@@ -207,7 +205,7 @@ export default class hall_index extends React.Component {
           >
             {this.cardRendering()}
           </div>
-          <Message />
+          <Message  token={this.props.location.state.authToken} />
         </div>
       );
     }

@@ -60,7 +60,9 @@ class App extends React.Component {
     this.state ={
       val:'',
       token:'',
-      logged_in : false
+      logged_in : false,
+      access_token:'',
+      userData: {}
     }
     this.login = this.login.bind(this)
 
@@ -76,17 +78,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    let a = this.props.location.hash
-    a = a.toString().split('&')
-    if (a[1]) {
-      let token = a[1]
-      token = token.slice(13, token.length)
-      if (token) {
-        let userToken = a[0]
-        userToken = userToken.toString().slice(10,userToken.length)
-        this.setToken(userToken)
-        var url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
-        var bearer = 'Bearer ' + token;
+    console.log(this.props.location)
+    if (this.props.location.state) {
+      if(!this.props.location.state.logged_in){
+        this.logOff()
+      } else {
+        this.setState({logged_in: false, token: this.props.location.state.authToken, access_token:this.props.location.state.access_token })
+        let url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
+        let bearer = 'Bearer ' + this.props.location.state.access_token
+        console.log(bearer)
         fetch(url, {
           method: 'GET',
           headers: {
@@ -95,11 +95,40 @@ class App extends React.Component {
           }
         }).then(response => response.json())
             .then(responseJson => {
-              // console.log(responseJson);
+              console.log(responseJson);
               this.redirectUser(responseJson)
-
-              this.setState({logged_in:true, userEmail: responseJson.email})
+  
+              this.setState({logged_in: true, userEmail: responseJson.email})
             })
+      }
+    } else {
+
+
+      let a = this.props.location.hash
+      a = a.toString().split('&')
+      if (a[1]) {
+        let token = a[1]
+        token = token.slice(13, token.length)
+        if (token) {
+          let userToken = a[0]
+          this.setState({access_token: token})
+          userToken = userToken.toString().slice(10, userToken.length)
+          this.setToken(userToken)
+          let url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
+          let bearer = 'Bearer ' + token;
+          fetch(url, {
+            method: 'GET',
+            headers: {
+              'Authorization': bearer,
+              'Content-Type': 'application/json'
+            }
+          }).then(response => response.json())
+              .then(responseJson => {
+                // console.log(responseJson);
+                // this.setState({logged_in: true, userEmail: responseJson.email})
+                this.redirectUser(responseJson)
+              })
+        }
       }
     }
   }
@@ -113,18 +142,39 @@ class App extends React.Component {
     };
   }
 
+
   redirectUser(userData){
-    // console.log(userData)
-  }
+
+    this.setState({userData:userData})
+    console.log(userData.username)
+    // this.halls()
+    // return;
+    if(userData.username.toString() === 'Micahel' || userData.username.toString() === 'Admin'){
+        console.log('here')
+        this.management_index()
+        return
+    }
+      if( userData.username === 'hallA'){
+        this.halls()
+        return
+      }
+      if( userData.username === 'hall-screen'){
+        this.hall_index()
+        return
+      }
+
+      this.interface_index()
+    }
+
 
   setToken(token){
     this.setState({token: token})
   }
   logOff(){
-    this.setState({logged_in: false,val:'',
-      token:'',userEmail:''})
+    this.setState({logged_in: false,val:'logoff',
+      token:'',userEmail:'',access_token: ''})
 
-    window.location.href = '/'
+    // window.location.href = '/'
   }
 
 
@@ -182,11 +232,18 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/halls',
-          state: { logged_in: logged_in ,authToken: this.state.token }
+          state: { logged_in: logged_in , userData:this.state.userData, authToken: this.state.token,access_token: this.state.access_token  }
         }}/>
       }
       //shahar
-
+      case 'logoff':
+        {
+          this.setState({val:''})
+          return  <Redirect  to={{
+            pathname: '/',
+            state: null
+          }}/>
+        }
 
 
       case 'login':
@@ -194,7 +251,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/login',
-          state: { logged_in: logged_in ,authToken: this.state.token }
+          state: { logged_in: logged_in, userData:this.state.userData ,authToken: this.state.token,access_token: this.state.access_token  }
         }}/>
       }
       case 'management_index':
@@ -202,7 +259,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/management_index',
-          state: { logged_in: logged_in, authToken: this.state.token }
+          state: { logged_in: logged_in, userData:this.state.userData,  authToken: this.state.token ,access_token: this.state.access_token }
         }}/>
       }
       case 'hall_index':
@@ -210,7 +267,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/hall_index',
-          state: { logged_in: logged_in , authToken: this.state.token}
+          state: { logged_in: logged_in , userData:this.state.userData,  authToken: this.state.token,access_token: this.state.access_token }
         }}/>
       }
       case 'interface_index':
@@ -218,7 +275,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/interface_index',
-          state: { logged_in: logged_in , authToken: this.state.token }
+          state: { logged_in: logged_in , userData:this.state.userData,  authToken: this.state.token, userEmail: this.state.userEmail, access_token: this.state.access_token }
         }}/>
       }
       default:
