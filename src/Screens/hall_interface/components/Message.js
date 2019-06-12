@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
+import env_vars from "../../../ENV_VAR";
 //
 var IntervalTime = 1000 * 60 * 1;
 const styles = {
@@ -42,22 +43,47 @@ export default class Messages extends Component {
     this.fetchMessages = this.fetchMessages.bind(this);
   }
   async fetchMessages() {
-    let url =
-      "https://cs1h8nv6uf.execute-api.eu-west-1.amazonaws.com/dev/get-s3";
-    let options = {
-      method: "GET",
+    // let url =
+    //   "https://cs1h8nv6uf.execute-api.eu-west-1.amazonaws.com/dev/get-s3";
+    // console.log(this.props.token)
+    // let options = {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: "Bearer " + this.props.token
+    //   }
+    // };
+    // fetch(url, options)
+    //   .then(res => res.json())
+    //   .then(body => {
+    //     this.setState({ messages: body.messages });
+    //     console.log("fetching");
+    //     console.log( body.messages)
+    //   })
+
+
+
+    //Michael added
+    let url = env_vars.message_link + 'messages'
+    let bearer = 'Bearer ' + this.props.token
+
+    fetch(url, {
+      method: 'POST',
+      crossDomain: true,
+      body: JSON.stringify({
+        "type":"getAll",
+        "message": "test",
+        "title": "test"
+      }),
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
+        'Authorization': bearer,
+        'Content-Type': 'application/json'
       }
-    };
-    fetch(url, options)
-      .then(res => res.json())
-      .then(body => {
-        this.setState({ messages: body.messages });
-        console.log("fetching");
-      })
-      .catch(error => console.log(`error listing all objects: ${error}`));
+    }).then(response => response.json())
+        .then(responseJson => {
+          console.log(responseJson)
+          this.setState({ messages: responseJson.data });
+        }).catch(error => console.log(`error listing all objects: ${error}`));
   }
   componentDidMount() {
     this.interval = setInterval(() => {

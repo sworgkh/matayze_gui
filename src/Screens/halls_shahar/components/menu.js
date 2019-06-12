@@ -132,9 +132,9 @@ class Menu extends Component {
                     {this.state.isVisible?
                         <div className="buttons" style={styles.buttons}>
                             <h2 style={{margin:5}}>Choose a room:</h2>
-                            <Button  style={{color:'white',margin:10}} onClick={() => this.checkRoom("A")}>Room A</Button><br/>
-                            <Button  style={{color:'white',margin:10}} onClick={() => this.checkRoom("B")}>Room B</Button><br/>
-                            <Button  style={{color:'white',margin:10}} onClick={() => this.checkRoom("C")}>Room C</Button><br/>
+                            <Button variant="outlined" color='primary' style={{color:'white',margin:10}} onClick={() => this.checkRoom("A")}>Room A</Button><br/>
+                            <Button variant="outlined" color='primary' style={{color:'white',margin:10}} onClick={() => this.checkRoom("B")}>Room B</Button><br/>
+                            <Button variant="outlined" color='primary' style={{color:'white',margin:10}} onClick={() => this.checkRoom("C")}>Room C</Button><br/>
                         </div>:
                         <div>
                             {this.state.room!==null? <Lectures toggleButtons={this.toggleButtons} token={this.props.location.state.authToken} room={this.state.room} lectures={this.state.lectures} messages={this.state.messages}/> : null}

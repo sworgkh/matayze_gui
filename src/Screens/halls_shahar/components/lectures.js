@@ -129,7 +129,7 @@ class Lectures extends Component {
                     {this.state.isVisible? <Menu/> :
                         <div className="lecture">
                             <img style={styles.logo} src={logo} alt={"logo"}/>
-                            <Button style={{position:'absolute', top:5,color:'white', right:10}} className="btn btn-light" onClick={() => this.setState({backButton:true})}>
+                            <Button variant="outlined" color='primary' style={{position:'absolute', top:5,color:'white', right:10}} className="btn btn-light" onClick={() => this.setState({backButton:true})}>
                                 Menu
                             </Button>
                             <div style={{margin:'0 auto', width:1000}}>
