@@ -311,10 +311,10 @@ class PrimarySearchAppBar extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="static">
                         <Toolbar>
-                           <IconButton onClick={() => this.back()} className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                                <BackIcon />
-                            </IconButton>
-                            <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} onClick={()=> {window.location.href = '/'}}/>
+                           {/*<IconButton onClick={() => this.back()} className={classes.menuButton} color="inherit" aria-label="Open drawer">*/}
+                           {/*     <BackIcon />*/}
+                           {/* </IconButton>*/}
+                            <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar}/>
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Management Panel
                             </Typography>
@@ -334,6 +334,7 @@ class PrimarySearchAppBar extends React.Component {
                                 />
                             </div>
                             <div className={classes.grow} />
+                            <Typography style={{color:'white'}}>Welcome {this.props.username}</Typography>
                             <div className={classes.sectionDesktop}>
                                 <IconButton color="inherit" onClick={this.handleBroadCastPopup}
                                     aria-haspopup="true"

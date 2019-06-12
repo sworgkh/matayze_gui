@@ -261,7 +261,6 @@ class managementIndex extends React.Component {
 
 
     userProfile() {
-
         this.setState({
             profile: !this.state.profile
         });
@@ -498,7 +497,7 @@ class managementIndex extends React.Component {
         if(this.state.back){
             return  <Redirect  to={{
                 pathname: '/',
-                state: { logged_in: true ,authToken: this.props.location.state.authToken, access_token:  this.props.location.state.access_token}
+                state: { logged_in: false ,authToken: null, access_token:  null}
             }}/>
         }
 
@@ -530,6 +529,7 @@ class managementIndex extends React.Component {
             return (
                 <div style={styles.containerStyle}>
                     <AppBar
+                        username={this.props.location.state.userData.username}
                         back={this.back.bind(this)}
                         userProfile={this.userProfile.bind(this)}
                         addMessage={this.addMessage.bind(this)}

@@ -152,9 +152,9 @@ class Lecture extends React.Component {
                 </CardActionArea>
                 <CardActions style={{justifyContent: 'space-between'}}>
 
-                    <Button variant="contained" color="primary" onClick={this.handleOpenEdit}>
-                        Edit
-                    </Button>
+                    {/*<Button variant="contained" color="primary" onClick={this.handleOpenEdit}>*/}
+                    {/*    Edit*/}
+                    {/*</Button>*/}
 
                     <Dialog
                         fullWidth={true}
@@ -263,9 +263,9 @@ class Lecture extends React.Component {
                             </Button>
                         </DialogActions>
                     </Dialog>
-                    <Button variant="contained" color="primary" onClick={this.handleOpenDelete}>
-                        Delete
-                    </Button>
+                    {/*<Button variant="contained" color="primary" onClick={this.handleOpenDelete}>*/}
+                    {/*    Delete*/}
+                    {/*</Button>*/}
 
                     <Dialog
                         fullWidth={true}

@@ -52,7 +52,8 @@ class App extends React.Component {
       val:'',
       token:'',
       logged_in : false,
-      access_token:''
+      access_token:'',
+      userData: {}
     }
     this.login = this.login.bind(this)
 
@@ -115,9 +116,8 @@ class App extends React.Component {
           }).then(response => response.json())
               .then(responseJson => {
                 // console.log(responseJson);
+                // this.setState({logged_in: true, userEmail: responseJson.email})
                 this.redirectUser(responseJson)
-
-                this.setState({logged_in: true, userEmail: responseJson.email})
               })
         }
       }
@@ -133,9 +133,33 @@ class App extends React.Component {
     };
   }
 
+
   redirectUser(userData){
-    // console.log(userData)
-  }
+
+    this.setState({userData:userData})
+    console.log(userData.username)
+    // this.halls()
+    // return;
+    if(userData.username.toString() === 'Micahel' || userData.username.toString() === 'Admin'){
+        console.log('here')
+        this.management_index()
+
+        return
+    }
+      if( userData.username === 'hallA'){
+        this.halls()
+
+        return
+      }
+      if( userData.username === 'hall-screen'){
+        this.hall_index()
+
+        return
+      }
+
+      this.interface_index()
+    }
+
 
   setToken(token){
     this.setState({token: token})
@@ -202,7 +226,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/halls',
-          state: { logged_in: logged_in ,authToken: this.state.token,access_token: this.state.access_token  }
+          state: { logged_in: logged_in , userData:this.state.userData, authToken: this.state.token,access_token: this.state.access_token  }
         }}/>
       }
       //shahar
@@ -221,7 +245,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/login',
-          state: { logged_in: logged_in ,authToken: this.state.token,access_token: this.state.access_token  }
+          state: { logged_in: logged_in, userData:this.state.userData ,authToken: this.state.token,access_token: this.state.access_token  }
         }}/>
       }
       case 'management_index':
@@ -229,7 +253,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/management_index',
-          state: { logged_in: logged_in, authToken: this.state.token ,access_token: this.state.access_token }
+          state: { logged_in: logged_in, userData:this.state.userData,  authToken: this.state.token ,access_token: this.state.access_token }
         }}/>
       }
       case 'hall_index':
@@ -237,7 +261,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/hall_index',
-          state: { logged_in: logged_in , authToken: this.state.token,access_token: this.state.access_token }
+          state: { logged_in: logged_in , userData:this.state.userData,  authToken: this.state.token,access_token: this.state.access_token }
         }}/>
       }
       case 'interface_index':
@@ -245,7 +269,7 @@ class App extends React.Component {
         this.setState({val:''})
         return  <Redirect  to={{
           pathname: '/interface_index',
-          state: { logged_in: logged_in , authToken: this.state.token, userEmail: this.state.userEmail, access_token: this.state.access_token }
+          state: { logged_in: logged_in , userData:this.state.userData,  authToken: this.state.token, userEmail: this.state.userEmail, access_token: this.state.access_token }
         }}/>
       }
       default:
