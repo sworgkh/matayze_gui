@@ -27,6 +27,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
 
+import logo from './logo.png';
+
+
 const styles = theme => ({
     bigAvatar: {
         margin: 10,
@@ -137,9 +140,19 @@ class PrimarySearchAppBar extends React.Component {
                 <div className={classes.root}>
                     <AppBar position="static">
                         <Toolbar>
-                            <Avatar style={{ marginRight: 30 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
+                            {/* <Avatar style={{ marginRight: 30 }} alt="User Logo" src={Logo} className={styles.bigAvatar} /> */}
+                            <img
+                                src={logo}
+                                style={{
+                                    position: "absolute",
+                                    left: "50%",
+                                    marginLeft: "-50px",
+                                    maxWidth: "3vw",
+                                    height: "auto"
+                                }}
+                            />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                                Mataize
+                                Matayze
                             </Typography>
 
                             <div className={classes.grow} />

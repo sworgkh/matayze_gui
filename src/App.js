@@ -27,10 +27,19 @@ export const Container = styled.div`
 
 const styles = {
   containerStyle: {
+    display: 'flex',
+    flexDirection: 'column',
     position: 'relative',
-    backgroundImage: 'linear-gradient(to bottom right, black, purple)',
+    alignItems: 'center',
+    backgroundImage: "linear-gradient(to top left, purple 30%, #2a2a2a 70%)",
     overflow: 'auto',
-    minHeight: 980
+    minHeight: '100vh'
+  },
+  mainPage: {
+    // alignItems: 'center',
+    // width: '50%',
+    // height: 'auto',
+    margin: '0 auto'
   },
   logoStyle: {
     position: 'absolute',
@@ -222,7 +231,7 @@ class App extends React.Component {
                     logOff = {this.logOff}
                 />
                 <header  style={styles.containerStyle}>
-                  <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to mataize</h1>
+                  <h1 style={{position:'center',alignSelf:'center',margin:20,color:'white'}}>Welcome to matayze</h1>
                   {/*<p style={{color:'white',margin:30}}>To access login use rout: <Button  variant="outlined" color="primary"  onClick={this.login} style={{color:'white'}}>login</Button></p>*/}
                   {this.management(buttonWidth)}
 
@@ -244,10 +253,10 @@ class App extends React.Component {
                     logged_in={this.state.logged_in}
                     logOff={this.logOff}
                 />
-                <header style={styles.containerStyle}>
-                  <h1 style={{position: 'center', alignSelf: 'center', margin: 20, color: 'white'}}>Welcome to
-                    mataize</h1>
-                  <img
+                <header style={styles.mainPage}>
+                  <h1 style={{alignSelf: 'center', margin: 20, color: 'white'}}>Welcome to
+                    matayze</h1>
+                  {/* <img
                       src={logo}
                       style={{
                         position: "relative",
@@ -257,8 +266,8 @@ class App extends React.Component {
                         height: "auto",
                         float: 'left'
                       }}
-                  />
-                  <p style={{color: 'white', margin: 10}}>Please login first </p>
+                  /> */}
+                  <p style={{alignSelf: 'center', color: 'white', margin: 20}}>Please login first</p>
                 </header>
                 {/*<Footer/>*/}
               </div>

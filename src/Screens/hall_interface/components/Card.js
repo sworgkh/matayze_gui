@@ -17,7 +17,6 @@ const styles = {
     display: "flex"
   },
   lecturerImg: {
-    // display: "block",
     width: "8vw",
     height: "8vw",
     backgroundRepeat: "no-repeat",

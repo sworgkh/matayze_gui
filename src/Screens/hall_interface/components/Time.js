@@ -4,7 +4,7 @@ import Clock from "react-live-clock";
 const styles = {
   heading: {
     color: "white",
-    fontSize: "2.8em"
+    fontSize: "2.8vw"
   }
 };
 

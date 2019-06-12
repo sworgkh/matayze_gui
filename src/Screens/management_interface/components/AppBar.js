@@ -233,7 +233,7 @@ class PrimarySearchAppBar extends React.Component {
             >
 
                 <MenuItem onClick={this.userProfile}>Profile</MenuItem>
-                <MenuItem onClick={this.logOff}>Log Off</MenuItem>
+                <MenuItem onClick={this.logOff}>Sign Out</MenuItem>
             </Menu>
         );
 

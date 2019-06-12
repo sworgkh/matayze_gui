@@ -49,7 +49,7 @@ export default class Messages extends Component {
       headers: {
         "Content-Type": "application/json"
       }
-    };
+    }
     fetch(url, options)
       .then(res => res.json())
       .then(body => {
