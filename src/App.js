@@ -138,7 +138,7 @@ class App extends React.Component {
 
     this.setState({userData:userData})
     console.log(userData.username)
-    // this.halls()
+    // this.interface_index()
     // return;
     if(userData.username.toString() === 'Micahel' || userData.username.toString() === 'Admin'){
         console.log('here')

@@ -504,7 +504,7 @@ class managementIndex extends React.Component {
 
         let width = this.getWindowDimensions().width
         let cardWidth = '31%'
-        let messageWidth = '48%'
+        let messageWidth = '100%'
         if(width < 1053){
             cardWidth = '100%'
             messageWidth = '96%'

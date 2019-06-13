@@ -139,7 +139,7 @@ class PrimarySearchAppBar extends React.Component {
                         <Toolbar>
                             <Avatar style={{ marginRight: 30 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                                Mataize
+                                Matayze
                             </Typography>
 
                             <div className={classes.grow} />
