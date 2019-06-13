@@ -39,6 +39,9 @@ const styles = theme => ({
     grow: {
         flexGrow: 1,
     },
+    backgroundBar: {
+      background: 'linear-gradient(to bottom, rgb(128, 0, 128) 20%, #2a2a2a 80%)'
+    },
     menuButton: {
         marginLeft: -12,
         marginRight: 20,
@@ -236,7 +239,7 @@ class PrimarySearchAppBar extends React.Component {
                 onClose={this.handleMenuClose}
             >
 
-                <MenuItem onClick={this.userProfile}>Profile</MenuItem>
+                {/* <MenuItem onClick={this.userProfile}>Profile</MenuItem> */}
                 <MenuItem onClick={this.logOff}>Sign Out</MenuItem>
             </Menu>
         );
@@ -309,7 +312,7 @@ class PrimarySearchAppBar extends React.Component {
         if (this.props.logged_in) {
             return (
                 <div className={classes.root}>
-                    <AppBar position="static">
+                    <AppBar className={classes.backgroundBar} position="static">
                         <Toolbar>
                            {/*<IconButton onClick={() => this.back()} className={classes.menuButton} color="inherit" aria-label="Open drawer">*/}
                            {/*     <BackIcon />*/}
