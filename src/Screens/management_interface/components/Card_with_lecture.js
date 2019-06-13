@@ -114,7 +114,7 @@ class Lecture extends React.Component {
                 // width: this.props.width,
                 width: this.props.width,
                 // width: '20vw',
-                height: '30vw',
+                height: this.props.height,
                 float: "left",
                 margin: "1%",
                 border: 'solid 2px #fff',
@@ -127,16 +127,10 @@ class Lecture extends React.Component {
                 height: 400,
             },
             text: {
-                fontSize: '1vw',
+                fontSize: this.props.fontSize,
                 color: '#fff'
             }
         };
-
-
-
-
-
-
 
         return (
             <Card style={styles.card}>

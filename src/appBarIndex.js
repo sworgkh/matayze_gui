@@ -36,6 +36,9 @@ const styles = theme => ({
         width: 60,
         height: 60,
     },
+    topBar: {
+        background: 'linear-gradient(to bottom, rgb(128, 0, 128) 20%, #2a2a2a 80%)'
+    },
     root: {
         width: '100%',
     },
@@ -51,6 +54,7 @@ const styles = theme => ({
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
+        fontSize: '3vw'
     },
     // sectionDesktop: {
     //     display: 'none',
@@ -138,7 +142,7 @@ class PrimarySearchAppBar extends React.Component {
         {
             return (
                 <div className={classes.root}>
-                    <AppBar position="static">
+                    <AppBar className={classes.topBar} position="static">
                         <Toolbar>
                             {/* <Avatar style={{ marginRight: 30 }} alt="User Logo" src={Logo} className={styles.bigAvatar} /> */}
                             <img

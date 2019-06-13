@@ -506,11 +506,15 @@ class managementIndex extends React.Component {
 
 
         let width = this.getWindowDimensions().width
+        let cardHeight = '30vw'
         let cardWidth = '31%'
         let messageWidth = '48%'
-        if(width < 1053){
+        let textSize = '1vw'
+        if(width < 1053) {
             cardWidth = '100%'
             messageWidth = '96%'
+            textSize = '2.2vw'
+            cardHeight = '45vw'
         }
 
         if (this.state.logged_in && this.state.profile) {
@@ -567,9 +571,7 @@ class managementIndex extends React.Component {
                         </Fab>
                     </Tooltip>
                     <div style={{marginTop: 10, margin: '2%'}}>
-                        {this.state.lectures.map(lecture => <Card width={cardWidth} delete={this.deleteEvent.bind(this)}
-                                                                  update={this.updateEvent.bind(this)}
-                                                                  key={lecture.lectureID} allData={lecture}/>)}
+                        {this.state.lectures.map(lecture => <Card width={cardWidth} height={cardHeight} fontSize={textSize} delete={this.deleteEvent.bind(this)} update={this.updateEvent.bind(this)} key={lecture.lectureID} allData={lecture}/>)}
                     </div>
 
                  
