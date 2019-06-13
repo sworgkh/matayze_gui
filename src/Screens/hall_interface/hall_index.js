@@ -109,7 +109,9 @@ export default class hall_index extends React.Component {
     this.lectures.map(lecture => {
       let startDate = new Date(lecture.startDate);
       let now = new Date();
-      if (startDate > now && startDate.getDate() === now.getDate())
+      // if (startDate > now && startDate.getDate() === now.getDate())
+      let delta = startDate.getHours() - now.getHours()
+      if(delta == 1 || delta == 0 && startDate.getMinutes() > now.getMinutes())
         tempLectures.push(lecture);
     });
 
@@ -121,6 +123,7 @@ export default class hall_index extends React.Component {
 
   cardRendering = () => {
     let tmp = [];
+    console.log(`Lectures: ${this.state.shownLectures}`)
     if (this.state.shownLectures.length === 0)
       return <h1 style={styles.message}>No More lectures For Today</h1>;
 

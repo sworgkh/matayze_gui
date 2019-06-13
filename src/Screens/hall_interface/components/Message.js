@@ -79,22 +79,11 @@ export default class Messages extends Component {
         'Authorization': bearer,
         'Content-Type': 'application/json'
       }
-<<<<<<< HEAD
-    }
-    fetch(url, options)
-      .then(res => res.json())
-      .then(body => {
-        this.setState({ messages: body.messages });
-        console.log("fetching");
-      })
-      .catch(error => console.log(`error listing all objects: ${error}`));
-=======
     }).then(response => response.json())
         .then(responseJson => {
           console.log(responseJson)
           this.setState({ messages: responseJson.data });
         }).catch(error => console.log(`error listing all objects: ${error}`));
->>>>>>> 7748a821ecb2086e2db4090f723771b7a7df2750
   }
   componentDidMount() {
     this.interval = setInterval(() => {
