@@ -1,5 +1,5 @@
 import React from "react";
-
+import moment from "moment"
 import Card from "./components/Card";
 import Time from "./components/Time";
 import Message from "./components/Message";
@@ -108,11 +108,14 @@ export default class hall_index extends React.Component {
 
     this.lectures.map(lecture => {
       let startDate = new Date(lecture.startDate);
-      let now = new Date();
-      // if (startDate > now && startDate.getDate() === now.getDate())
-      let delta = startDate.getHours() - now.getHours()
-      if(delta == 1 || delta == 0 && startDate.getMinutes() > now.getMinutes())
+      startDate = startDate.getTime()
+      let now = new Date()
+      now = now.getTime()
+      let durationTime = moment.duration({hour: 1}) + now
+      if(startDate <= durationTime && startDate > now)
         tempLectures.push(lecture);
+      // if (startDate > now && startDate.getDate() === now)
+      //   tempLectures.push(lecture);
     });
 
     tempLectures.sort((a, b) => {

@@ -6,7 +6,7 @@ var IntervalTime = 1000 * 60 * 1;
 const styles = {
   container: {
     position: "fixed",
-    bottom: "5vh",
+    bottom: "9vh",
     width: "60vw",
     height: "12vh",
     marginLeft: "15vw",
@@ -21,8 +21,15 @@ const styles = {
     margin: ".5vw auto",
     paddingLeft: "2vw",
     fontSize: "1.5vw"
+  },
+  messageTitle: {
+    fontSize: '1.2vw'
+  },
+  message: {
+    fontSize: '1vw'
   }
 };
+
 var sliderSettings = {
   dots: false,
   infinite: true,
@@ -102,8 +109,8 @@ export default class Messages extends Component {
           {this.state.messages.map(messageObject => {
             return (
               <div style={styles.messageBody} key={messageObject.id}>
-                <h3>{messageObject.title}</h3>
-                <h4>{messageObject.message}</h4>
+                <h3 style={styles.messageTitle}>{messageObject.title}</h3>
+                <p style={styles.message}>{messageObject.message}</p>
               </div>
             );
           })}
