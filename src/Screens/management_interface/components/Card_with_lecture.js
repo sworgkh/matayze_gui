@@ -18,9 +18,9 @@ const styles = {
     card: {
         maxWidth: 600,
         // width: this.props.width,
-        // width: "31%",
+        width: "31%",
         float: "left",
-        margin: "1%",
+        margin: "0 auto",
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         // backgroundColor:'#bbdefb',
     },
@@ -113,15 +113,23 @@ class Lecture extends React.Component {
                 maxWidth: '96%',
                 // width: this.props.width,
                 width: this.props.width,
+                // width: '20vw',
+                height: '30vw',
                 float: "left",
                 margin: "1%",
+                border: 'solid 2px #fff',
+                backgroundColor: 'transparent'
                 // height:500,
-                // backgroundColor:'#bbdefb',
-                backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
+                // backgroundColor:'rgb(128, 0, 128, 0.4)',
+                // backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
             },
             media: {
                 height: 400,
             },
+            text: {
+                fontSize: '1vw',
+                color: '#fff'
+            }
         };
 
 
@@ -133,20 +141,21 @@ class Lecture extends React.Component {
         return (
             <Card style={styles.card}>
                 <CardActionArea>
-                    <CardMedia
-                        style={{height:300}}
+                    {/* <CardMedia
+                        style={{height: 300}}
                         image={this.state.lecturer_image}
                         title="Contemplative Reptile"
-                    />
+                    /> */}
+                    <img src={this.state.lecturer_image} style={{display: 'block', width: '10vw', height: '10vw', margin: '10px auto'}} />
                     <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2"> {this.state.conference_title}</Typography>
-                        <Typography component="p">Lecture: {this.state.lecture}</Typography>
-                        <Typography component="p">Lecturer: {this.state.lecturer} </Typography>
-                        <Typography component="p">Start time: {this.state.start_time} </Typography>
-                        <Typography component="p">End time: {this.state.end_time} </Typography>
-                        <Typography component="p">Room: {this.state.room} </Typography>
+                        <Typography style={styles.text} gutterBottom variant="h5" component="h2"> <b>{this.state.conference_title}</b></Typography>
+                        <Typography style={styles.text} component="p"><b>Lecture: </b>{this.state.lecture}</Typography>
+                        <Typography style={styles.text} component="p"><b>Lecturer: </b>{this.state.lecturer} </Typography>
+                        <Typography style={styles.text} component="p"><b>Start time: </b>{this.state.start_time} </Typography>
+                        <Typography style={styles.text} component="p"><b>End time: </b>{this.state.end_time} </Typography>
+                        <Typography style={styles.text} component="p"><b>Room: </b>{this.state.room} </Typography>
                         <PerfectScrollbar>
-                            <Typography style={{height:50}} component="p">Description: {this.state.description} </Typography>
+                            <Typography style={styles.text} component="p"><b>Description: </b>{this.state.description} </Typography>
                         </PerfectScrollbar>
                     </CardContent>
                 </CardActionArea>

@@ -42,6 +42,8 @@ const styles = theme => ({
     },
 
     root: {
+        display: 'flex',
+        flexDirection: 'column',
         width: '100%',
     },
     heading: {
@@ -92,8 +94,8 @@ class Messages extends React.Component {
         const { classes } = this.props;
         return (
             <div className={classes.root}>
-                <Paper style={{margin:10,borderRadius: 3,backgroundColor:'#3f51b5' }} elevation={1}>
-                    <Typography style={{margin:5,color:'white'}} variant="h5" component="h3">
+                <Paper style={{margin:10, borderRadius: 3, backgroundColor:'#3f51b5' }} elevation={1}>
+                    <Typography style={{margin:5, color:'white'}} variant="h5" component="h3">
                         Broadcast Messages
                     </Typography>
                 </Paper>

@@ -383,11 +383,11 @@ class PrimarySearchAppBar extends React.Component {
                                 {/*<IconButton onClick={this.messagesScreen} color="inherit">*/}
                                 {/*    <MailIcon />*/}
                                 {/*</IconButton>*/}
-                                <IconButton color="inherit">
+                                {/* <IconButton color="inherit">
                                     <Badge badgeContent={1} color="secondary">
                                         <NotificationsIcon />
                                     </Badge>
-                                </IconButton>
+                                </IconButton> */}
                                 <IconButton
                                     aria-owns={isMenuOpen ? 'material-appbar' : undefined}
                                     aria-haspopup="true"

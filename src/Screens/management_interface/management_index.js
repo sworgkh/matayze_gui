@@ -23,7 +23,7 @@ const styles = {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         width: '100%',
-        minHeight: '800px',
+        minHeight: '100vh',
         height: 'auto'
     }
 }
@@ -306,6 +306,9 @@ class managementIndex extends React.Component {
     };
 
     createLecture() {
+        if (this.state.description === '' || this.state.end_time === '' || this.state.lecture === '' || this.state.lecturer === '' || this.state.lecturer_image === '' || this.state.room === '' || this.state.start_time === '' || this.state.conference_title === '')
+            alert('You must fill in all fields!')
+            return
         this.handleCloseCreateLecture()
         //need to implement add to database
 
@@ -504,7 +507,7 @@ class managementIndex extends React.Component {
 
         let width = this.getWindowDimensions().width
         let cardWidth = '31%'
-        let messageWidth = '100%'
+        let messageWidth = '48%'
         if(width < 1053){
             cardWidth = '100%'
             messageWidth = '96%'
@@ -515,6 +518,7 @@ class managementIndex extends React.Component {
             return (
                 <div style={styles.containerStyle}>
                     <AppBar
+                        backgroundColor= 'red'
                         back={this.back.bind(this)}
                         userProfile={this.userProfile.bind(this)}
                         addMessage={this.addMessage.bind(this)}
@@ -538,36 +542,37 @@ class managementIndex extends React.Component {
                         messagesScreen={this.messagesScreen.bind(this)}
                         logged_in={this.state.logged_in}
                     />
-                    <Paper style={{margin: 10, borderRadius: 3, backgroundColor: '#3f51b5'}} elevation={1}>
-                        <Typography style={{margin: 5, color: 'white'}} variant="h5" component="h3">
+                    <Paper style={{width: '100%', margin: '10px auto', padding: 5, backgroundColor: 'rgb(128, 0, 128, 0.6)'}} elevation={1}>
+                        <Typography style={{fontSize: '1.8vw', padding: '5px 0 5px 40px', color: 'white'}} variant="h5" component="h3">
                             Broadcast Messages
                         </Typography>
                     </Paper>
-
-                    <div style={{width: '96%', marginTop: 10, margin: '2%'}}>
-                        {this.state.messages.map(message => <Message width={messageWidth} delete={this.deleteMessage.bind(this)}
-                                                                     key={message.id} message={message}/>)}
+                    <div style={{display: 'flex', flexWrap: 'wrap', flexDirection: 'column', width: '90%', justifyContent: 'center', margin: '0 auto'}}>
+                        <div style={{width: '100%'}}>
+                            {this.state.messages.map(message => <Message width={messageWidth} delete={this.deleteMessage.bind(this)}
+                                                                            key={message.id} message={message}/>)}
+                        </div>
                     </div>
                     <div style={{clear: 'both'}}></div>
                     <div>
-                        <Paper style={{margin: 10, borderRadius: 3, backgroundColor: '#3f51b5'}} elevation={1}>
-                            <Typography style={{margin: 5, color: 'white'}} variant="h5" component="h3">
-                                Meetings
+                        <Paper style={{width: '100%', margin: '10px auto', padding: 5, backgroundColor: 'rgb(128, 0, 128, 0.6)'}} elevation={1}>
+                            <Typography style={{fontSize: '1.8vw', padding: '5px 0 5px 40px', color: 'white'}} variant="h5" component="h3">
+                                Lectures
                             </Typography>
                         </Paper>
                     </div>
-
-                    <div style={{width: '96%', marginTop: 10, margin: '2%'}}>
+                    <Tooltip title="Add" aria-label="Add" onClick={this.openCreateLecture}>
+                        <Fab color="secondary" style={{position: 'fixed', bottom: 30, right: 50, zIndex: '100'}}>
+                            <AddIcon style={{padding: 0, margin: 0}}/>
+                        </Fab>
+                    </Tooltip>
+                    <div style={{marginTop: 10, margin: '2%'}}>
                         {this.state.lectures.map(lecture => <Card width={cardWidth} delete={this.deleteEvent.bind(this)}
                                                                   update={this.updateEvent.bind(this)}
                                                                   key={lecture.lectureID} allData={lecture}/>)}
                     </div>
 
-                    <Tooltip title="Add" aria-label="Add" onClick={this.openCreateLecture}>
-                        <Fab color="secondary" style={{margin: 10}}>
-                            <AddIcon/>
-                        </Fab>
-                    </Tooltip>
+                 
 
                     <Dialog
                         fullWidth={true}
@@ -585,6 +590,7 @@ class managementIndex extends React.Component {
                                 value={this.state.conference_title}
                                 onChange={this.handleChange('conference_title')}
                                 margin="normal"
+                                required={true}
                             />
                             <br/>
                             <TextField
@@ -593,6 +599,7 @@ class managementIndex extends React.Component {
                                 value={this.state.lecture}
                                 onChange={this.handleChange('lecture')}
                                 margin="normal"
+                                required={true}
                             />
                             <br/>
                             <TextField
@@ -601,6 +608,7 @@ class managementIndex extends React.Component {
                                 value={this.state.lecturer}
                                 onChange={this.handleChange('lecturer')}
                                 margin="normal"
+                                required={true}
                             />
                             <br/>
                             <TextField
@@ -613,6 +621,7 @@ class managementIndex extends React.Component {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                required={true}
                             />
                             <br/>
 
@@ -625,6 +634,7 @@ class managementIndex extends React.Component {
                                     shrink: true,
                                 }}
                                 margin="normal"
+                                required={true}
                             />
                             <br/>
                             <TextField
@@ -637,6 +647,7 @@ class managementIndex extends React.Component {
                                 InputLabelProps={{
                                     shrink: true,
                                 }}
+                                required={true}
                             />
                             <br/>
                             <TextField
@@ -649,6 +660,7 @@ class managementIndex extends React.Component {
                                 value={this.state.lecturer_image}
                                 onChange={this.handleChange('lecturer_image')}
                                 margin="normal"
+                                required={true}
                             />
                             <br/>
                             <TextField
@@ -662,6 +674,7 @@ class managementIndex extends React.Component {
                                 onChange={this.handleChange('description')}
                                 // className={classes.textField}
                                 margin="normal"
+                                required={true}
                             />
                             <br/>
                         </DialogContent>
