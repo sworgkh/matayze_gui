@@ -51,10 +51,10 @@ const styles = {
   lecturedescription: {
     fontSize: "1.2vw",
     paddingTop: "3vh",
-    whiteSpace: "nowrap",
+    // whiteSpace: "nowrap",
     width: 600,
-    overflow: "hidden",
-    textOverflow: "ellipsis"
+    // overflow: "hidden",
+    // textOverflow: "ellipsis"
   }
 };
 
@@ -79,7 +79,7 @@ class Card extends Component {
             <div style={styles.lectureDetails}>
               <h2 style={styles.lectureTitle}>{data.lecture}</h2>
               <h3 style={styles.lecturerName}>{data.lecturer}</h3>
-              <p style={styles.lecturedescription}>{data.description}</p>
+                <p style={styles.lecturedescription}>{data.description}</p>
             </div>
           </div>
           <div style={styles.timeContainer}>
