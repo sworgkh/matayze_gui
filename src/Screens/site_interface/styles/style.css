@@ -8,6 +8,11 @@
     font-size: 36px !important;
     padding-bottom: 10;
   }
+  .events{
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+  }
 }
 @media only screen and (max-width: 599px) {
   .Eventlist {
@@ -19,4 +24,14 @@
   .viewButtons {
     display:none;
   }
+
+  .events{
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+  }
+}
+
+.rbc-event-label {
+  display: none;
 }

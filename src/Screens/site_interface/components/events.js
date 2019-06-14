@@ -57,8 +57,7 @@ class Events extends Component {
               start: new Date(item.startDate),
               end: new Date(item.endDate),
               description: item.description,
-              room: item.room,
-              width: window.innerWidth
+              room: item.room
             }
           ]
         }))
@@ -71,8 +70,7 @@ class Events extends Component {
 
   updateWindowDimensions() {
     this.setState(prevState => ({
-      width: window.innerWidth,
-      events: prevState.events.map((item, i) => ({...item,width: window.innerWidth}))
+      width: window.innerWidth
     }))
   }
 
@@ -89,17 +87,20 @@ class Events extends Component {
           step={30}
           length={7}
           getNow={() => null}
-          showMultiDayTimes
           defaultDate={new Date()}
           min={new Date(2019, 10, 0, 8, 0, 0)}
           max={new Date(2019, 10, 0, 22, 0, 0)} 
-          eventPropGetter={eventStyleGetter}
+          eventPropGetter={() => ({ className:'events'})}
+          slotPropGetter={() => ({ className:'slot'})}
           components={{
             event: Event,
             agenda: {
               event: EventAgenda
             },
-            toolbar: CalendarToolbar
+            toolbar: CalendarToolbar,
+            week: {
+              event: EventWeek
+            }
           }}
           localizer={localizer}
         />
@@ -118,22 +119,19 @@ function EventAgenda({ event }) {
   )
 }
 
-function eventStyleGetter (event) {
-  var style = {
-    fontSize: event.width < 600 ? 10 : 20,
-    padding: 0,
-    margin: 0
-  }
-  return {
-      style: style
-  }
-}
-
 function Event({ event }) {
   return (
     <span>
       <strong>{event.title}</strong>
-      <span> - Room {event.room}</span>
+      <span> (Room {event.room})</span>
+    </span>
+  )
+}
+
+function EventWeek({ event }) {
+  return (
+    <span>
+      <strong style={{fontSize: 14}}>{event.title}</strong>
     </span>
   )
 }
