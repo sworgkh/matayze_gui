@@ -40,7 +40,7 @@ const styles = theme => ({
         flexGrow: 1,
     },
     backgroundBar: {
-        background: 'linear-gradient(to bottom right, #4f0053 30%, transparent 50%)'      
+        background: 'linear-gradient(to right, #4f0053, transparent)'      
     },
     menuButton: {
         marginLeft: -12,
@@ -274,19 +274,19 @@ class PrimarySearchAppBar extends React.Component {
                     </IconButton>
                     <p>Messages</p>
                 </MenuItem>
-                <MenuItem onClick={this.handleMobileMenuClose}>
+                {/* <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
                         <Badge badgeContent={0} color="secondary">
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>
                     <p>Notifications</p>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={this.handleProfileMenuOpen}>
                     <IconButton color="inherit">
                         <AccountCircle />
                     </IconButton>
-                    <p>Profile</p>
+                    <p>Sign Out</p>
                 </MenuItem>
             </Menu>
         );
@@ -430,11 +430,11 @@ class PrimarySearchAppBar extends React.Component {
         {
             return (
                 <div className={classes.root}>
-                    <AppBar position="static">
+                    <AppBar className={classes.backgroundBar} position="static">
                         <Toolbar>
-                            <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                            {/* <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
                                 <MenuIcon />
-                            </IconButton>
+                            </IconButton> */}
                             <Avatar style={{ marginRight: 10 }} alt="User Logo" src={Logo} className={styles.bigAvatar} />
                             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                                 Admin Panel

@@ -25,6 +25,18 @@ const styles = {
         width: '100%',
         minHeight: '100vh',
         height: 'auto'
+    },
+    containerStyle1: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100vw',
+        flexDirection: 'column',
+        backgroundImage: 'linear-gradient(to bottom right, black, purple)',
+        minHeight: '100vh',
+        height: 'auto'
+    },
+    backgroundBar: {
+        background: 'linear-gradient(to bottom right, #4f0053 30%, transparent 50%)'              
     }
 }
 
@@ -506,7 +518,8 @@ class managementIndex extends React.Component {
             }}/>
         }
 
-
+        const {classes} = this.props;
+        
         let width = this.getWindowDimensions().width
         let cardHeight = '30vw'
         let cardWidth = '31%'
@@ -524,7 +537,6 @@ class managementIndex extends React.Component {
             return (
                 <div style={styles.containerStyle}>
                     <AppBar
-                        backgroundColor= 'red'
                         back={this.back.bind(this)}
                         userProfile={this.userProfile.bind(this)}
                         addMessage={this.addMessage.bind(this)}
@@ -697,16 +709,17 @@ class managementIndex extends React.Component {
             );
         } else {
             return (
-                <div style={styles.containerStyle}>
+                <div style={styles.containerStyle1}>
                     <AppBar
+                        // style={styles.backgroundBar}
                         back={this.back.bind(this)}
                         logged_in={this.state.logged_in}/>
-                    <h3 style={{margin: 20, color: 'white'}}>Welcome to your management console, Please login to make
+                    <h3 style={{fontSize: '2.2vw', marginTop: '15vh', color: 'white', textAlign: 'center'}}>Welcome to management console, Please login to make
                         changes</h3>
                     <Button variant="outlined" color="primary" onClick={() => {
                         this.back()
                         // window.location.href = '/'
-                    }} style={{color: 'white', margin: 20}}>Back to main page</Button>
+                    }} style={{fontSize: '1.4vw', marginTop: '10vh', color: 'white', textAlign: 'center'}}>Back to main page</Button>
                 </div>
             );
 
