@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Children } from 'react'
 import Button from '@material-ui/core/Button'
 import env_vars from '../../../ENV_VAR'
 import { Redirect } from 'react-router-dom'
@@ -26,25 +26,24 @@ class Events extends Component {
   constructor(props){
     super(props)
     this.state = {
-      days: new Set(),
-      selected: 1,
-      events : [],
-      AWS_LOGIN: false,
-      logged_in: false
+      events: [],
+      view: 'agenda',
+      width: window.innerWidth
     }
 
-    this.login = this.login.bind(this)
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
   async componentDidMount() {
-    if(this.props.location.state)
-      this.setState({logged_in: true})
+    window.addEventListener('resize', this.updateWindowDimensions)
+
+    let bearer = "Bearer " + this.props.location.state.authToken
 
     await fetch(env_vars.api_link_get, {
       method: 'GET',
       crossDomain: true,
       headers: {
-      'Authorization': "Bearer " + this.props.location.state.authToken,
+      'Authorization': bearer,
       'Content-Type': 'application/json'
       } 
     })
@@ -58,35 +57,26 @@ class Events extends Component {
               start: new Date(item.startDate),
               end: new Date(item.endDate),
               description: item.description,
-              room: item.room
+              room: item.room,
+              width: window.innerWidth
             }
           ]
         }))
       }))
   }
 
-  login(){
-    this.setState({ AWS_LOGIN: true })
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions() {
+    this.setState(prevState => ({
+      width: window.innerWidth,
+      events: prevState.events.map((item, i) => ({...item,width: window.innerWidth}))
+    }))
   }
 
   render(){
-    if (!this.state.logged_in && this.state.AWS_LOGIN) {
-      this.setState({ AWS_LOGIN: false })
-      return <Redirect
-          to={{
-              pathname: '/login',
-              state: { logged_in: false }
-          }} />
-    }
-
-    if(!this.state.logged_in){
-        return (
-            <div style={styles.pageContainer}>
-                <Button variant="outlined" color="primary"  onClick={this.login} style={{color:'white',margin:20}}>login</Button>
-            </div>
-        )
-    }
-
     return (
       <div style={styles.container}>
         <BigCalendar
@@ -95,12 +85,15 @@ class Events extends Component {
           tooltipAccessor={event => 'Room ' + event.room + ' - ' + event.lecturer + ' - ' + event.description}
           events={this.state.events}
           views={allViews}
+          view={this.state.width < 600 ? this.state.view : BigCalendar.view}
           step={30}
+          length={7}
           getNow={() => null}
           showMultiDayTimes
           defaultDate={new Date()}
           min={new Date(2019, 10, 0, 8, 0, 0)}
           max={new Date(2019, 10, 0, 22, 0, 0)} 
+          eventPropGetter={eventStyleGetter}
           components={{
             event: Event,
             agenda: {
@@ -118,18 +111,29 @@ class Events extends Component {
 function EventAgenda({ event }) {
   return (
     <span>
-      <em style={{ color: 'magenta', fontSize: 30, paddingBottom: 10 }}>{event.title}</em>
+      <em className="Eventlist">{event.title}</em>
       <p>Room {event.room} - {event.lecturer}</p>
       <p>{event.description}</p>
     </span>
   )
 }
 
+function eventStyleGetter (event) {
+  var style = {
+    fontSize: event.width < 600 ? 10 : 20,
+    padding: 0,
+    margin: 0
+  }
+  return {
+      style: style
+  }
+}
+
 function Event({ event }) {
   return (
     <span>
       <strong>{event.title}</strong>
-      <p>Room {event.room}</p>
+      <span> - Room {event.room}</span>
     </span>
   )
 }

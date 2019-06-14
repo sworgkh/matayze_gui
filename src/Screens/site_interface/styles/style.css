@@ -3,7 +3,20 @@
     position: absolute;
     right: 0
   }
+  .Eventlist {
+    color: magenta;
+    font-size: 36px !important;
+    padding-bottom: 10;
+  }
 }
 @media only screen and (max-width: 599px) {
+  .Eventlist {
+    color: magenta;
+    font-size: 12px !important;
+    padding-bottom: 10;
+  }
 
+  .viewButtons {
+    display:none;
+  }
 }

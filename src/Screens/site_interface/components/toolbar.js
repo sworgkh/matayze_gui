@@ -18,7 +18,8 @@ export default class CalendarToolbar extends Toolbar {
           <Button style={{color:'white'}} variant="outlined" color="primary" onClick={() => this.navigate('NEXT')}>Next</Button>
 				</div>
 				<div className="rbc-toolbar-label">{this.props.label}</div>
-				<div className="rbc-btn-group">
+				<div className="rbc-btn-group viewButtons">
+					<Button style={{color:'white'}} variant="outlined" color="primary" onClick={this.view.bind(null, 'week')}>Week</Button>
 					<Button style={{color:'white'}} variant="outlined" color="primary" onClick={this.view.bind(null, 'day')}>Day</Button>
 					<Button style={{color:'white'}} variant="outlined" color="primary" onClick={this.view.bind(null, 'agenda')}>List</Button>
 				</div>

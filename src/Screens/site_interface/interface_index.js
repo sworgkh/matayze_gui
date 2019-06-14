@@ -3,19 +3,18 @@ import Header from './components/header'
 import Schedule from './components/events'
 import { Redirect } from 'react-router-dom'
 import AppBarIndex from '../../appBarIndex'
-import Button from "@material-ui/core/Button"
+import Messages from './components/messages'
 
 const styles = {
     containerStyle: {
         position: 'relative',
         backgroundImage: 'linear-gradient(to bottom right, black, purple)',
         overflow: 'auto',
-        minHeight: 780
+        minHeight: 1200
     },
     headerStyle: {
         padding: '2%',
         margin: 'auto',
-        paddingBottom: 45,
         width: '50%'
     },
     backStyle: {
@@ -35,7 +34,9 @@ export default class interface_index extends React.Component {
             location: {
                 state: {
                     logged_in: false,
-                    userEmail: '',
+                    userData: {
+                        email: ''
+                    },
                     authToken: '',
                     access_token: ''
                 }
@@ -43,18 +44,22 @@ export default class interface_index extends React.Component {
         }
 
         this.logOff = this.logOff.bind(this)
+        this.messagesScreen = this.messagesScreen.bind(this)
     }
 
-    componentDidMount() {
+    componentWillMount(){
         this.setState({location: this.props.location})
     }
 
-    back = () => {
-        this.setState({back:true})
+    logOff(){
+        this.setState({back: true, location: {state: {logged_in: false,authToken: '',access_token:'', userData: {email:''}}}})
     }
 
-    logOff(){
-        this.setState({location: {state: {logged_in: false,authToken: '',access_token:'',userEmail:''}}})
+    messagesScreen() {
+
+        this.setState({
+            messages_screen: !this.state.messages_screen
+        });
     }
 
     render() {
@@ -63,22 +68,32 @@ export default class interface_index extends React.Component {
                 pathname: '/',
                 state: { 
                     logged_in: this.state.location.state.logged_in,
-                    authToken: this.state.location.state.authToken,
-                    access_token:  this.state.location.state.access_token
+                    authToken: this.props.location.state.authToken,
+                    access_token:  this.props.location.state.access_token
                 }
             }}/>        
         }
+
+        if (this.props.location.state === undefined || !this.state.location.state.logged_in) {
+            return <Redirect
+                to={{
+                    pathname: '/login',
+                    state: { logged_in: false }
+                }} />
+          }
         
         return (
             <div style={styles.containerStyle}>
                 <AppBarIndex
-                    userEmail= {this.state.location.state.userEmail}
+                    userEmail= {this.state.location.state.userData.email}
                     logged_in= {this.state.location.state.logged_in}
                     logOff = {this.logOff}
                 />
-                <Button style={styles.backStyle} variant="outlined" color="primary" onClick={() => this.back()}>BACK</Button>
                 <Header style={styles.headerStyle} />
+                <Messages token={this.props.location.state.authToken} />
+                
                 <Schedule location = {this.props.location} />
+                
             </div>
         )
     }
