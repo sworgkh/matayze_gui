@@ -1,9 +1,8 @@
-import React, { Component, Children } from 'react'
-import Button from '@material-ui/core/Button'
+import React, { Component} from 'react'
 import env_vars from '../../../ENV_VAR'
-import { Redirect } from 'react-router-dom'
 import BigCalendar from 'react-big-calendar'
 import CalendarToolbar from './toolbar'
+import eventPopup from './eventPopup'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import '../styles/style.css'
@@ -27,6 +26,8 @@ class Events extends Component {
     super(props)
     this.state = {
       events: [],
+      popup: false,
+      popupEvent: {},
       view: 'agenda',
       width: window.innerWidth
     }
@@ -68,22 +69,27 @@ class Events extends Component {
     window.removeEventListener('resize', this.updateWindowDimensions);
   }
 
+  componentDidUpdate() {
+    if(this.state.width < 600 && this.state.view !== 'agenda')
+      this.setState({view: 'agenda'}, () => console.log(this.state.view))
+  }
+
   updateWindowDimensions() {
-    this.setState(prevState => ({
-      width: window.innerWidth
-    }))
+    this.setState(({width: window.innerWidth}))
   }
 
   render(){
     return (
       <div style={styles.container}>
+        { eventPopup(this.state.popupEvent, this.state.popup, () => this.setState({popup: false})) }
         <BigCalendar
           style={{color: '#FFFFFF'}}
           defaultView={'agenda'}
-          tooltipAccessor={event => 'Room ' + event.room + ' - ' + event.lecturer + ' - ' + event.description}
+          tooltipAccessor={event => '\n' + event.title + '\nRoom ' + event.room + '\nLecturer' +  event.lecturer + '\n' +  event.description}
           events={this.state.events}
           views={allViews}
-          view={this.state.width < 600 ? this.state.view : BigCalendar.view}
+          view={this.state.view}
+          onView={view => this.setState({view})}
           step={30}
           length={7}
           getNow={() => null}
@@ -91,7 +97,7 @@ class Events extends Component {
           min={new Date(2019, 10, 0, 8, 0, 0)}
           max={new Date(2019, 10, 0, 22, 0, 0)} 
           eventPropGetter={() => ({ className:'events'})}
-          slotPropGetter={() => ({ className:'slot'})}
+          onDoubleClickEvent={event => this.setState({popupEvent: event, popup: true})}
           components={{
             event: Event,
             agenda: {
