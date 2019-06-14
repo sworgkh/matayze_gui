@@ -3,6 +3,7 @@ import '../css/lecture.css'
 import Lectures from '../components/lectures'
 import Button from "@material-ui/core/Button";
 import env_vars from "../../../../src/ENV_VAR";
+import { Redirect } from "react-router-dom"
 
 const login_url = 'https://auth.matayze.shenkar.cloud/login?response_type=token&client_id=3uslmcib25uq3sah74hp6lgvr9&redirect_uri=http://localhost:3000&scope=openid+profile+aws.cognito.signin.user.admin'
 const styles= {
@@ -123,18 +124,34 @@ class Menu extends Component {
         this.setState({isVisible:true})
     }
 
+    back =() =>{
+        this.setState({back:true})
+    }
+
     render()
     {
+        if(this.state.back){
+            return  <Redirect  to={{
+                pathname: '/',
+                state: { logged_in: false ,authToken: null, access_token:  null}
+            }}/>
+        }
+
         if(this.state.logged_in)
         {
             return(
                 <div className="menu" style={styles.container}>
                     {this.state.isVisible?
+
                         <div className="buttons" style={styles.buttons}>
                             <h2 style={{margin:5}}>Choose a room:</h2>
                             <Button variant="outlined" color='primary' style={{color:'white',margin:10}} onClick={() => this.checkRoom("A")}>Room A</Button><br/>
                             <Button variant="outlined" color='primary' style={{color:'white',margin:10}} onClick={() => this.checkRoom("B")}>Room B</Button><br/>
                             <Button variant="outlined" color='primary' style={{color:'white',margin:10}} onClick={() => this.checkRoom("C")}>Room C</Button><br/>
+                            <Button variant="outlined" color="primary" onClick={() => {
+                                this.back()
+
+                            }} style={{position:'absolute',left:'10px',top:'10px', color: 'darkpink'}}>Log out</Button>
                         </div>:
                         <div>
                             {this.state.room!==null? <Lectures toggleButtons={this.toggleButtons} token={this.props.location.state.authToken} room={this.state.room} lectures={this.state.lectures} messages={this.state.messages}/> : null}
