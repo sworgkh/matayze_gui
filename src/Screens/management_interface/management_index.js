@@ -306,32 +306,15 @@ class managementIndex extends React.Component {
     };
 
     createLecture() {
-        if (this.state.description === '' || this.state.end_time === '' || this.state.lecture === '' || this.state.lecturer === '' || this.state.lecturer_image === '' || this.state.room === '' || this.state.start_time === '' || this.state.conference_title === '')
+        if (this.state.description === '' || this.state.end_time === '' || this.state.lecture === '' || this.state.lecturer === '' || this.state.lecturer_image === '' || this.state.room === '' || this.state.start_time === '' || this.state.conference_title === '') {
             alert('You must fill in all fields!')
             return
-        this.handleCloseCreateLecture()
-        //need to implement add to database
+        } else 
+            this.handleCloseCreateLecture()
+        
+            //need to implement add to database
 
-        let newLecture = JSON.stringify({
-            description: this.state.description,
-            endDate: this.state.end_time,
-            lecture: this.state.lecture,
-            lecturer: this.state.lecturer,
-            lecturer_image: this.state.lecturer_image,
-            room: this.state.room.toString(),
-            startDate: this.state.start_time,
-            conference_title: this.state.conference_title,
-        })
-        console.log(newLecture)
-
-        //post
-        // let url = env_vars.api_link_post + "lectures";
-        let url = env_vars.api_link_post
-        let bearer = 'Bearer ' + this.props.location.state.authToken;
-        fetch(url, {
-            method: 'POST',
-            // crossDomain: true,
-            body: JSON.stringify({
+            let newLecture = JSON.stringify({
                 description: this.state.description,
                 endDate: this.state.end_time,
                 lecture: this.state.lecture,
@@ -340,37 +323,56 @@ class managementIndex extends React.Component {
                 room: this.state.room.toString(),
                 startDate: this.state.start_time,
                 conference_title: this.state.conference_title,
-            }),
-            headers: {
-                'Authorization': bearer,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json())
-            .then(responseJson => {
-                console.log(responseJson);
-
             })
+            console.log(`NewLecture: ${newLecture}`)
+
+            //post
+            // let url = env_vars.api_link_post + "lectures";
+            let url = env_vars.api_link_post
+            let bearer = 'Bearer ' + this.props.location.state.authToken;
+            fetch(url, {
+                method: 'POST',
+                // crossDomain: true,
+                body: JSON.stringify({
+                    description: this.state.description,
+                    endDate: this.state.end_time,
+                    lecture: this.state.lecture,
+                    lecturer: this.state.lecturer,
+                    lecturer_image: this.state.lecturer_image,
+                    room: this.state.room.toString(),
+                    startDate: this.state.start_time,
+                    conference_title: this.state.conference_title,
+                }),
+                headers: {
+                    'Authorization': bearer,
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => response.json())
+                .then(responseJson => {
+                    console.log(responseJson);
+                })
+        
 
         this.setState({lectures: []})
         setTimeout(() => {
 
 
-                this.loadData()
-                // fetch(url, {
-                //     method: 'GET',
-                //     crossDomain: true,
-                //     headers: {
-                //         'Authorization': bearer,
-                //         'Content-Type': 'application/json'
-                //     }
-                // }).then(response => response.json())
-                //     .then(responseJson => {
-                //         console.log(responseJson.data);
-                //         this.dealWithData(responseJson.data)
-                //     })
-            }
+            this.loadData()
+            // fetch(url, {
+            //     method: 'GET',
+            //     crossDomain: true,
+            //     headers: {
+            //         'Authorization': bearer,
+            //         'Content-Type': 'application/json'
+            //     }
+            // }).then(response => response.json())
+            //     .then(responseJson => {
+            //         console.log(responseJson.data);
+            //         this.dealWithData(responseJson.data)
+            //     })
+        }
             , 1000);
-    }
+}
 
     handleSearch(val) {
         console.log('search')
@@ -566,7 +568,7 @@ class managementIndex extends React.Component {
                         </Paper>
                     </div>
                     <Tooltip title="Add" aria-label="Add" onClick={this.openCreateLecture}>
-                        <Fab color="secondary" style={{position: 'fixed', bottom: 30, right: 50, zIndex: '100'}}>
+                        <Fab color="secondary" style={{position: 'fixed', bottom: 30, right: 50, zIndex: '100', backgroundColor: 'rgb(301, 0, 201, 0.7)'}}>
                             <AddIcon style={{padding: 0, margin: 0}}/>
                         </Fab>
                     </Tooltip>

@@ -39,9 +39,10 @@ class PaperSheet extends React.Component{
             <div style={{margin:10, width:this.props.width, height: 90, float: 'left'}}>
                 <Paper className={styles.root} style={{
                     display: 'flex',
-                    // backgroundColor:'#bbdefb',
+                    backgroundColor:'transparent',
                     flexWrap: 'wrap',
-                    // backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
+                    border: 'solid 2px white',
+                    borderRadius: '10px',
                     justifyContent:'space-between',
                     alignContent: 'space-between',
                     
@@ -50,15 +51,15 @@ class PaperSheet extends React.Component{
 
                 }} elevation={1}>
                     <div>
-                        <Typography style={{margin:10}} variant="h5" component="h3">
+                        <Typography style={{margin:10, color: 'white'}} variant="h5" component="h3">
                             {this.state.title}
                         </Typography>
-                        <Typography style={{margin:10}} component="p">
+                        <Typography style={{margin:10, color: 'white'}} component="p">
                             {this.state.message}
                         </Typography>
                     </div>
                     <div>
-                        <Fab onClick={this.delete}  style={{margin:10,color:'#3f51b5'}} aria-label="Delete"
+                        <Fab onClick={this.delete}  style={{margin:10, color:'rgb(101, 0, 101, 0.7)'}} aria-label="Delete"
                              className={styles.fab}>
                             <DeleteIcon />
                         </Fab>

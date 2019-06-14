@@ -108,11 +108,12 @@ export default class hall_index extends React.Component {
 
     this.lectures.map(lecture => {
       let startDate = new Date(lecture.startDate);
-      startDate = startDate.getTime()
+      let start = startDate.getTime()
       let now = new Date()
-      now = now.getTime()
-      let durationTime = moment.duration({hour: 1}) + now
-      if(startDate <= durationTime && startDate > now)
+      let current = now.getTime()
+      let durationTime = moment.duration({hour: 1}) + current
+      let startingNow = current - moment.duration({minute: 1})
+      if (start <= durationTime && start >= startingNow)
         tempLectures.push(lecture);
       // if (startDate > now && startDate.getDate() === now)
       //   tempLectures.push(lecture);
@@ -126,9 +127,8 @@ export default class hall_index extends React.Component {
 
   cardRendering = () => {
     let tmp = [];
-    console.log(`Lectures: ${this.state.shownLectures}`)
     if (this.state.shownLectures.length === 0)
-      return <h1 style={styles.message}>No More lectures For Today</h1>;
+      return <h1 style={styles.message}>No lectures For The Next Hour</h1>;
 
     if (this.state.shownLectures.length) {
       for (let i = 0; i < 3; i++) {

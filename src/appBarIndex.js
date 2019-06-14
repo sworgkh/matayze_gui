@@ -37,7 +37,7 @@ const styles = theme => ({
         height: 60,
     },
     topBar: {
-        background: 'linear-gradient(to bottom, rgb(128, 0, 128) 20%, #2a2a2a 80%)'
+        background: 'linear-gradient(to bottom right, #4f0053 30%, transparent 50%)'
     },
     root: {
         width: '100%',
