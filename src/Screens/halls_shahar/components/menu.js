@@ -28,7 +28,8 @@ class Menu extends Component {
             logged_in:false,
             token:'',
             lectures:[],     //all lectures,
-            messages:[]
+            messages:[],
+            back:false
         }
         this.checkRoom = this.checkRoom.bind(this)
         this.login = this.login.bind(this)
