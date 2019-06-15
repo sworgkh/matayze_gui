@@ -78,7 +78,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location)
+    // console.log(this.props.location)
     if (this.props.location.state) {
       if(!this.props.location.state.logged_in){
         this.logOff()
@@ -86,7 +86,7 @@ class App extends React.Component {
         this.setState({logged_in: false, token: this.props.location.state.authToken, access_token:this.props.location.state.access_token })
         let url = "https://auth.matayze.shenkar.cloud/oauth2/userInfo";
         let bearer = 'Bearer ' + this.props.location.state.access_token
-        console.log(bearer)
+        // console.log(bearer)
         fetch(url, {
           method: 'GET',
           headers: {
@@ -95,7 +95,7 @@ class App extends React.Component {
           }
         }).then(response => response.json())
             .then(responseJson => {
-              console.log(responseJson);
+              // console.log(responseJson);
               this.redirectUser(responseJson)
   
               this.setState({logged_in: true, userEmail: responseJson.email})
@@ -146,13 +146,12 @@ class App extends React.Component {
   redirectUser(userData){
 
     this.setState({userData:userData})
-    console.log(userData.username)
-    this.hall_index()
+    // console.log(userData.username)
 
 
     // return;
     if(userData.username.toString() === 'Micahel' || userData.username.toString() === 'Admin'){
-        console.log('here')
+        // console.log('here')
         this.management_index()
         return
     }

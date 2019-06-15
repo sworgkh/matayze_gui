@@ -75,7 +75,7 @@ class managementIndex extends React.Component {
     componentDidMount() {
         //check if user is logged in
 
-        console.log(this.props.location.state.authToken.toString())
+        // console.log(this.props.location.state.authToken.toString())
 
         this.loadProps()
         // this.setState({token: this.props.location.state.authToken.toString()})
@@ -161,7 +161,7 @@ class managementIndex extends React.Component {
             }
         }).then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson)
+                // console.log(responseJson)
                 this.setState({messages : responseJson.data})
             })
 
@@ -193,7 +193,7 @@ class managementIndex extends React.Component {
 
     loadData = () => {
 
-        console.log('load data')
+        // console.log('load data')
         let url = env_vars.api_link_get;
 
         let bearer = 'Bearer ' + this.props.location.state.authToken;
@@ -208,7 +208,7 @@ class managementIndex extends React.Component {
         })
             .then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson.data);
+                // console.log(responseJson.data);
                 this.dealWithData(responseJson.data)
             })
 
@@ -336,7 +336,7 @@ class managementIndex extends React.Component {
                 startDate: this.state.start_time,
                 conference_title: this.state.conference_title,
             })
-            console.log(`NewLecture: ${newLecture}`)
+            // console.log(`NewLecture: ${newLecture}`)
 
             //post
             // let url = env_vars.api_link_post + "lectures";
@@ -361,7 +361,7 @@ class managementIndex extends React.Component {
                 }
             }).then(response => response.json())
                 .then(responseJson => {
-                    console.log(responseJson);
+                    // console.log(responseJson);
                 })
         
 
@@ -387,7 +387,7 @@ class managementIndex extends React.Component {
 }
 
     handleSearch(val) {
-        console.log('search')
+        // console.log('search')
         // this.loadData()
         let oldState = this.state.lectures
         let newState = []
@@ -398,7 +398,7 @@ class managementIndex extends React.Component {
         }
 
         oldState.map(lecture => {
-            console.log(lecture)
+            // console.log(lecture)
             let contains = false
             if (lecture.conference_title.includes(val)) {
                 contains = true
@@ -465,7 +465,7 @@ class managementIndex extends React.Component {
             }
         }).then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson);
+                // console.log(responseJson);
 
             })
         this.setState({messages: [...this.state.messages, message]})
@@ -476,7 +476,7 @@ class managementIndex extends React.Component {
     }
 
     deleteMessage(id) {
-        console.log(id)
+        // console.log(id)
         let url = env_vars.message_link + 'messages'
         let bearer = 'Bearer ' + this.props.location.state.authToken;
         fetch(url, {
@@ -494,7 +494,7 @@ class managementIndex extends React.Component {
             }
         }).then(response => response.json())
             .then(responseJson => {
-                console.log(responseJson)
+                // console.log(responseJson)
             })
 
 
