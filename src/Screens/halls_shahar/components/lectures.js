@@ -18,6 +18,12 @@ const styles= {
         marginRight: 'auto',
         width:70,
         height:70
+    },
+    table: {
+        color:'white',
+        width:1000,
+        borderTop:'1px solid white',
+        margin:'0 auto'
     }
 }
 
@@ -89,8 +95,8 @@ class Lectures extends Component {
         {
             return(
                 <div key={item.lectureID}>
-                    <table className="table" style={{color:'white', width:1000 }}>
-                        <tr>
+                    <table style={styles.table}>
+                        <tr style={{height:160}}>
                             <td>
                                 <div style={{float:'left', paddingRight:10}}><img style= {{borderRadius:40, height:70, width:70}}src={item.lecturer_image} alt={"person"}/></div>
                                 <div style={{float:'left',width:500, fontWeight:"bold"}}>
