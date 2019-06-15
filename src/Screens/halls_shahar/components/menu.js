@@ -47,7 +47,6 @@ class Menu extends Component {
             //all lectures will be fetched here
             let url = env_vars.api_link_get;
 
-            // let url = "https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/prod/lectures";
             let bearer = 'Bearer ' + this.props.location.state.authToken;
             fetch(url, {
                 method: 'GET',

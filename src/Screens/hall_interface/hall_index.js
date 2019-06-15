@@ -61,7 +61,6 @@ export default class hall_index extends React.Component {
         this.setState({logged_in: true})
 
       let url = env_vars.api_link_get;
-      // let url = https://h4vq14noj4.execute-api.eu-west-1.amazonaws.com/dev/lectures“;
       let bearer = "Bearer " + this.props.location.state.authToken;
       await fetch(url, {
           method: 'GET',
