@@ -48,7 +48,7 @@ class Lectures extends Component {
         let newArray = this.state.current_room.slice()
         for(let i=0;i<this.props.lectures.length;i++)
         {
-            if(this.props.room===this.props.lectures[i].room)
+            if(this.props.room===this.props.lectures[i].room && this.props.lectures[i].startDate.includes("2019-06-16"))
             {
                 //console.log(this.state.current_room)
                 newArray.push(this.props.lectures[i])
