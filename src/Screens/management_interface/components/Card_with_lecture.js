@@ -118,7 +118,7 @@ class Lecture extends React.Component {
                 float: "left",
                 margin: "1%",
                 border: 'solid 2px #fff',
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
                 // height:500,
                 // backgroundColor:'rgb(128, 0, 128, 0.4)',
                 // backgroundImage: 'linear-gradient(to bottom right, white, darkblue)',
@@ -129,12 +129,15 @@ class Lecture extends React.Component {
             text: {
                 fontSize: this.props.fontSize,
                 color: '#fff'
+            },
+            cardAction: {
+                cursor: 'default'
             }
         };
 
         return (
             <Card style={styles.card}>
-                <CardActionArea>
+                <CardActionArea style={styles.cardAction}>
                     {/* <CardMedia
                         style={{height: 300}}
                         image={this.state.lecturer_image}

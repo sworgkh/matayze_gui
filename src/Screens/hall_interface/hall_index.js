@@ -226,8 +226,8 @@ export default class hall_index extends React.Component {
             <Button variant="outlined" color="primary" onClick={() => {
                 this.back()
 
-            }} style={{position:'absolute', bottom:5,
-                right:5, color: 'white'}}>Log out</Button>
+            }} style={{position:'absolute', top: 8,
+                right:5, color: 'white', border: 'none'}}>Log out</Button>
         </div>
       );
     }
